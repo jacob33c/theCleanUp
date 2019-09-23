@@ -1,0 +1,507 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B307EC0761CC41BA32833E74 /* Pods_the_clean_up.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD10BC08AF535BB5EEF1808 /* Pods_the_clean_up.framework */; };
+		EB1C33202325DF2F00EFE0D9 /* MyApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1C331F2325DF2F00EFE0D9 /* MyApiClient.swift */; };
+		EB1C33222325F09700EFE0D9 /* addCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1C33212325F09700EFE0D9 /* addCardViewController.swift */; };
+		EB1C3731231B82000084ACEE /* settingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1C3730231B82000084ACEE /* settingsViewController.swift */; };
+		EB1C3733231CC6150084ACEE /* paymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1C3732231CC6150084ACEE /* paymentViewController.swift */; };
+		EB1C3735231DD6C00084ACEE /* createUsernameFromEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1C3734231DD6C00084ACEE /* createUsernameFromEmail.swift */; };
+		EB1C37372320BADE0084ACEE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EB1C37362320BADE0084ACEE /* Default-568h@2x.png */; };
+		EB1E6E9F2315F2D800B2BC31 /* rounded-button.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6E9E2315F2D800B2BC31 /* rounded-button.swift */; };
+		EB1E6EA123174B0800B2BC31 /* one-line-text-field.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EA023174B0800B2BC31 /* one-line-text-field.swift */; };
+		EB1E6EA323174B9800B2BC31 /* cleaner-login-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EA223174B9800B2BC31 /* cleaner-login-ViewController.swift */; };
+		EB1E6EA623176B8C00B2BC31 /* cleaner-signup-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EA523176B8C00B2BC31 /* cleaner-signup-ViewController.swift */; };
+		EB1E6EA823176D5700B2BC31 /* user-login-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EA723176D5700B2BC31 /* user-login-ViewController.swift */; };
+		EB1E6EAA23176D6F00B2BC31 /* user-signup-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EA923176D6F00B2BC31 /* user-signup-ViewController.swift */; };
+		EB1E6EBA231777CF00B2BC31 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB1E6EB9231777CF00B2BC31 /* GoogleService-Info.plist */; };
+		EB1E6EBC2317851300B2BC31 /* userViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EBB2317851300B2BC31 /* userViewController.swift */; };
+		EB1E6EBE2317852B00B2BC31 /* cleanerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EBD2317852B00B2BC31 /* cleanerViewController.swift */; };
+		EB36FAED2335BA17006330CB /* progressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB36FAEC2335BA17006330CB /* progressViewController.swift */; };
+		EBBE36B92314898900442BD8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBE36B82314898800442BD8 /* AppDelegate.swift */; };
+		EBBE36BB2314898900442BD8 /* main-controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBE36BA2314898900442BD8 /* main-controller.swift */; };
+		EBBE36BE2314898900442BD8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBBE36BC2314898900442BD8 /* Main.storyboard */; };
+		EBBE36C02314898900442BD8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBBE36BF2314898900442BD8 /* Assets.xcassets */; };
+		EBBE36C32314898900442BD8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBBE36C12314898900442BD8 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		69AAD886546C42C13839B90D /* Pods-the-clean-up.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-the-clean-up.release.xcconfig"; path = "Target Support Files/Pods-the-clean-up/Pods-the-clean-up.release.xcconfig"; sourceTree = "<group>"; };
+		BFD10BC08AF535BB5EEF1808 /* Pods_the_clean_up.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_the_clean_up.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D21158E6C497335565824F9F /* Pods-the-clean-up.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-the-clean-up.debug.xcconfig"; path = "Target Support Files/Pods-the-clean-up/Pods-the-clean-up.debug.xcconfig"; sourceTree = "<group>"; };
+		EB1C331F2325DF2F00EFE0D9 /* MyApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApiClient.swift; sourceTree = "<group>"; };
+		EB1C33212325F09700EFE0D9 /* addCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addCardViewController.swift; sourceTree = "<group>"; };
+		EB1C3730231B82000084ACEE /* settingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsViewController.swift; sourceTree = "<group>"; };
+		EB1C3732231CC6150084ACEE /* paymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = paymentViewController.swift; sourceTree = "<group>"; };
+		EB1C3734231DD6C00084ACEE /* createUsernameFromEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createUsernameFromEmail.swift; sourceTree = "<group>"; };
+		EB1C37362320BADE0084ACEE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		EB1E6E9E2315F2D800B2BC31 /* rounded-button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "rounded-button.swift"; sourceTree = "<group>"; };
+		EB1E6EA023174B0800B2BC31 /* one-line-text-field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "one-line-text-field.swift"; sourceTree = "<group>"; };
+		EB1E6EA223174B9800B2BC31 /* cleaner-login-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "cleaner-login-ViewController.swift"; sourceTree = "<group>"; };
+		EB1E6EA523176B8C00B2BC31 /* cleaner-signup-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "cleaner-signup-ViewController.swift"; sourceTree = "<group>"; };
+		EB1E6EA723176D5700B2BC31 /* user-login-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "user-login-ViewController.swift"; sourceTree = "<group>"; };
+		EB1E6EA923176D6F00B2BC31 /* user-signup-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "user-signup-ViewController.swift"; sourceTree = "<group>"; };
+		EB1E6EB9231777CF00B2BC31 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EB1E6EBB2317851300B2BC31 /* userViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userViewController.swift; sourceTree = "<group>"; };
+		EB1E6EBD2317852B00B2BC31 /* cleanerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cleanerViewController.swift; sourceTree = "<group>"; };
+		EB36FAEC2335BA17006330CB /* progressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = progressViewController.swift; sourceTree = "<group>"; };
+		EBBE36B52314898800442BD8 /* the-clean-up.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "the-clean-up.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBBE36B82314898800442BD8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		EBBE36BA2314898900442BD8 /* main-controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "main-controller.swift"; sourceTree = "<group>"; };
+		EBBE36BD2314898900442BD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EBBE36BF2314898900442BD8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EBBE36C22314898900442BD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EBBE36C42314898900442BD8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EBBE36B22314898800442BD8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B307EC0761CC41BA32833E74 /* Pods_the_clean_up.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1F845C749C10F934308E982F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D21158E6C497335565824F9F /* Pods-the-clean-up.debug.xcconfig */,
+				69AAD886546C42C13839B90D /* Pods-the-clean-up.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		602DCD163125B95F47A30C17 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BFD10BC08AF535BB5EEF1808 /* Pods_the_clean_up.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EB1E6EA423176B4D00B2BC31 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				EB1E6EA223174B9800B2BC31 /* cleaner-login-ViewController.swift */,
+				EB1E6EA523176B8C00B2BC31 /* cleaner-signup-ViewController.swift */,
+				EB1E6EA723176D5700B2BC31 /* user-login-ViewController.swift */,
+				EB1C3732231CC6150084ACEE /* paymentViewController.swift */,
+				EB1E6EA923176D6F00B2BC31 /* user-signup-ViewController.swift */,
+				EB1C3730231B82000084ACEE /* settingsViewController.swift */,
+				EB1E6EBB2317851300B2BC31 /* userViewController.swift */,
+				EB1E6EBD2317852B00B2BC31 /* cleanerViewController.swift */,
+				EBBE36BA2314898900442BD8 /* main-controller.swift */,
+				EB1C33212325F09700EFE0D9 /* addCardViewController.swift */,
+				EB36FAEC2335BA17006330CB /* progressViewController.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		EB1E6EAD23176DC600B2BC31 /* storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				EBBE36BC2314898900442BD8 /* Main.storyboard */,
+				EBBE36C12314898900442BD8 /* LaunchScreen.storyboard */,
+			);
+			path = storyboards;
+			sourceTree = "<group>";
+		};
+		EB1E6EAE23176DF400B2BC31 /* features */ = {
+			isa = PBXGroup;
+			children = (
+				EB1C331F2325DF2F00EFE0D9 /* MyApiClient.swift */,
+				EB1C3734231DD6C00084ACEE /* createUsernameFromEmail.swift */,
+				EB1E6EA023174B0800B2BC31 /* one-line-text-field.swift */,
+				EB1E6E9E2315F2D800B2BC31 /* rounded-button.swift */,
+			);
+			path = features;
+			sourceTree = "<group>";
+		};
+		EB1E6EBF2319E86800B2BC31 /* delegateAndPlist */ = {
+			isa = PBXGroup;
+			children = (
+				EB1E6EB9231777CF00B2BC31 /* GoogleService-Info.plist */,
+				EBBE36B82314898800442BD8 /* AppDelegate.swift */,
+			);
+			path = delegateAndPlist;
+			sourceTree = "<group>";
+		};
+		EBBE36AC2314898800442BD8 = {
+			isa = PBXGroup;
+			children = (
+				EB1C37362320BADE0084ACEE /* Default-568h@2x.png */,
+				EBBE36B72314898800442BD8 /* the-clean-up */,
+				EBBE36B62314898800442BD8 /* Products */,
+				1F845C749C10F934308E982F /* Pods */,
+				602DCD163125B95F47A30C17 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EBBE36B62314898800442BD8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EBBE36B52314898800442BD8 /* the-clean-up.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EBBE36B72314898800442BD8 /* the-clean-up */ = {
+			isa = PBXGroup;
+			children = (
+				EBBE36C42314898900442BD8 /* Info.plist */,
+				EB1E6EBF2319E86800B2BC31 /* delegateAndPlist */,
+				EB1E6EAE23176DF400B2BC31 /* features */,
+				EB1E6EAD23176DC600B2BC31 /* storyboards */,
+				EB1E6EA423176B4D00B2BC31 /* views */,
+				EBBE36BF2314898900442BD8 /* Assets.xcassets */,
+			);
+			path = "the-clean-up";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EBBE36B42314898800442BD8 /* the-clean-up */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EBBE36C72314898900442BD8 /* Build configuration list for PBXNativeTarget "the-clean-up" */;
+			buildPhases = (
+				3325838C6289F1A242634F33 /* [CP] Check Pods Manifest.lock */,
+				EBBE36B12314898800442BD8 /* Sources */,
+				EBBE36B22314898800442BD8 /* Frameworks */,
+				EBBE36B32314898800442BD8 /* Resources */,
+				F971A8D2DD2E14126A1100FA /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "the-clean-up";
+			productName = "the-clean-up";
+			productReference = EBBE36B52314898800442BD8 /* the-clean-up.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EBBE36AD2314898800442BD8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1030;
+				LastUpgradeCheck = 1030;
+				ORGANIZATIONNAME = "Jacob Fraizer";
+				TargetAttributes = {
+					EBBE36B42314898800442BD8 = {
+						CreatedOnToolsVersion = 10.3;
+					};
+				};
+			};
+			buildConfigurationList = EBBE36B02314898800442BD8 /* Build configuration list for PBXProject "the-clean-up" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EBBE36AC2314898800442BD8;
+			productRefGroup = EBBE36B62314898800442BD8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EBBE36B42314898800442BD8 /* the-clean-up */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EBBE36B32314898800442BD8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBBE36C32314898900442BD8 /* LaunchScreen.storyboard in Resources */,
+				EB1E6EBA231777CF00B2BC31 /* GoogleService-Info.plist in Resources */,
+				EBBE36C02314898900442BD8 /* Assets.xcassets in Resources */,
+				EB1C37372320BADE0084ACEE /* Default-568h@2x.png in Resources */,
+				EBBE36BE2314898900442BD8 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3325838C6289F1A242634F33 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-the-clean-up-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F971A8D2DD2E14126A1100FA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-the-clean-up/Pods-the-clean-up-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-the-clean-up/Pods-the-clean-up-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-the-clean-up/Pods-the-clean-up-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EBBE36B12314898800442BD8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB1E6EA823176D5700B2BC31 /* user-login-ViewController.swift in Sources */,
+				EB1C3735231DD6C00084ACEE /* createUsernameFromEmail.swift in Sources */,
+				EB1E6EBE2317852B00B2BC31 /* cleanerViewController.swift in Sources */,
+				EB1E6EA323174B9800B2BC31 /* cleaner-login-ViewController.swift in Sources */,
+				EB1C3733231CC6150084ACEE /* paymentViewController.swift in Sources */,
+				EB1E6EAA23176D6F00B2BC31 /* user-signup-ViewController.swift in Sources */,
+				EBBE36BB2314898900442BD8 /* main-controller.swift in Sources */,
+				EB1C33202325DF2F00EFE0D9 /* MyApiClient.swift in Sources */,
+				EBBE36B92314898900442BD8 /* AppDelegate.swift in Sources */,
+				EB1E6EA123174B0800B2BC31 /* one-line-text-field.swift in Sources */,
+				EB1C33222325F09700EFE0D9 /* addCardViewController.swift in Sources */,
+				EB36FAED2335BA17006330CB /* progressViewController.swift in Sources */,
+				EB1C3731231B82000084ACEE /* settingsViewController.swift in Sources */,
+				EB1E6EBC2317851300B2BC31 /* userViewController.swift in Sources */,
+				EB1E6E9F2315F2D800B2BC31 /* rounded-button.swift in Sources */,
+				EB1E6EA623176B8C00B2BC31 /* cleaner-signup-ViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		EBBE36BC2314898900442BD8 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EBBE36BD2314898900442BD8 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EBBE36C12314898900442BD8 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EBBE36C22314898900442BD8 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EBBE36C52314898900442BD8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EBBE36C62314898900442BD8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EBBE36C82314898900442BD8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D21158E6C497335565824F9F /* Pods-the-clean-up.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2NGZACHPLK;
+				INFOPLIST_FILE = "the-clean-up/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jacobFraizer.the-clean-up";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		EBBE36C92314898900442BD8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69AAD886546C42C13839B90D /* Pods-the-clean-up.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2NGZACHPLK;
+				INFOPLIST_FILE = "the-clean-up/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jacobFraizer.the-clean-up";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EBBE36B02314898800442BD8 /* Build configuration list for PBXProject "the-clean-up" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBBE36C52314898900442BD8 /* Debug */,
+				EBBE36C62314898900442BD8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EBBE36C72314898900442BD8 /* Build configuration list for PBXNativeTarget "the-clean-up" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBBE36C82314898900442BD8 /* Debug */,
+				EBBE36C92314898900442BD8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EBBE36AD2314898800442BD8 /* Project object */;
+}

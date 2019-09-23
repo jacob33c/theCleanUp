@@ -1,0 +1,6 @@
+framework module Pods_the_clean_up {
+  umbrella header "Pods-the-clean-up-umbrella.h"
+
+  export *
+  module * { export * }
+}
