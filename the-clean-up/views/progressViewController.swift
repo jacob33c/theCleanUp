@@ -82,9 +82,17 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
             if driverLat == ""{
                 self.lookingForADriver()
             }
+            else{
+                self.driverFound()
+            }
         }
     }
     //end getting data from data base
+    func driverFound(){
+        titleLabel.text = "Help is on the way!"
+        titleLabel.textColor = UIColor.black
+    }
+    
     
     func lookingForADriver(){
         titleLabel.text = "Looking for a driver!"
