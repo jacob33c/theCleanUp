@@ -262,6 +262,14 @@
                     }
                 }
             }
+            
+            openInMaps(coordinate: driverLocation)
+        }
+        
+        func openInMaps(coordinate: CLLocationCoordinate2D){
+            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary:nil))
+            mapItem.name = "Target location"
+            mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
         }
         
         
@@ -392,7 +400,6 @@
     
     
     struct locationWithDistance{
-        
         var userLat: Double = 0.00
         var userLong: Double = 0.00
         var distance: Double = 0.00
