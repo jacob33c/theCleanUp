@@ -1010,6 +1010,23 @@
                                     <segue destination="dzg-bK-Gj8" kind="show" id="NeC-EE-3E1"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5mR-lN-G2g">
+                                <rect key="frame" x="254" y="693" width="140" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <state key="normal" title="Open in maps">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="12"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="openInMapsButtonTouched:" destination="VyL-kg-YvW" eventType="touchUpInside" id="lpN-Bx-Pte"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -1023,11 +1040,12 @@
                     <connections>
                         <outlet property="mapView" destination="dC9-OG-1B5" id="vTw-je-RBU"/>
                         <outlet property="onlineButton" destination="dai-sZ-PaI" id="eBC-Bp-Oyh"/>
+                        <outlet property="openInMapsButton" destination="5mR-lN-G2g" id="9Y4-hs-qOc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5KB-5P-SbR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5171" y="544"/>
+            <point key="canvasLocation" x="5169.5652173913049" y="543.75"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="bBd-hi-hZc">
@@ -1261,6 +1279,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="hYc-VD-nC2"/>
         <segue reference="c3s-Nh-alo"/>
-        <segue reference="O6B-xh-Mxq"/>
+        <segue reference="s64-FN-7de"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -23,6 +23,7 @@
         var driverLocation = CLLocationCoordinate2D()
         @IBOutlet weak var mapView: MKMapView!
         @IBOutlet weak var onlineButton: UIButton!
+        @IBOutlet weak var openInMapsButton: UIButton!
         let locationManager = CLLocationManager()
         let regionInMeters: Double = 10000
         var userLocation = CLLocationCoordinate2D()
@@ -33,6 +34,7 @@
         override func viewDidLoad() {
             super.viewDidLoad()
             mapView.delegate = self
+            hideMapsButton()
             checkLocationServices()
             checkCurrentRequests()
             Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { (timer) in
@@ -61,6 +63,8 @@
             }
             
         }
+        
+        
         
         
         
@@ -261,15 +265,24 @@
                         self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
                     }
                 }
+                self.showMapsButton()
             }
-            
-            openInMaps(coordinate: driverLocation)
         }
         
         func openInMaps(coordinate: CLLocationCoordinate2D){
             let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary:nil))
             mapItem.name = "Target location"
             mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
+        }
+        
+        func hideMapsButton(){
+            openInMapsButton.isHidden = true
+        }
+        func showMapsButton(){
+            openInMapsButton.isHidden = false
+        }
+        @IBAction func openInMapsButtonTouched(_ sender: Any) {
+            openInMaps(coordinate: userLocation)
         }
         
         
