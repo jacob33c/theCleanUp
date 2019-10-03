@@ -23,6 +23,7 @@ class settingsViewController: UIViewController {
     @IBOutlet weak var confirmPasswordLabel: UILabel!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         loadUserData()
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
@@ -172,6 +173,9 @@ class settingsViewController: UIViewController {
     
 
     
+    @IBAction func switchToDriverButtonTapped(_ sender: Any) {
+        performSegue(withIdentifier: "userToCleanerSegue", sender: nil)
+    }
     
     
     func signOut(){
@@ -185,7 +189,7 @@ class settingsViewController: UIViewController {
     func signOutandGotoRoot(){
         signOut()
         DispatchQueue.main.async {
-        self.performSegue(withIdentifier: "rootSegue1", sender: nil)
+            self.performSegue(withIdentifier: "rootSegue1", sender: nil)
         }
     }
 }

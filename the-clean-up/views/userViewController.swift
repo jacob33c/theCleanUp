@@ -22,7 +22,7 @@ class userViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     
-    let regionInMeters: Double = 10000
+    let regionInMeters: Double = 1000
     var stName = ""
     var stNum = ""
     var username = ""
@@ -34,6 +34,8 @@ class userViewController: UIViewController {
         super.viewDidLoad()
         checkLocationServices()
         authenticateUser()
+        updateMapOnce()
+
     }
     
     //set up the location manager
@@ -192,30 +194,41 @@ class userViewController: UIViewController {
             )
         }
     }
-}
-//end request button tapped func
-
-//adds a func to CLLocationManagerDelegate that handles the didChangeAuth status
-
-extension userViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        checkLocationAuthorization()
+    
+    
+    
+    
+    func updateMap(){
+        let center = getCenterLocation(for: mapView)
+        let geoCoder = CLGeocoder()
+        guard let previousLocation = self.previousLocation else { return }
+        guard center.distance(from: previousLocation) > 20 else { return }
+        self.previousLocation = center
+        geoCoder.cancelGeocode()
+        geoCoder.reverseGeocodeLocation(center) { [weak self] (placemarks, error) in
+            guard let self = self else { return }
+            if let _ = error {
+                //TODO: Show alert informing the user
+                return
+            }
+            guard let placemark = placemarks?.first else {
+                //TODO: Show alert informing the user
+                return
+            }
+            let streetNumber = placemark.subThoroughfare ?? ""
+            let streetName = placemark.thoroughfare ?? ""
+            DispatchQueue.main.async {
+                self.stName = streetName
+                self.stNum = streetNumber
+                self.addressLabel.textColor = UIColor.black
+                self.addressLabel.text = "\(streetNumber) \(streetName)"
+            }
+        }
     }
-}
-
-
-
-
-
-
-//handles the map view
-extension userViewController: MKMapViewDelegate{
-        func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        
+    func updateMapOnce(){
             let center = getCenterLocation(for: mapView)
             let geoCoder = CLGeocoder()
-            guard let previousLocation = self.previousLocation else { return }
-            guard center.distance(from: previousLocation) > 50 else { return }
-            self.previousLocation = center
             geoCoder.cancelGeocode()
             geoCoder.reverseGeocodeLocation(center) { [weak self] (placemarks, error) in
                 guard let self = self else { return }
@@ -237,7 +250,38 @@ extension userViewController: MKMapViewDelegate{
                 }
             }
     }
+
+    
+    
+    
 }
+
+
+
+
+//end request button tapped func
+
+//adds a func to CLLocationManagerDelegate that handles the didChangeAuth status
+
+extension userViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        checkLocationAuthorization()
+    }
+}
+
+
+
+
+
+
+//handles the map view
+extension userViewController: MKMapViewDelegate{
+        func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+            updateMap()
+    }
+}
+
+
 
 
 
