@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
+   uuid = "410B911E-F145-42DE-96BD-EF94D02EF956"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.AddressBreakpoint">
+         <BreakpointContent
+            uuid = "3A69039B-AD4D-47BD-930A-1A518C88EFC5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            symbolName = "*0x100de51a8">
+            <Locations>
+               <Location
+                  uuid = "3A69039B-AD4D-47BD-930A-1A518C88EFC5 - 11b7c4b373804434"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "the_clean_up.paymentViewController.updatePriceLabels() -&gt; ()"
+                  moduleName = "the-clean-up"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/JacobFraizer/Desktop/ios-dev/the-clean-up/%3Ccompiler-generated%3E"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "768">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

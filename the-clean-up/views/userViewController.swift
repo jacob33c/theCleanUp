@@ -96,15 +96,9 @@ class userViewController: UIViewController {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         userID = uid
         Database.database().reference().child("users").child(uid).child("username").observeSingleEvent(of: .value) { (snapshot) in
+            
             guard let username = snapshot.value as? String else { return }
             print("Welcome, \(username)")
-            JSSAlertView().show(
-                self,
-                title: "Welcome!",
-                text: "welcome back \(username)",
-                buttonText: "OK",
-                color: UIColor.systemTeal
-            )
         }
     }
     //end load user data
