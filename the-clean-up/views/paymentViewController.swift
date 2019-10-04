@@ -39,6 +39,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     @IBOutlet weak var laundryText: UITextField!
     @IBOutlet weak var laundryPriceLabel: UILabel!
     
+    @IBOutlet weak var tooManyLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var newPaymentButton: UIButton!
@@ -235,7 +236,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
         updatePriceLabels()
         if Int(masterBedroomText.text ?? "0") ?? 0 > 2 {
             masterBedroomText.text = "0"
-            masterBedroomPriceLabel.text = "Max = 2"
+            showTooManyLabel(max: 2)
         }
     }
     
@@ -264,7 +265,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
         updatePriceLabels()
         if Int(kitchenWithDishesText.text ?? "0") ?? 0 > 2 {
             kitchenWithDishesText.text = "0"
-            kitchenWithDishesLabel.text = "Max = 2"
+            showTooManyLabel(max: 2)
         }
     }
     //MARK:- KITCHEN STUFF
@@ -291,7 +292,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
         updatePriceLabels()
         if Int(kitchenText.text ?? "0") ?? 0 > 2 {
             kitchenText.text = "0"
-            kitchenTextLabel.text = "Max = 2"
+            showTooManyLabel(max: 2)
         }
         
     }
@@ -322,7 +323,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
         updatePriceLabels()
               if Int(regularBedroomText.text ?? "0") ?? 0 > 4 {
                   regularBedroomText.text = "0"
-                  regularBedroomPriceLabel.text = "Max = 4"
+                  showTooManyLabel(max: 4)
               }
     }
     
@@ -353,12 +354,11 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
         updatePriceLabels()
         if Int(garageText.text ?? "0") ?? 0 > 1 {
             garageText.text = "0"
-            garagePriceLabel.text = "Max = 1"
+            showTooManyLabel(max: 1)
         }
     }
     
     //MARK: - LAUNDRY STUFF
-    
     @IBAction func laundryButtonTapped(_ sender: Any) {
         if laundryText.text == "0"{
             laundryText.text = "1"
@@ -383,7 +383,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
         updatePriceLabels()
         if Int(laundryText.text ?? "0") ?? 0 > 4 {
             laundryText.text = "0"
-            laundryPriceLabel.text = "Max = 4"
+            showTooManyLabel(max: 4)
         }
     }
     
@@ -401,6 +401,16 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
         addShadowToButton(button: regularBedroomButton)
         addShadowToButton(button: kitchenButton)
         addShadowToButton(button: kitchenWithDishesButton)
+    }
+    
+    func showTooManyLabel(max : Int){
+        tooManyLabel.isHidden = false
+        tooManyLabel.text = "Max = \(max)"
+        updateTotalLabel()
+    }
+    
+    func hideTooManyLabel(){
+        tooManyLabel.isHidden = true
     }
     
     
@@ -421,7 +431,8 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
         updateRegularBedroomLabel()
         updateGarageLabel()
         updateLaundryLabel()
-        totalLabel.text = "Total: $\(calculateTotal()).49 "
+        hideTooManyLabel()
+        updateTotalLabel()
     }
     
     func textfieldToInt(textfield : UITextField) -> Int {
@@ -429,6 +440,9 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     }
     
     
+    func updateTotalLabel(){
+        totalLabel.text = "Total: $\(calculateTotal()).49 "
+    }
     
     func calculateTotal() -> Int {
         //TODO: - write the function

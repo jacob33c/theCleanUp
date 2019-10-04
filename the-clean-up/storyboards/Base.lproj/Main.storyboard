@@ -634,6 +634,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total : $62.49" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FdQ-Lf-Qo6">
+                                <rect key="frame" x="60" y="499" width="277" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="26"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="19" translatesAutoresizingMaskIntoConstraints="NO" id="8B5-9A-4rq">
                                 <rect key="frame" x="220" y="91" width="49" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -744,11 +751,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total : $62.49" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FdQ-Lf-Qo6">
-                                <rect key="frame" x="60" y="499" width="277" height="32"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Max = 3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8q-W8-afU">
+                                <rect key="frame" x="135" y="422" width="144" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="26"/>
-                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="37"/>
+                                <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -781,6 +788,7 @@
                         <outlet property="regularBedroomButton" destination="Y9d-sA-Tg0" id="DSn-ND-wQm"/>
                         <outlet property="regularBedroomPriceLabel" destination="EI4-v5-oaB" id="ikQ-aS-lVS"/>
                         <outlet property="regularBedroomText" destination="9YM-s8-m2n" id="5WU-db-sDE"/>
+                        <outlet property="tooManyLabel" destination="G8q-W8-afU" id="PFz-0d-JBX"/>
                         <outlet property="totalLabel" destination="FdQ-Lf-Qo6" id="7pm-4M-dNV"/>
                         <segue destination="Our-D9-fMQ" kind="presentation" identifier="paymentToProgressSegue" modalPresentationStyle="fullScreen" id="Tpx-mL-UBi"/>
                         <segue destination="ncM-xm-JOi" kind="presentation" identifier="cancelSegue" modalPresentationStyle="fullScreen" id="s64-FN-7de"/>
