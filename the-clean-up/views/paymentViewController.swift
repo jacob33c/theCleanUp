@@ -35,9 +35,11 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     @IBOutlet weak var regularBedroomPriceLabel: UILabel!
     @IBOutlet weak var garageText: UITextField!
     @IBOutlet weak var garagePriceLabel: UILabel!
-    @IBOutlet weak var laundyText: UITextField!
+    
+    @IBOutlet weak var laundryText: UITextField!
     @IBOutlet weak var laundryPriceLabel: UILabel!
     
+    @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var newPaymentButton: UIButton!
     @IBOutlet weak var laundryButton: UIButton!
@@ -278,7 +280,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     }
     func updateKitchenLabel(){
         if let kitchenInt = Int(kitchenText.text ?? "0"){
-            let kitchenCost = kitchenInt * 14
+            let kitchenCost = kitchenInt * 10
             kitchenTextLabel.text = "$\(kitchenCost).00"
         }
         else{
@@ -325,6 +327,67 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     }
     
     
+    //MARK:- GARAGE STUFF
+    
+    @IBAction func garageButtonTapped(_ sender: Any) {
+        if garageText.text == "0"{
+            garageText.text = "1"
+        }
+        else{
+            garageText.text = "0"
+        }
+        updatePriceLabels()
+    }
+    
+    func updateGarageLabel(){
+        if let garageInt = Int(garageText.text ?? "0"){
+            let garageCost = garageInt * 12
+            garagePriceLabel.text = "$\(garageCost).00"
+        }
+        else{
+            garagePriceLabel.text = "$0.00"
+        }
+    }
+    
+    @IBAction func garageTextDidChange(_ sender: Any) {
+        updatePriceLabels()
+        if Int(garageText.text ?? "0") ?? 0 > 1 {
+            garageText.text = "0"
+            garagePriceLabel.text = "Max = 1"
+        }
+    }
+    
+    //MARK: - LAUNDRY STUFF
+    
+    @IBAction func laundryButtonTapped(_ sender: Any) {
+        if laundryText.text == "0"{
+            laundryText.text = "1"
+        }
+        else{
+            laundryText.text = "0"
+        }
+        updatePriceLabels()
+    }
+    
+    func updateLaundryLabel(){
+        if let laundryInt = Int(laundryText.text ?? "0"){
+            let laundryCost = laundryInt * 8
+            laundryPriceLabel.text = "$\(laundryCost).00"
+        }
+        else{
+            laundryPriceLabel.text = "$0.00"
+        }
+    }
+    
+    @IBAction func laundryTextDidChange(_ sender: Any) {
+        updatePriceLabels()
+        if Int(laundryText.text ?? "0") ?? 0 > 4 {
+            laundryText.text = "0"
+            laundryPriceLabel.text = "Max = 4"
+        }
+    }
+    
+    
     
     
     //MARK: - GENERAL UI STUFF
@@ -356,12 +419,27 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
         updateKitchenWithDishesLabel()
         updateKitchenLabel()
         updateRegularBedroomLabel()
-        
+        updateGarageLabel()
+        updateLaundryLabel()
+        totalLabel.text = "Total: $\(calculateTotal()).49 "
     }
+    
+    func textfieldToInt(textfield : UITextField) -> Int {
+        return Int(textfield.text ?? "0") ?? 0
+    }
+    
+    
     
     func calculateTotal() -> Int {
         //TODO: - write the function
-        return 0
+        let masterCost = textfieldToInt(textfield: masterBedroomText) * 12
+        let kitchenDishCost = textfieldToInt(textfield: kitchenWithDishesText) * 14
+        let kitchenCost = textfieldToInt(textfield: kitchenText) * 10
+        let regularCost = textfieldToInt(textfield: regularBedroomText) * 10
+        let garageCost = textfieldToInt(textfield: garageText) * 12
+        let laundryCost = textfieldToInt(textfield: laundryText) * 8
+        let total = masterCost + kitchenDishCost + kitchenCost + regularCost + laundryCost + garageCost
+        return total
     }
     
     func updateDefaultButton(imageName: String){

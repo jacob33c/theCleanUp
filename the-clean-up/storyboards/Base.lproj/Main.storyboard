@@ -483,6 +483,13 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="**** **** **** 1234 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="52T-hB-Had">
+                                <rect key="frame" x="158" y="688" width="123" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="10"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fHB-kf-gIb">
                                 <rect key="frame" x="60" y="754" width="278" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -548,6 +555,9 @@
                                         <real key="value" value="10"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="garageButtonTapped:" destination="BK2-Gl-efy" eventType="touchUpInside" id="G3v-fC-AfU"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lg2-jN-jBM">
                                 <rect key="frame" x="63" y="146" width="149" height="47"/>
@@ -613,18 +623,14 @@
                                         <real key="value" value="10"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="laundryButtonTapped:" destination="BK2-Gl-efy" eventType="touchUpInside" id="qw2-ne-rpE"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Type of bedroom" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GMh-2a-a8N">
                                 <rect key="frame" x="65" y="59" width="144" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total : $62.49" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FdQ-Lf-Qo6">
-                                <rect key="frame" x="108" y="509" width="183" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="26"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -669,12 +675,18 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                <connections>
+                                    <action selector="laundryTextDidChange:" destination="BK2-Gl-efy" eventType="editingChanged" id="BE8-7l-mDw"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="19" translatesAutoresizingMaskIntoConstraints="NO" id="T7Z-Jh-CTi">
                                 <rect key="frame" x="220" y="311" width="49" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                <connections>
+                                    <action selector="garageTextDidChange:" destination="BK2-Gl-efy" eventType="editingChanged" id="hdT-PI-0U3"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="QTY." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUj-Jp-Zqz">
                                 <rect key="frame" x="225" y="60" width="38" height="20"/>
@@ -732,11 +744,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="**** **** **** 1234 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="52T-hB-Had">
-                                <rect key="frame" x="158" y="688" width="123" height="29"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total : $62.49" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FdQ-Lf-Qo6">
+                                <rect key="frame" x="60" y="499" width="277" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="10"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="26"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -761,7 +773,7 @@
                         <outlet property="kitchenWithDishesText" destination="iTW-YH-Ywf" id="mzn-kG-aTK"/>
                         <outlet property="laundryButton" destination="mtk-B0-vKK" id="Th4-Pa-1Ii"/>
                         <outlet property="laundryPriceLabel" destination="2oO-gi-Vte" id="Oex-EZ-4yu"/>
-                        <outlet property="laundyText" destination="Goi-4W-MUX" id="M6z-7f-V4e"/>
+                        <outlet property="laundryText" destination="Goi-4W-MUX" id="ecF-oC-qxt"/>
                         <outlet property="masterBedroomPriceLabel" destination="2kS-vM-G4e" id="RTD-Zz-pJf"/>
                         <outlet property="masterBedroomText" destination="8B5-9A-4rq" id="DHL-pv-ey3"/>
                         <outlet property="masterButton" destination="MXo-Cg-7Zy" id="Gwa-hU-Hya"/>
@@ -769,6 +781,7 @@
                         <outlet property="regularBedroomButton" destination="Y9d-sA-Tg0" id="DSn-ND-wQm"/>
                         <outlet property="regularBedroomPriceLabel" destination="EI4-v5-oaB" id="ikQ-aS-lVS"/>
                         <outlet property="regularBedroomText" destination="9YM-s8-m2n" id="5WU-db-sDE"/>
+                        <outlet property="totalLabel" destination="FdQ-Lf-Qo6" id="7pm-4M-dNV"/>
                         <segue destination="Our-D9-fMQ" kind="presentation" identifier="paymentToProgressSegue" modalPresentationStyle="fullScreen" id="Tpx-mL-UBi"/>
                         <segue destination="ncM-xm-JOi" kind="presentation" identifier="cancelSegue" modalPresentationStyle="fullScreen" id="s64-FN-7de"/>
                     </connections>
