@@ -46,6 +46,9 @@ class user_signup_ViewController: UIViewController {
     
 //this handles what happens if the submit button is tapped
     @IBAction func sumbitButtonTapped(_ sender: Any) {
+        
+        // aerviceObject.Save(USERNAme, pAAQORXD)
+        
         //this will create a user in firebase with the provided email and username
         if let email = emailText.text{
             if let password = passwordText.text {
@@ -90,7 +93,19 @@ class user_signup_ViewController: UIViewController {
     }
 //end create account
     
-    
+   /*
+     create(id, type) {
+     
+     
+     
+     gwtUAweDetILADEOMWMil
+     getUaerdDetIAFRPM
+     getUawrdetialdFor,In
+     
+     
+     saveUsertDEtakl.stoDatabase
+     
+     */
     
     
     

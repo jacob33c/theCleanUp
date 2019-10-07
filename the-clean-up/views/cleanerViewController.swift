@@ -14,22 +14,41 @@
     import AyLoading
 
     class cleanerViewController: UIViewController, MKMapViewDelegate {
-        var isOnline = false
-        var inTheMiddleOfRequst = false
+        
+//MARK:- ARRAYS
         var currentRequests : [DataSnapshot] = []
         var arrayWithDistance : [locationWithDistance] = []
         var directionsArray: [MKDirections] = []
-        let geoCoder = CLGeocoder()
-        var driverLocation = CLLocationCoordinate2D()
+        
+//MARK:- BOOLEANS
+        var isOnline = false
+        var inTheMiddleOfRequst = false
+        
+//MARK:- MAPVIEW
         @IBOutlet weak var mapView: MKMapView!
-        @IBOutlet weak var onlineButton: UIButton!
-        @IBOutlet weak var openInMapsButton: UIButton!
-        let locationManager = CLLocationManager()
-        let regionInMeters: Double = 10000
+        
+//MARK:- LOCATIONS
+        var driverLocation = CLLocationCoordinate2D()
         var userLocation = CLLocationCoordinate2D()
         var previousLocation: CLLocation?
 
+//MARK:- BUTTONS
+        @IBOutlet weak var arrivedButton: UIButton!
+        @IBOutlet weak var onlineButton: UIButton!
+        @IBOutlet weak var openInMapsButton: UIButton!
+        
+//MARK:- LABELS
+        @IBOutlet weak var addressLabel: UILabel!
 
+
+
+
+        
+        let geoCoder = CLGeocoder()
+
+        let locationManager = CLLocationManager()
+        let regionInMeters: Double = 1000
+        
         
         override func viewDidLoad() {
             super.viewDidLoad()
@@ -37,8 +56,11 @@
             hideMapsButton()
             checkLocationServices()
             checkCurrentRequests()
-            Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { (timer) in
+            hideArrivedButtonShowOnlineButton()
+            addressLabel.isHidden = true
+            Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { (timer) in
                 if self.isOnline && self.inTheMiddleOfRequst != true {
+                    print("timer func")
                     self.arrayWithDistance = []
                     self.checkArray()
                     self.arrayWithDistance =  self.sortDistances(arrayWithDistances: self.arrayWithDistance)
@@ -55,11 +77,13 @@
                 self.onlineButton.setTitle("Go Offline", for: .normal)
                 self.onlineButton.backgroundColor = UIColor.systemOrange
                 isOnline = true
+                print("online is now true")
             }
             else {
                 self.onlineButton.setTitle("Go Online", for: .normal)
-                self.onlineButton.backgroundColor = UIColor.blue
+                self.onlineButton.backgroundColor = UIColor(red:0.00, green:0.48, blue:1.00, alpha:1.0)
                 isOnline = false
+                print("online is now false")
             }
             
         }
@@ -91,17 +115,23 @@
                 var index = 0
                 for snapshot in currentRequests{
                     if let cleanRequestDictionary = snapshot.value as? [String: AnyObject]{
-                        if let lat = cleanRequestDictionary["lat"] as? Double{
-                            if let long = cleanRequestDictionary["long"] as? Double{
-                                if let uid = cleanRequestDictionary["uid"] as? String{
-                                    if let hasBeenShown = cleanRequestDictionary["shownToADriver"] as? Bool{
-                                        let riderCLLocation = CLLocation(latitude: lat, longitude: long)
-                                        let driverCLLocation = CLLocation(latitude: driverLocation.latitude, longitude: driverLocation.longitude)
-                                        addToArrayWithDistance(riderCLLocation: riderCLLocation, driverCLLocation: driverCLLocation, index: index, uid: uid, hasBeenShown: hasBeenShown)
-                                    }
-                                }
-                            }
-                        }
+                    if let lat = cleanRequestDictionary["lat"] as? Double{
+                    if let long = cleanRequestDictionary["long"] as? Double{
+                    if let uid = cleanRequestDictionary["uid"] as? String{
+                    if let hasBeenShown = cleanRequestDictionary["shownToADriver"] as? Bool{
+                    if let address = cleanRequestDictionary["address"] as? String{
+                    if let amount = cleanRequestDictionary["amount"] as? Int{
+                       let note             = cleanRequestDictionary["note"] as? String ?? "No Note"
+                       let riderCLLocation  = CLLocation(latitude: lat, longitude: long)
+                       let driverCLLocation = CLLocation(latitude: driverLocation.latitude, longitude: driverLocation.longitude)
+                       let request = addToArrayWithDistance(riderCLLocation: riderCLLocation, driverCLLocation: driverCLLocation, index: index, uid: uid, hasBeenShown: hasBeenShown, address: address, amount: amount, note: note)
+                      arrayWithDistance.append(request)
+                    }
+                    }
+                    }
+                    }
+                    }
+                    }
                     }
                     index += 1
                 }
@@ -117,20 +147,7 @@
         
         
         
-        func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLocation, index: Int, uid: String, hasBeenShown: Bool){
-            if hasBeenShown != true {
-                let distance = driverCLLocation.distance(from: riderCLLocation) / 1000
-                let roundedDistance = round(distance * 100) / 100
-                var foo = locationWithDistance()
-                foo.distance = roundedDistance
-                foo.userLat = riderCLLocation.coordinate.latitude
-                foo.userLong = riderCLLocation.coordinate.longitude
-                foo.paidOrNot = true
-                foo.uid = uid
-                arrayWithDistance.append(foo)
-            }
-        }
-        
+
         
         
         
@@ -157,6 +174,7 @@
         
         
         func checkClosestRequest(){
+            print("arrayWithDistance.count = \(arrayWithDistance.count)")
             if arrayWithDistance.count > 0{
                 let closestRequest = arrayWithDistance[0]
                 let shownUpdate = ["shownToADriver":true] as [String : Any]
@@ -171,12 +189,13 @@
                     let alert = JSSAlertView().show(
                         self,
                         title: "Clean Request \(closestRequest.distance) KM away",
-                        text: "$10 room cleaning would you like to accept or deny?",
+                        text: "Request for $\(Double(closestRequest.amount) / 100.00)",
                         buttonText: "Accept",
-                        cancelButtonText: "Decline"
+                        cancelButtonText: "Decline",
+                        color: UIColor(red:0.60, green:0.82, blue:0.80, alpha:1.0)
                     )
                     inTheMiddleOfRequst = true
-                    alert.addAction {self.acceptRequest(userID: closestRequest.uid)}
+                    alert.addAction {self.acceptRequest(userID: closestRequest.uid, address: closestRequest.address)}
                     alert.addCancelAction {self.denyRequest(userID: closestRequest.uid)}
                 }
             }
@@ -211,8 +230,15 @@
         }
         
         
-        func acceptRequest(userID: String){
+        func acceptRequest(userID: String, address : String){
+            hideOnlineButtonShowArrivedButton()
             print("request accepted")
+            addressLabel.ay.startLoading()
+            addressLabel.isHidden  = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
+                self.addressLabel.ay.stopLoading()
+                self.addressLabel.text = address
+            }
             let driverLoc = ["driverLat": driverLocation.latitude, "driverLong": driverLocation.longitude] as [String : Any]
             Database.database().reference().child("currentRequests").child(userID).updateChildValues(driverLoc, withCompletionBlock: { (error, ref) in
                 return
@@ -221,6 +247,24 @@
             getUserLocation(userId: userID)
             getDirections(userID: userID)
             
+        }
+        
+        func hideOnlineButtonShowArrivedButton(){
+            arrivedButton.ay.startLoading()
+            onlineButton.isEnabled  = false
+            arrivedButton.isEnabled = true
+            onlineButton.isHidden   = true
+            arrivedButton.isHidden  = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
+                self.arrivedButton.ay.stopLoading()
+            }
+        }
+        
+        func hideArrivedButtonShowOnlineButton(){
+            arrivedButton.isEnabled  = false
+            onlineButton.isEnabled   = true
+            arrivedButton.isHidden   = true
+            onlineButton.isHidden    = false
         }
         
         
@@ -242,6 +286,7 @@
 //MARK: - Location functions
         func getDirections(userID: String) {
             mapView.ay.startLoading(message: "Loading...")
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
                 self.mapView.ay.stopLoading()
                 print("4.5 sec delay over")
@@ -271,11 +316,13 @@
         
         func openInMaps(coordinate: CLLocationCoordinate2D){
             let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary:nil))
-            mapItem.name = "Target location"
+            mapItem.name = "Client's Location"
             mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
         }
         
         func hideMapsButton(){
+            addShadowToButton(button: openInMapsButton)
+            addShadowToButton(button: onlineButton)
             openInMapsButton.isHidden = true
         }
         func showMapsButton(){
@@ -399,7 +446,7 @@
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             let renderer = MKPolylineRenderer(overlay: overlay as! MKPolyline)
-            renderer.strokeColor = .blue
+            renderer.strokeColor = UIColor(red:0.60, green:0.82, blue:0.80, alpha:1.0)
             renderer.lineWidth = 5.0
             return renderer
         }
@@ -412,14 +459,6 @@
     
     
     
-    struct locationWithDistance{
-        var userLat: Double = 0.00
-        var userLong: Double = 0.00
-        var distance: Double = 0.00
-        var paidOrNot: Bool = false
-        var uid: String = ""
-        var hasBeenShownToADriver: String = ""
-        
-    }
+
 
 

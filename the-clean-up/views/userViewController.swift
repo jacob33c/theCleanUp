@@ -28,6 +28,7 @@ class userViewController: UIViewController {
     var username = ""
     var userID = ""
     
+    @IBOutlet weak var requestButton: UIButton!
     
     
     override func viewDidLoad() {
@@ -35,6 +36,7 @@ class userViewController: UIViewController {
         checkLocationServices()
         authenticateUser()
         updateMapOnce()
+        addShadowToButton(button: requestButton)
 
     }
     
@@ -140,54 +142,10 @@ class userViewController: UIViewController {
 //end tracking on user fun
 
     
-    //this gets the center of the map view
-    func getCenterLocation(for mapView: MKMapView) -> CLLocation {
-        let latitude = mapView.centerCoordinate.latitude
-        let longitude = mapView.centerCoordinate.longitude
-        return CLLocation(latitude: latitude, longitude: longitude)
-    }
-    //end get center location
-    
-    
-    //this is what happens when we confirm the location of the request
-    func confirmLocation() {
-        
-        let requests = ["lat": getCenterLocation(for: mapView).coordinate.latitude , "long": getCenterLocation(for: mapView).coordinate.longitude, "paid": false, "uid":userID,
-                        "shownToADriver": false] as [String : Any]
-        if userID != ""{
-            Database.database().reference().child("currentRequests").child(userID).updateChildValues(requests, withCompletionBlock: { (error, ref) in
-                return
-            })
-            performSegue(withIdentifier: "requestSegue", sender: nil)
-        }
-    }
-    //end confirm location
-    
-    
-    //this function will handle what happens when the request button is tapped.
-    @IBAction func requestButtonTapped(_ sender: Any) {
-        if stNum != "" {
-            let alertview = JSSAlertView().show(
-                self,
-                title: "\(stNum) \(stName)",
-                text: "Please confirm the the address of the cleaning",
-                buttonText: "Confirm",
-                cancelButtonText: "Cancel",
-                color: UIColor.systemTeal
 
-            )
-            alertview.addAction(self.confirmLocation)
-        }
-        else {
-            JSSAlertView().show(
-                self,
-                title: "Error",
-                text: "Please move the pin to a valid location",
-                buttonText: "OK",
-                color: UIColor.systemOrange
-            )
-        }
-    }
+    
+    
+    
     
     
     
@@ -214,7 +172,7 @@ class userViewController: UIViewController {
             DispatchQueue.main.async {
                 self.stName = streetName
                 self.stNum = streetNumber
-                self.addressLabel.textColor = UIColor.black
+                self.addressLabel.textColor = UIColor(red:0.30, green:0.29, blue:0.39, alpha:1.0)
                 self.addressLabel.text = "\(streetNumber) \(streetName)"
             }
         }
@@ -239,12 +197,56 @@ class userViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.stName = streetName
                     self.stNum = streetNumber
-                    self.addressLabel.textColor = UIColor.black
+                    self.addressLabel.textColor = UIColor(red:0.30, green:0.29, blue:0.39, alpha:1.0)
                     self.addressLabel.text = "\(streetNumber) \(streetName)"
                 }
             }
     }
+    
+    
+    //this function will handle what happens when the request button is tapped.
+    @IBAction func requestButtonTapped(_ sender: Any) {
+        if stNum != "" {
+            let alertview = JSSAlertView().show(
+                self,
+                title: "\(stNum) \(stName)",
+                text: "Please confirm the the address of the cleaning",
+                buttonText: "Confirm",
+                cancelButtonText: "Cancel",
+                color: UIColor(red:0.60, green:0.82, blue:0.80, alpha:1.0)
 
+            )
+            alertview.addAction(self.confirmLocation)
+        }
+        else {
+            JSSAlertView().show(
+                self,
+                title: "Error",
+                text: "Please move the pin to a valid location",
+                buttonText: "OK",
+                color: UIColor.systemOrange
+            )
+        }
+    }
+    
+    //this is what happens when we confirm the location of the request
+    func confirmLocation() {
+        if userID != ""{
+            performSegue(withIdentifier: "requestSegue", sender: nil)
+        }
+    }
+    //end confirm location
+    
+    
+    //prepare for segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "requestSegue"{
+            if let destinationVC = segue.destination as? paymentViewController {
+                destinationVC.userLocation = getCenterLocation(for: mapView).coordinate
+                destinationVC.userAddress  = addressLabel.text ?? "no address recorded, please call your client"
+            }
+        }
+    }
     
     
     

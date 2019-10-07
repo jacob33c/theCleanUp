@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         Stripe.setDefaultPublishableKey("pk_test_TIxpXMfEiFdJHXOAi6M1CyY600wRBV7jog")
+//        let buttonAppearance = UIButton.appearance()
+//        buttonAppearance.backgroundColor = UIColor(red:0.00, green:0.48, blue:1.00, alpha:1.0)
+
         return true
     }
 

@@ -12,49 +12,56 @@ import FirebaseDatabase
 import Stripe
 import JSSAlertView
 import AyLoading
+import MapKit
 
 
-class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate {
+class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate, UITextFieldDelegate {
+//MARK: - Payment Controller Variables
     
-    
-    
-    
-    
-    
-    
-    
-    
-    //MARK: - GLOBAL VARIABLES
-    @IBOutlet weak var kitchenWithDishesLabel: UILabel!
-    @IBOutlet weak var kitchenWithDishesText: UITextField!
-    @IBOutlet weak var masterBedroomPriceLabel: UILabel!
-    @IBOutlet weak var masterBedroomText: UITextField!
-    @IBOutlet weak var kitchenText: UITextField!
-    @IBOutlet weak var kitchenTextLabel: UILabel!
-    @IBOutlet weak var regularBedroomText: UITextField!
-    @IBOutlet weak var regularBedroomPriceLabel: UILabel!
-    @IBOutlet weak var garageText: UITextField!
-    @IBOutlet weak var garagePriceLabel: UILabel!
-    
-    @IBOutlet weak var laundryText: UITextField!
-    @IBOutlet weak var laundryPriceLabel: UILabel!
-    
-    @IBOutlet weak var tooManyLabel: UILabel!
-    @IBOutlet weak var totalLabel: UILabel!
+//MARK:- IMAGES
+    @IBOutlet weak var imageView: UIImageView!
+
+//MARK:- BUTTONS
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var newPaymentButton: UIButton!
-    @IBOutlet weak var laundryButton: UIButton!
-    @IBOutlet weak var garageButton: UIButton!
-    @IBOutlet weak var regularBedroomButton: UIButton!
-    @IBOutlet weak var kitchenButton: UIButton!
-    @IBOutlet weak var kitchenWithDishesButton: UIButton!
-    @IBOutlet weak var masterButton: UIButton!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var buttonLabel: UILabel!
     @IBOutlet weak var defaultPaymentButton: UIButton!
-    @IBOutlet weak var cardBrandLabel: UILabel!
-    var roomCount = 1
     
+//MARK:- LABELS
+    @IBOutlet weak var kitchenWithDishesLabel: UILabel!
+    @IBOutlet weak var masterBedroomPriceLabel: UILabel!
+    @IBOutlet weak var kitchenTextLabel: UILabel!
+    @IBOutlet weak var regularBedroomPriceLabel: UILabel!
+    @IBOutlet weak var garagePriceLabel: UILabel!
+    @IBOutlet weak var laundryPriceLabel: UILabel!
+    @IBOutlet weak var tooManyLabel: UILabel!
+    @IBOutlet weak var totalLabel: UILabel!
+    @IBOutlet weak var cardBrandLabel: UILabel!
+    @IBOutlet weak var buttonLabel: UILabel!
+    @IBOutlet weak var serviceFeeLabel: UILabel!
+    
+    //MARK:- TEXTFIELDS
+    @IBOutlet weak var kitchenText: UITextField!
+    @IBOutlet weak var kitchenWithDishesText: UITextField!
+    @IBOutlet weak var masterBedroomText: UITextField!
+    @IBOutlet weak var regularBedroomText: UITextField!
+    @IBOutlet weak var garageText: UITextField!
+    @IBOutlet weak var laundryText: UITextField!
+    @IBOutlet weak var notesTextfield: UITextField!
+    
+    //MARK:- STEPPERS
+    @IBOutlet weak var masterStepper: UIStepper!
+    @IBOutlet weak var kitchenDishStepper: UIStepper!
+    @IBOutlet weak var kitchenStepper: UIStepper!
+    @IBOutlet weak var regularBedroomStepper: UIStepper!
+    @IBOutlet weak var garageStepper: UIStepper!
+    @IBOutlet weak var laundryStepper: UIStepper!
+    
+    
+    
+    var orderCounter = cleaningOrderCount.init()
+    var userLocation = CLLocationCoordinate2D()
+    var userAddress  = String()
+    var userNotes    = String()
     
     
     
@@ -63,10 +70,22 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
         super.viewDidLoad()
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
+        self.notesTextfield.delegate = self
         loadUserData()
         updatePriceLabels()
-        addShadowsToAllButtons()
+        setUpUserInterface()
     }
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
+
+    
+    
+    
     
     
     //MARK: - LOAD CLEANER DATA FROM DB
@@ -128,6 +147,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     //add card view
     func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreatePaymentMethod paymentMethod: STPPaymentMethod, completion: @escaping STPErrorBlock) {
         submitPaymentMethodToBackend(paymentMethod: paymentMethod)
+        loadUserData()
         // Notify add card view controller that PaymentMethod creation was handled successfully
         completion(nil)
         // Dismiss add card view controller
@@ -135,32 +155,18 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     }
     
     
-    //submit to backend
-    func submitPaymentMethodToBackend (paymentMethod: STPPaymentMethod){
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let newPaymentMethod = ["newPaymentMethod": paymentMethod.stripeId,
-                                "cardBrand": STPCard.string(from: paymentMethod.card!.brand),
-                                "lastFour" : paymentMethod.card?.last4 ?? ""] as [String : Any]
-        Database.database().reference().child("stripe_customers").child(uid).updateChildValues(newPaymentMethod, withCompletionBlock: { (error, ref) in
-            return
-        })
-        
-        loadUserData()
-        
-    }
-    //end adding a card
+
     
     
     
     //default button touched
     @IBAction func dfbt(_ sender: UIButton) {
         buttonLabel.isHighlighted = true
-        print("button pressed")
-        print(calculateTotal())
+        setOrderCounter()
         let alertview = JSSAlertView().show(
             self,
             title: "Please Confirm Request",
-            text: "You will be charged $\(Double(calculateTotal()) + 0.49)",
+            text: "You will be charged $\(Double(calculateTotal(orderCount: orderCounter)) + cleanUpFee)",
             cancelButtonText: "Cancel")
         alertview.addAction {
             self.createCharge()
@@ -170,40 +176,15 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     //MARK: - CREATE CHARGE IN DB
     func createCharge(){
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("stripe_customers").child(uid).observeSingleEvent(of: .value) { (snapshot) in
-            let value = snapshot.value as? NSDictionary
-            let paymentMethod = value?["defaultPaymentMethod"] as? String ?? ""
-            let customerId = value?["customer_id"] as? String ?? ""
-            
-            let amount = (self.calculateTotal() * 100) + 49
-            
-            print("amount = \(amount)")
-            
-            let stripeCharge = ["amount": amount , "currency": "USD" , "paymentMethod" : paymentMethod, "customerId" : customerId] as [String : Any]
-            Database.database().reference().child("stripe_customers").child(uid).child("charges").updateChildValues(stripeCharge, withCompletionBlock: { (error, ref) in
-                if (error != nil){
-                    print(error ?? "")
-                }else{
-                    self.performSegue(withIdentifier: "paymentToProgressSegue", sender: nil)
-                }
-            })
-            self.updateAmountInDatabase(amount: amount, uid: uid)
+        setOrderCounter()
+        addPendingRequestToDatabase(userLocation: userLocation, userID: uid, orderCounter: orderCounter, userAddress: userAddress, note: notesTextfield)
+        if postChargeToDatabase(uid: uid, orderCounter: orderCounter) == false{
+            self.performSegue(withIdentifier: "paymentToProgressSegue", sender: nil)
         }
+        
     }
     
-    //MARK: - UPDATES AMOUNT IN DB
-    func updateAmountInDatabase(amount: Int, uid: String){
-        let stripeCharge = ["amount": amount, "paid": true] as [String : Any]
-        Database.database().reference().child("currentRequests").child(uid).updateChildValues(stripeCharge, withCompletionBlock: { (error, ref) in
-            if error != nil {
-                print(error ?? "")
-            }
-            else{
-                return
-            }
-        })
-    }
-    
+
     
     
     
@@ -212,19 +193,16 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     //MARK: - UI FUNCTIONS
     
     //MARK: - MASTER BEDROOM STUFF
-    @IBAction func masterBedroomButtonTapped(_ sender: Any) {
-        if masterBedroomText.text == "0" {
-            masterBedroomText.text = "1"
-        }
-        else{
-            masterBedroomText.text = "0"
-        }
+
+    @IBAction func masterStepperTapped(_ sender: UIStepper) {
+        masterStepper.maximumValue = 2
+        masterBedroomText.text = Int(sender.value).description
         updatePriceLabels()
     }
     
     func updateMasterLabel(){
         if let masterInt = Int(masterBedroomText.text ?? "0"){
-            let masterCost = masterInt * 12
+            let masterCost = masterInt * masterBedroomRoomPrice
             masterBedroomPriceLabel.text = "$\(masterCost).00"
         }
         else{
@@ -242,26 +220,21 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     
     //MARK: - KITCHEN W/ DISHES STUFF
     
-    @IBAction func kitchenWithDishesButtonTapped(_ sender: Any) {
-        if kitchenWithDishesText.text == "0"{
-            kitchenWithDishesText.text = "1"
-        }
-        else{
-            kitchenWithDishesText.text = "0"
-        }
+    @IBAction func kitchenDishesStepperTapped(_ sender: UIStepper) {
+        kitchenWithDishesText.text = Int(sender.value).description
         updatePriceLabels()
     }
+    
     func updateKitchenWithDishesLabel(){
         if let kitchenWithDishesInt = Int(kitchenWithDishesText.text ?? "0"){
-            let kitchenWithDishesCost = kitchenWithDishesInt * 14
+            let kitchenWithDishesCost = kitchenWithDishesInt * kitchenDishPrice
             kitchenWithDishesLabel.text = "$\(kitchenWithDishesCost).00"
         }
         else{
             kitchenWithDishesLabel.text = "$0.00"
         }
     }
-    
-    @IBAction func kitchenWithDishesTextDidChange(_ sender: Any) {
+        @IBAction func kitchenWithDishesTextDidChange(_ sender: Any) {
         updatePriceLabels()
         if Int(kitchenWithDishesText.text ?? "0") ?? 0 > 2 {
             kitchenWithDishesText.text = "0"
@@ -270,18 +243,14 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     }
     //MARK:- KITCHEN STUFF
     
-    @IBAction func kitchenButtonTapped(_ sender: Any) {
-        if kitchenText.text == "0"{
-            kitchenText.text = "1"
-        }
-        else{
-            kitchenText.text = "0"
-        }
+    @IBAction func kitchenStepperTapped(_ sender: UIStepper) {
+        kitchenText.text = Int(kitchenStepper.value).description
         updatePriceLabels()
     }
+    
     func updateKitchenLabel(){
         if let kitchenInt = Int(kitchenText.text ?? "0"){
-            let kitchenCost = kitchenInt * 10
+            let kitchenCost = kitchenInt * kitchenPrice
             kitchenTextLabel.text = "$\(kitchenCost).00"
         }
         else{
@@ -299,19 +268,16 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     
     //MARK: - REGULAR BEDROOM
     
-    @IBAction func regularBedroomButtonTapped(_ sender: Any) {
-        if regularBedroomText.text == "0"{
-            regularBedroomText.text = "1"
-        }
-        else{
-            regularBedroomText.text = "0"
-        }
+    @IBAction func regularStepperTapped(_ sender: UIStepper) {
+        regularBedroomText.text = Int(sender.value).description
         updatePriceLabels()
     }
     
+
+    
     func updateRegularBedroomLabel(){
         if let regularBedroomInt = Int(regularBedroomText.text ?? "0"){
-                  let regularBedroomCost = regularBedroomInt * 10
+                  let regularBedroomCost = regularBedroomInt * regularRoomPrice
                   regularBedroomPriceLabel.text = "$\(regularBedroomCost).00"
               }
               else{
@@ -330,19 +296,15 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     
     //MARK:- GARAGE STUFF
     
-    @IBAction func garageButtonTapped(_ sender: Any) {
-        if garageText.text == "0"{
-            garageText.text = "1"
-        }
-        else{
-            garageText.text = "0"
-        }
+    @IBAction func garageStepperTapped(_ sender: UIStepper) {
+        garageText.text = Int(sender.value).description
         updatePriceLabels()
     }
     
+    
     func updateGarageLabel(){
         if let garageInt = Int(garageText.text ?? "0"){
-            let garageCost = garageInt * 12
+            let garageCost = garageInt * garagePrice
             garagePriceLabel.text = "$\(garageCost).00"
         }
         else{
@@ -359,19 +321,15 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     }
     
     //MARK: - LAUNDRY STUFF
-    @IBAction func laundryButtonTapped(_ sender: Any) {
-        if laundryText.text == "0"{
-            laundryText.text = "1"
-        }
-        else{
-            laundryText.text = "0"
-        }
+
+    @IBAction func laundryStepperTapped(_ sender: UIStepper) {
+        laundryText.text = Int(sender.value).description
         updatePriceLabels()
     }
     
     func updateLaundryLabel(){
         if let laundryInt = Int(laundryText.text ?? "0"){
-            let laundryCost = laundryInt * 8
+            let laundryCost = laundryInt * laundryPrice
             laundryPriceLabel.text = "$\(laundryCost).00"
         }
         else{
@@ -392,15 +350,9 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
     
     //MARK: - GENERAL UI STUFF
     func addShadowsToAllButtons(){
-        addShadowToButton(button: masterButton)
         addShadowToButton(button: cancelButton)
         addShadowToButton(button: defaultPaymentButton)
         addShadowToButton(button: newPaymentButton)
-        addShadowToButton(button: laundryButton)
-        addShadowToButton(button: garageButton)
-        addShadowToButton(button: regularBedroomButton)
-        addShadowToButton(button: kitchenButton)
-        addShadowToButton(button: kitchenWithDishesButton)
     }
     
     func showTooManyLabel(max : Int){
@@ -413,14 +365,13 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
         tooManyLabel.isHidden = true
     }
     
-    
-    func addShadowToButton(button : UIButton){
-        button.layer.shadowColor = UIColor(red:0.74, green:0.58, blue:0.57, alpha:1.0).cgColor
-        button.layer.shadowOffset = CGSize(width: 3.5, height: 5.0)
-        button.layer.shadowOpacity = 0.3
-        button.layer.shadowRadius = 0.0
-        button.layer.masksToBounds = false
+    func setUpUserInterface(){
+        serviceFeeLabel.text = "Service Fee: $\(cleanUpFee)"
+        addShadowsToAllButtons()
+        setStepperMaximums(masterStepper: masterStepper, kitchenDishStepper: kitchenDishStepper, kitchenStepper: kitchenStepper, regularStepper: regularBedroomStepper, garageStepper: garageStepper, laundryStepper: laundryStepper)
+        
     }
+
     
     
     
@@ -435,26 +386,17 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
         updateTotalLabel()
     }
     
-    func textfieldToInt(textfield : UITextField) -> Int {
-        return Int(textfield.text ?? "0") ?? 0
+    
+    func setOrderCounter(){
+        orderCounter.setAllWithTextFields(masterTextField: masterBedroomText, kitchenDishTextField: kitchenWithDishesText, kitchenTextField: kitchenText, regularTextField: regularBedroomText, garageTextField: garageText, laundryTextField: laundryText)
     }
     
     
     func updateTotalLabel(){
-        totalLabel.text = "Total: $\(calculateTotal()).49 "
+        setOrderCounter()
+        totalLabel.text = "Total: $\(Double(calculateTotal(orderCount: orderCounter)) + cleanUpFee)"
     }
     
-    func calculateTotal() -> Int {
-        //TODO: - write the function
-        let masterCost = textfieldToInt(textfield: masterBedroomText) * 12
-        let kitchenDishCost = textfieldToInt(textfield: kitchenWithDishesText) * 14
-        let kitchenCost = textfieldToInt(textfield: kitchenText) * 10
-        let regularCost = textfieldToInt(textfield: regularBedroomText) * 10
-        let garageCost = textfieldToInt(textfield: garageText) * 12
-        let laundryCost = textfieldToInt(textfield: laundryText) * 8
-        let total = masterCost + kitchenDishCost + kitchenCost + regularCost + laundryCost + garageCost
-        return total
-    }
     
     func updateDefaultButton(imageName: String){
         imageView.image = UIImage(named: imageName)
@@ -485,10 +427,16 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate 
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("currentRequests").child(uid).removeValue()
         Database.database().reference().child("stripe_customers").child(uid).child("charges").removeValue()
-        
         performSegue(withIdentifier: "cancelSegue", sender: nil)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "paymentToProgressSegue"{
+            if let destinationVC = segue.destination as? progressViewController {
+                destinationVC.orderCounter = orderCounter
+            }
+        }
+    }
     
     
     

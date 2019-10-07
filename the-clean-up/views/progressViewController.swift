@@ -19,12 +19,17 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
     let regionInMeters: Double = 10000
     
     @IBOutlet weak var amountLabel: UILabel!
-    @IBOutlet weak var numRoomsLabel: UILabel!
-    @IBOutlet weak var numCleanersLabel: UILabel!
+
     @IBOutlet weak var minutesAwayLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     
+    @IBOutlet weak var orderDescriptionLabel: UILabel!
+    
+    
+    
+    var orderCounter = cleaningOrderCount.init()
+
     
     
 
@@ -96,9 +101,9 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
     
     func lookingForADriver(){
         titleLabel.text = "Looking for a driver!"
-        titleLabel.textColor = UIColor.red
         self.minutesAwayLabel.ay.startLoading(message: "Searching...")
         minutesAwayLabel.text = ""
+        orderDescriptionLabel.text = orderCounter.orderCounterToString()
     }
     
     
