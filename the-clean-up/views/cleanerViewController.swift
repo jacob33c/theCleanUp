@@ -17,7 +17,7 @@
         
 //MARK:- ARRAYS
         var currentRequests : [DataSnapshot] = []
-        var arrayWithDistance : [locationWithDistance] = []
+        var arrayWithDistance : [Request] = []
         var directionsArray: [MKDirections] = []
         
 //MARK:- BOOLEANS
@@ -39,6 +39,10 @@
         
 //MARK:- LABELS
         @IBOutlet weak var addressLabel: UILabel!
+
+//MARK:- Request
+        var request = Request()
+
 
 
 
@@ -69,6 +73,18 @@
                 }
             }
         }
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if segue.identifier == "cleanerProgressSegue"{
+                if let destinationVC = segue.destination as? cleanerProgressViewController{
+                    destinationVC.orderCount  = request.order
+                    destinationVC.requestNote = request.note
+                }
+            }
+        }
+        
+        
+        
+        
         
         
         
@@ -121,11 +137,13 @@
                     if let hasBeenShown = cleanRequestDictionary["shownToADriver"] as? Bool{
                     if let address = cleanRequestDictionary["address"] as? String{
                     if let amount = cleanRequestDictionary["amount"] as? Int{
-                       let note             = cleanRequestDictionary["note"] as? String ?? "No Note"
-                       let riderCLLocation  = CLLocation(latitude: lat, longitude: long)
-                       let driverCLLocation = CLLocation(latitude: driverLocation.latitude, longitude: driverLocation.longitude)
-                       let request = addToArrayWithDistance(riderCLLocation: riderCLLocation, driverCLLocation: driverCLLocation, index: index, uid: uid, hasBeenShown: hasBeenShown, address: address, amount: amount, note: note)
-                      arrayWithDistance.append(request)
+                    if let order  = cleanRequestDictionary["roomCount"] as? [String :Any] {
+                    let note             = cleanRequestDictionary["note"] as? String ?? "No Note"
+                    let riderCLLocation  = CLLocation(latitude: lat, longitude: long)
+                    let driverCLLocation = CLLocation(latitude: driverLocation.latitude, longitude: driverLocation.longitude)
+                    let request = addToArrayWithDistance(riderCLLocation: riderCLLocation, driverCLLocation: driverCLLocation, index: index, uid: uid, hasBeenShown: hasBeenShown, address: address, amount: amount, note: note, order: order)
+                    arrayWithDistance.append(request)
+                    }
                     }
                     }
                     }
@@ -152,7 +170,7 @@
         
         
         
-        func sortDistances (arrayWithDistances : [locationWithDistance] ) -> [locationWithDistance]{
+        func sortDistances (arrayWithDistances : [Request] ) -> [Request]{
             var answer = arrayWithDistances
             answer = answer.sorted{
                 $0.distance < $1.distance
@@ -165,7 +183,7 @@
         
         
         
-        func printDistances(array: [locationWithDistance]){
+        func printDistances(array: [Request]){
             for i in array{
                 print("distance is \(i.distance)")
             }
@@ -181,20 +199,22 @@
                 Database.database().reference().child("currentRequests").child(closestRequest.uid).updateChildValues(shownUpdate, withCompletionBlock: { (error, ref) in
                     return
                 })
-                print("func ran")
-                print("distance = \(closestRequest.distance)")
-                print("lat = \(closestRequest.userLat)")
-                if closestRequest.distance < 5 && closestRequest.userLat != 0{
+                let miles = kilometersToMiles(distance: closestRequest.distance)
+                playRequestFoundSound()
+                if closestRequest.distance < 9 && closestRequest.userLat != 0{
                     print("request found")
                     let alert = JSSAlertView().show(
                         self,
-                        title: "Clean Request \(closestRequest.distance) KM away",
-                        text: "Request for $\(Double(closestRequest.amount) / 100.00)",
+                        title:"Order will pay $\(costMinusServiceFee(amount: closestRequest.amount))",
+                        text: distanceToString(distance: miles),
                         buttonText: "Accept",
                         cancelButtonText: "Decline",
-                        color: UIColor(red:0.60, green:0.82, blue:0.80, alpha:1.0)
+                        color: UIColor(red:0.48, green:0.88, blue:0.68, alpha:1.0),
+                        iconImage: UIImage(named: "payIcon")
                     )
                     inTheMiddleOfRequst = true
+                    alert.setTitleFont("Futura-CondensedExtraBold")
+                    alert.setTextFont("Futura-CondensedExtraBold")
                     alert.addAction {self.acceptRequest(userID: closestRequest.uid, address: closestRequest.address)}
                     alert.addCancelAction {self.denyRequest(userID: closestRequest.uid)}
                 }
@@ -231,6 +251,8 @@
         
         
         func acceptRequest(userID: String, address : String){
+            request = arrayWithDistance[0]
+            print("request order master = \(request.order.masterBedroomCount)")
             hideOnlineButtonShowArrivedButton()
             print("request accepted")
             addressLabel.ay.startLoading()

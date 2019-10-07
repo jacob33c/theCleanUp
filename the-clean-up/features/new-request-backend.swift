@@ -52,11 +52,13 @@ func orderCounterToDict(orderCount : cleaningOrderCount) -> [String : Any]{
 }
 
 
-func dictToOrderCounter(orderDictionar: [String: Any]) -> cleaningOrderCount{
-    let orderCount = cleaningOrderCount()
-    
-    
-    
-    
+func dictToOrderCounter(orderDictionary: [String: Any]) -> cleaningOrderCount{
+    var orderCount                = cleaningOrderCount()
+    orderCount.masterBedroomCount = orderDictionary["masterCount"]      as? Int ?? 0
+    orderCount.kitchenDishCount   = orderDictionary["kitchenDishCount"] as? Int ?? 0
+    orderCount.kitchenCount       = orderDictionary["kitchenCount"]     as? Int ?? 0
+    orderCount.regularRoomCount   = orderDictionary["regularCount"]     as? Int ?? 0
+    orderCount.garageCount        = orderDictionary["garageCount"]      as? Int ?? 0
+    orderCount.laundryCount       = orderDictionary["laundryCount"]     as? Int ?? 0
     return orderCount
 }

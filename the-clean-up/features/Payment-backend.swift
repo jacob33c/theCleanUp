@@ -17,6 +17,7 @@ let regularRoomPrice       = 15
 let garagePrice            = 20
 let laundryPrice           = 15
 let cleanUpFee             = 1.49
+let serviceFeePercentage   = 0.15
 
 
 //MARK:- MAXIMUMS
@@ -110,6 +111,30 @@ func setStepperMaximums(masterStepper: UIStepper, kitchenDishStepper : UIStepper
     laundryStepper.maximumValue      = laundryMax
 }
 
+func kilometersToMiles(distance: Double) -> Double{
+    let miles           = distance / 1.6
+    let roundedDistance = round(miles * 10.0) / 10.0
+    return roundedDistance
+}
+
+func distanceToString(distance: Double) -> String{
+    var distanceString = String()
+    if distance < 1 {
+        distanceString = "Distance: <1 Mile Away"
+    }
+    else {
+        distanceString = "Distance: \(distance) Miles away"
+    }
+    return distanceString
+}
 
 
+func costMinusServiceFee(amount: Int) -> Double{
+    var payout        = Double()
+    let doubleAmount  = Double(amount) / 100.00
+    let fee           = doubleAmount * serviceFeePercentage
+    payout            = doubleAmount - fee
+    let roundedPayout = round(payout * 100.0) / 100.0
+    return roundedPayout
+}
 
