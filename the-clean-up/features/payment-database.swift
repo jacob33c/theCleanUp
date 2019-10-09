@@ -16,12 +16,12 @@ func postChargeToDatabase(uid : String, orderCounter: cleaningOrderCount) -> Boo
     var errorIsPresent : Bool = false
     
     Database.database().reference().child("stripe_customers").child(uid).observeSingleEvent(of: .value) { (snapshot) in
-        let value = snapshot.value as? NSDictionary
-        let paymentMethod = value?["defaultPaymentMethod"] as? String ?? ""
-        let customerId = value?["customer_id"] as? String ?? ""
-        let amount = (calculateTotal(orderCount: orderCounter) * 100) + Int(cleanUpFee * 100)
+        let value           = snapshot.value as? NSDictionary
+        let paymentMethod   = value?["defaultPaymentMethod"] as? String ?? ""
+        let customerId      = value?["customer_id"] as? String ?? ""
+        let amount          = ((calcTotalWithFees(orderCount: orderCounter) * 100))
         
-        print("amount = \(amount)")
+        print("amount submitted = \(amount)")
         
         let stripeCharge = ["amount": amount , "currency": "USD" , "paymentMethod" : paymentMethod, "customerId" : customerId] as [String : Any]
         Database.database().reference().child("stripe_customers").child(uid).child("charges").updateChildValues(stripeCharge, withCompletionBlock: { (error, ref) in

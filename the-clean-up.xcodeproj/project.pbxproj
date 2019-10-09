@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		B307EC0761CC41BA32833E74 /* Pods_the_clean_up.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD10BC08AF535BB5EEF1808 /* Pods_the_clean_up.framework */; };
 		EB1C33202325DF2F00EFE0D9 /* MyApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1C331F2325DF2F00EFE0D9 /* MyApiClient.swift */; };
-		EB1C3731231B82000084ACEE /* settingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1C3730231B82000084ACEE /* settingsViewController.swift */; };
-		EB1C3733231CC6150084ACEE /* paymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1C3732231CC6150084ACEE /* paymentViewController.swift */; };
+		EB1C3731231B82000084ACEE /* user-settings-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1C3730231B82000084ACEE /* user-settings-ViewController.swift */; };
+		EB1C3733231CC6150084ACEE /* user-payment-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1C3732231CC6150084ACEE /* user-payment-ViewController.swift */; };
 		EB1C3735231DD6C00084ACEE /* createUsernameFromEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1C3734231DD6C00084ACEE /* createUsernameFromEmail.swift */; };
 		EB1C37372320BADE0084ACEE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EB1C37362320BADE0084ACEE /* Default-568h@2x.png */; };
 		EB1E6E9F2315F2D800B2BC31 /* button-features.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6E9E2315F2D800B2BC31 /* button-features.swift */; };
@@ -20,14 +20,16 @@
 		EB1E6EA823176D5700B2BC31 /* user-login-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EA723176D5700B2BC31 /* user-login-ViewController.swift */; };
 		EB1E6EAA23176D6F00B2BC31 /* user-signup-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EA923176D6F00B2BC31 /* user-signup-ViewController.swift */; };
 		EB1E6EBA231777CF00B2BC31 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB1E6EB9231777CF00B2BC31 /* GoogleService-Info.plist */; };
-		EB1E6EBC2317851300B2BC31 /* userViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EBB2317851300B2BC31 /* userViewController.swift */; };
-		EB1E6EBE2317852B00B2BC31 /* cleanerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EBD2317852B00B2BC31 /* cleanerViewController.swift */; };
-		EB36FAED2335BA17006330CB /* progressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB36FAEC2335BA17006330CB /* progressViewController.swift */; };
+		EB1E6EBC2317851300B2BC31 /* user-main-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EBB2317851300B2BC31 /* user-main-ViewController.swift */; };
+		EB1E6EBE2317852B00B2BC31 /* cleaner-main-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EBD2317852B00B2BC31 /* cleaner-main-ViewController.swift */; };
+		EB36FAED2335BA17006330CB /* user-progress-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB36FAEC2335BA17006330CB /* user-progress-ViewController.swift */; };
+		EB4FED81234D822300FD8F70 /* included-in-room.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4FED80234D822300FD8F70 /* included-in-room.swift */; };
+		EB4FED83234D863D00FD8F70 /* user-includedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4FED82234D863D00FD8F70 /* user-includedViewController.swift */; };
 		EB5B8AA5234901BE0043C988 /* Payment-backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B8AA4234901BE0043C988 /* Payment-backend.swift */; };
 		EB5B8AA72349724F0043C988 /* payment-database.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B8AA62349724F0043C988 /* payment-database.swift */; };
 		EB5B8AA9234980720043C988 /* new-request-backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B8AA8234980720043C988 /* new-request-backend.swift */; };
 		EB5B8AAB234ACC520043C988 /* cleaner-backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B8AAA234ACC520043C988 /* cleaner-backend.swift */; };
-		EB5B8AAD234BB9870043C988 /* cleanerProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B8AAC234BB9870043C988 /* cleanerProgressViewController.swift */; };
+		EB5B8AAD234BB9870043C988 /* cleaner-progressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B8AAC234BB9870043C988 /* cleaner-progressViewController.swift */; };
 		EB5B8AAF234BEAEF0043C988 /* playSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B8AAE234BEAEF0043C988 /* playSound.swift */; };
 		EB5B8AB1234BF1F30043C988 /* Cashapp Notification Sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB5B8AB0234BF1F20043C988 /* Cashapp Notification Sound.mp3 */; };
 		EB5B8AB4234BF8D30043C988 /* moneyNotification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EB5B8AB2234BF1F60043C988 /* moneyNotification.mp3 */; };
@@ -43,8 +45,8 @@
 		BFD10BC08AF535BB5EEF1808 /* Pods_the_clean_up.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_the_clean_up.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D21158E6C497335565824F9F /* Pods-the-clean-up.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-the-clean-up.debug.xcconfig"; path = "Target Support Files/Pods-the-clean-up/Pods-the-clean-up.debug.xcconfig"; sourceTree = "<group>"; };
 		EB1C331F2325DF2F00EFE0D9 /* MyApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApiClient.swift; sourceTree = "<group>"; };
-		EB1C3730231B82000084ACEE /* settingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsViewController.swift; sourceTree = "<group>"; };
-		EB1C3732231CC6150084ACEE /* paymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = paymentViewController.swift; sourceTree = "<group>"; };
+		EB1C3730231B82000084ACEE /* user-settings-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "user-settings-ViewController.swift"; sourceTree = "<group>"; };
+		EB1C3732231CC6150084ACEE /* user-payment-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "user-payment-ViewController.swift"; sourceTree = "<group>"; };
 		EB1C3734231DD6C00084ACEE /* createUsernameFromEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createUsernameFromEmail.swift; sourceTree = "<group>"; };
 		EB1C37362320BADE0084ACEE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		EB1E6E9E2315F2D800B2BC31 /* button-features.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "button-features.swift"; sourceTree = "<group>"; };
@@ -54,14 +56,17 @@
 		EB1E6EA723176D5700B2BC31 /* user-login-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "user-login-ViewController.swift"; sourceTree = "<group>"; };
 		EB1E6EA923176D6F00B2BC31 /* user-signup-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "user-signup-ViewController.swift"; sourceTree = "<group>"; };
 		EB1E6EB9231777CF00B2BC31 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		EB1E6EBB2317851300B2BC31 /* userViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userViewController.swift; sourceTree = "<group>"; };
-		EB1E6EBD2317852B00B2BC31 /* cleanerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cleanerViewController.swift; sourceTree = "<group>"; };
-		EB36FAEC2335BA17006330CB /* progressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = progressViewController.swift; sourceTree = "<group>"; };
+		EB1E6EBB2317851300B2BC31 /* user-main-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "user-main-ViewController.swift"; sourceTree = "<group>"; };
+		EB1E6EBD2317852B00B2BC31 /* cleaner-main-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "cleaner-main-ViewController.swift"; sourceTree = "<group>"; };
+		EB36FAEC2335BA17006330CB /* user-progress-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "user-progress-ViewController.swift"; sourceTree = "<group>"; };
+		EB4FED80234D822300FD8F70 /* included-in-room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "included-in-room.swift"; sourceTree = "<group>"; };
+		EB4FED82234D863D00FD8F70 /* user-includedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "user-includedViewController.swift"; sourceTree = "<group>"; };
+		EB4FED84234D893000FD8F70 /* Cashapp Notification Sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Cashapp Notification Sound.mp3"; sourceTree = "<group>"; };
 		EB5B8AA4234901BE0043C988 /* Payment-backend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Payment-backend.swift"; sourceTree = "<group>"; };
 		EB5B8AA62349724F0043C988 /* payment-database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "payment-database.swift"; sourceTree = "<group>"; };
 		EB5B8AA8234980720043C988 /* new-request-backend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "new-request-backend.swift"; sourceTree = "<group>"; };
 		EB5B8AAA234ACC520043C988 /* cleaner-backend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "cleaner-backend.swift"; sourceTree = "<group>"; };
-		EB5B8AAC234BB9870043C988 /* cleanerProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cleanerProgressViewController.swift; sourceTree = "<group>"; };
+		EB5B8AAC234BB9870043C988 /* cleaner-progressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "cleaner-progressViewController.swift"; sourceTree = "<group>"; };
 		EB5B8AAE234BEAEF0043C988 /* playSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = playSound.swift; sourceTree = "<group>"; };
 		EB5B8AB0234BF1F20043C988 /* Cashapp Notification Sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Cashapp Notification Sound.mp3"; path = "../../../../../Downloads/Cashapp Notification Sound.mp3"; sourceTree = "<group>"; };
 		EB5B8AB2234BF1F60043C988 /* moneyNotification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = moneyNotification.mp3; sourceTree = "<group>"; };
@@ -108,14 +113,15 @@
 			children = (
 				EB1E6EA223174B9800B2BC31 /* cleaner-login-ViewController.swift */,
 				EB1E6EA523176B8C00B2BC31 /* cleaner-signup-ViewController.swift */,
-				EB1E6EBD2317852B00B2BC31 /* cleanerViewController.swift */,
-				EB5B8AAC234BB9870043C988 /* cleanerProgressViewController.swift */,
+				EB1E6EBD2317852B00B2BC31 /* cleaner-main-ViewController.swift */,
+				EB5B8AAC234BB9870043C988 /* cleaner-progressViewController.swift */,
 				EB1E6EA723176D5700B2BC31 /* user-login-ViewController.swift */,
 				EB1E6EA923176D6F00B2BC31 /* user-signup-ViewController.swift */,
-				EB1E6EBB2317851300B2BC31 /* userViewController.swift */,
-				EB1C3732231CC6150084ACEE /* paymentViewController.swift */,
-				EB36FAEC2335BA17006330CB /* progressViewController.swift */,
-				EB1C3730231B82000084ACEE /* settingsViewController.swift */,
+				EB1E6EBB2317851300B2BC31 /* user-main-ViewController.swift */,
+				EB1C3732231CC6150084ACEE /* user-payment-ViewController.swift */,
+				EB36FAEC2335BA17006330CB /* user-progress-ViewController.swift */,
+				EB1C3730231B82000084ACEE /* user-settings-ViewController.swift */,
+				EB4FED82234D863D00FD8F70 /* user-includedViewController.swift */,
 				EBBE36BA2314898900442BD8 /* main-controller.swift */,
 			);
 			path = views;
@@ -142,6 +148,7 @@
 				EB5B8AA62349724F0043C988 /* payment-database.swift */,
 				EB5B8AA8234980720043C988 /* new-request-backend.swift */,
 				EB5B8AAA234ACC520043C988 /* cleaner-backend.swift */,
+				EB4FED80234D822300FD8F70 /* included-in-room.swift */,
 				EB5B8AAE234BEAEF0043C988 /* playSound.swift */,
 				EB5B8AB3234BF76B0043C988 /* sounds */,
 			);
@@ -160,6 +167,7 @@
 		EB5B8AB3234BF76B0043C988 /* sounds */ = {
 			isa = PBXGroup;
 			children = (
+				EB4FED84234D893000FD8F70 /* Cashapp Notification Sound.mp3 */,
 				EB5B8AB2234BF1F60043C988 /* moneyNotification.mp3 */,
 			);
 			path = sounds;
@@ -316,24 +324,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB5B8AAD234BB9870043C988 /* cleanerProgressViewController.swift in Sources */,
+				EB5B8AAD234BB9870043C988 /* cleaner-progressViewController.swift in Sources */,
+				EB4FED81234D822300FD8F70 /* included-in-room.swift in Sources */,
 				EB1E6EA823176D5700B2BC31 /* user-login-ViewController.swift in Sources */,
 				EB1C3735231DD6C00084ACEE /* createUsernameFromEmail.swift in Sources */,
 				EB5B8AA5234901BE0043C988 /* Payment-backend.swift in Sources */,
-				EB1E6EBE2317852B00B2BC31 /* cleanerViewController.swift in Sources */,
+				EB1E6EBE2317852B00B2BC31 /* cleaner-main-ViewController.swift in Sources */,
 				EB1E6EA323174B9800B2BC31 /* cleaner-login-ViewController.swift in Sources */,
-				EB1C3733231CC6150084ACEE /* paymentViewController.swift in Sources */,
+				EB1C3733231CC6150084ACEE /* user-payment-ViewController.swift in Sources */,
 				EB5B8AAF234BEAEF0043C988 /* playSound.swift in Sources */,
 				EB1E6EAA23176D6F00B2BC31 /* user-signup-ViewController.swift in Sources */,
 				EBBE36BB2314898900442BD8 /* main-controller.swift in Sources */,
 				EB1C33202325DF2F00EFE0D9 /* MyApiClient.swift in Sources */,
 				EBBE36B92314898900442BD8 /* AppDelegate.swift in Sources */,
 				EB1E6EA123174B0800B2BC31 /* one-line-text-field.swift in Sources */,
-				EB36FAED2335BA17006330CB /* progressViewController.swift in Sources */,
+				EB4FED83234D863D00FD8F70 /* user-includedViewController.swift in Sources */,
+				EB36FAED2335BA17006330CB /* user-progress-ViewController.swift in Sources */,
 				EB5B8AA72349724F0043C988 /* payment-database.swift in Sources */,
-				EB1C3731231B82000084ACEE /* settingsViewController.swift in Sources */,
+				EB1C3731231B82000084ACEE /* user-settings-ViewController.swift in Sources */,
 				EB5B8AA9234980720043C988 /* new-request-backend.swift in Sources */,
-				EB1E6EBC2317851300B2BC31 /* userViewController.swift in Sources */,
+				EB1E6EBC2317851300B2BC31 /* user-main-ViewController.swift in Sources */,
 				EB1E6E9F2315F2D800B2BC31 /* button-features.swift in Sources */,
 				EB1E6EA623176B8C00B2BC31 /* cleaner-signup-ViewController.swift in Sources */,
 				EB5B8AAB234ACC520043C988 /* cleaner-backend.swift in Sources */,

@@ -21,7 +21,7 @@ func getCenterLocation(for mapView: MKMapView) -> CLLocation {
 
 
 func addPendingRequestToDatabase(userLocation: CLLocationCoordinate2D, userID : String, orderCounter : cleaningOrderCount, userAddress: String, note: UITextField){
-    let amount           = (calculateTotal(orderCount: orderCounter) * 100) + Int(cleanUpFee * 100)
+    let amount           = (Int(calcTotalWithFees(orderCount: orderCounter) * 100))
     let lat              = userLocation.latitude
     let long             = userLocation.longitude
     let shownToADriver   = false
@@ -62,3 +62,5 @@ func dictToOrderCounter(orderDictionary: [String: Any]) -> cleaningOrderCount{
     orderCount.laundryCount       = orderDictionary["laundryCount"]     as? Int ?? 0
     return orderCount
 }
+
+

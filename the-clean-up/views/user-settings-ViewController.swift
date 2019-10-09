@@ -22,9 +22,16 @@ class settingsViewController: UIViewController {
     @IBOutlet weak var passwordLabel: UILabel!
     @IBOutlet weak var confirmPasswordLabel: UILabel!
     
+//MARK:- buttons
+    
+    @IBOutlet var settingsButton: [UIButton]!
+    
+    
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        addShadowToButtons(buttons: settingsButton)
         loadUserData()
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)

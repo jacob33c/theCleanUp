@@ -18,6 +18,7 @@ let garagePrice            = 20
 let laundryPrice           = 15
 let cleanUpFee             = 1.49
 let serviceFeePercentage   = 0.15
+let feePerCleaner          = 4.99
 
 
 //MARK:- MAXIMUMS
@@ -27,6 +28,9 @@ let kitchenMax       = 2.0
 let regularMax       = 4.0
 let garageMax        = 1.0
 let laundryMax       = 4.0
+
+//MARK:- MISC VARIABLES
+let roomsPerCleaner = 3.0
 
 
 
@@ -65,6 +69,39 @@ struct cleaningOrderCount {
         laundryCount       = textfieldToInt(textfield: laundryTextField)
     }
     
+    func requiredCleaners() -> Int{
+        var minRequiredCleaners = Int()
+        let roomCount           = masterBedroomCount + kitchenDishCount + kitchenCount +
+                                regularRoomCount + garageCount + (laundryCount / 2)
+        let cleanersRequired = Double(roomCount) / roomsPerCleaner
+        print("cleanersRequired = \(cleanersRequired)")
+        if cleanersRequired < 1 {
+            minRequiredCleaners = 1
+        }
+        else if cleanersRequired >= 1 && cleanersRequired < 2{
+            minRequiredCleaners = 2
+        }
+        else if cleanersRequired >= 2 && cleanersRequired < 3{
+            minRequiredCleaners = 3
+        }
+        else if cleanersRequired >= 3 && cleanersRequired < 4{
+            minRequiredCleaners = 4
+        }
+        else {
+            minRequiredCleaners = 5
+        }
+        return minRequiredCleaners
+    }
+    
+    func requiredCleanerFee() -> Double{
+        let fee        = Double(requiredCleaners()) * feePerCleaner + cleanUpFee
+        let roundedFee = round(fee * 100.00) / 100.00
+        return roundedFee
+    }
+    
+    
+    
+    
     func orderCounterToString() -> String{
         var orderCountDesription = ""
         if masterBedroomCount > 0 {
@@ -97,7 +134,6 @@ func calculateTotal(orderCount : cleaningOrderCount) -> Int {
     let regularCost       = orderCount.regularRoomCount   * regularRoomPrice
     let garageCost        = orderCount.garageCount        * garagePrice
     let laundryCost       = orderCount.laundryCount       * laundryPrice
-    
     return masterBedroomCost + kitchenDishCost + kitchenCost + regularCost + garageCost + laundryCost
 }
 
@@ -137,4 +173,13 @@ func costMinusServiceFee(amount: Int) -> Double{
     let roundedPayout = round(payout * 100.0) / 100.0
     return roundedPayout
 }
+
+
+func calcTotalWithFees(orderCount: cleaningOrderCount) -> Double {
+    let total        = (Double(calculateTotal(orderCount: orderCount)) + orderCount.requiredCleanerFee())
+    let roundedTotal = round(total * 100.00) / 100.00
+    
+    return roundedTotal
+}
+
 

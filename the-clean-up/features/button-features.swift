@@ -56,3 +56,8 @@ func addShadowToButton(button : UIButton){
     button.layer.masksToBounds = false
 }
 
+func addShadowToButtons(buttons: [UIButton]){
+    for button in buttons{
+        addShadowToButton(button: button)
+    }
+}

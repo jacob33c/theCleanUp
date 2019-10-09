@@ -13,7 +13,7 @@ import JSSAlertView
 import FirebaseAuth
 import FirebaseDatabase
 
-class userViewController: UIViewController {
+class userViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var addressLabel: UILabel!
@@ -30,15 +30,28 @@ class userViewController: UIViewController {
     
     @IBOutlet weak var requestButton: UIButton!
     
+    @IBOutlet weak var apartmentNumberText: UITextField!
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         checkLocationServices()
         authenticateUser()
         updateMapOnce()
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
+        self.apartmentNumberText.delegate = self
         addShadowToButton(button: requestButton)
 
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
     
     //set up the location manager
     func setupLocationManager() {
@@ -243,7 +256,8 @@ class userViewController: UIViewController {
         if segue.identifier == "requestSegue"{
             if let destinationVC = segue.destination as? paymentViewController {
                 destinationVC.userLocation = getCenterLocation(for: mapView).coordinate
-                destinationVC.userAddress  = addressLabel.text ?? "no address recorded, please call your client"
+                let addressString          = (addressLabel.text ??  "no address recorded, please contact client") + " Room: " + (apartmentNumberText.text ?? "no room #")
+                destinationVC.userAddress  = addressString
             }
         }
     }

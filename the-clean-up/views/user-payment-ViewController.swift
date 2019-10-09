@@ -38,6 +38,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     @IBOutlet weak var cardBrandLabel: UILabel!
     @IBOutlet weak var buttonLabel: UILabel!
     @IBOutlet weak var serviceFeeLabel: UILabel!
+    @IBOutlet weak var minCleanersLabel: UILabel!
     
     //MARK:- TEXTFIELDS
     @IBOutlet weak var kitchenText: UITextField!
@@ -62,6 +63,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     var userLocation = CLLocationCoordinate2D()
     var userAddress  = String()
     var userNotes    = String()
+    var included     = RoomIncluded()
     
     
     
@@ -166,7 +168,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
         let alertview = JSSAlertView().show(
             self,
             title: "Please Confirm Request",
-            text: "You will be charged $\(Double(calculateTotal(orderCount: orderCounter)) + cleanUpFee)",
+            text: "You will be charged $\(calcTotalWithFees(orderCount: orderCounter))",
             cancelButtonText: "Cancel")
         alertview.addAction {
             self.createCharge()
@@ -217,6 +219,12 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
             showTooManyLabel(max: 2)
         }
     }
+    @IBAction func masterFeatureButtonTapped(_ sender: Any) {
+            included = masterInclude
+            performSegue(withIdentifier: "includedSegue", sender: nil)
+    }
+    
+    
     
     //MARK: - KITCHEN W/ DISHES STUFF
     
@@ -241,6 +249,13 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
             showTooManyLabel(max: 2)
         }
     }
+    @IBAction func kitchenDishFeatureTapped(_ sender: Any) {
+        included = kitchenDishInclude
+        performSegue(withIdentifier: "includedSegue", sender: nil)
+    }
+    
+    
+    
     //MARK:- KITCHEN STUFF
     
     @IBAction func kitchenStepperTapped(_ sender: UIStepper) {
@@ -263,8 +278,13 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
             kitchenText.text = "0"
             showTooManyLabel(max: 2)
         }
-        
     }
+    
+    @IBAction func kitchenFeatureTapped(_ sender: Any) {
+        included = kitchenInclude
+        performSegue(withIdentifier: "includedSegue", sender: nil)
+    }
+    
     
     //MARK: - REGULAR BEDROOM
     
@@ -272,9 +292,6 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
         regularBedroomText.text = Int(sender.value).description
         updatePriceLabels()
     }
-    
-
-    
     func updateRegularBedroomLabel(){
         if let regularBedroomInt = Int(regularBedroomText.text ?? "0"){
                   let regularBedroomCost = regularBedroomInt * regularRoomPrice
@@ -292,6 +309,12 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
                   showTooManyLabel(max: 4)
               }
     }
+    
+    @IBAction func regularFeatureTapped(_ sender: Any) {
+        included = regularInclude
+        performSegue(withIdentifier: "includedSegue", sender: nil)
+    }
+    
     
     
     //MARK:- GARAGE STUFF
@@ -320,6 +343,12 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
         }
     }
     
+    @IBAction func garageFeatureTapped(_ sender: Any) {
+        included = garageInclude
+        performSegue(withIdentifier: "includedSegue", sender: nil)
+    }
+    
+    
     //MARK: - LAUNDRY STUFF
 
     @IBAction func laundryStepperTapped(_ sender: UIStepper) {
@@ -345,6 +374,10 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
         }
     }
     
+    @IBAction func laundryFeatureTapped(_ sender: Any) {
+        included = laundryInclude
+        performSegue(withIdentifier: "includedSegue", sender: nil)
+    }
     
     
     
@@ -371,6 +404,10 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
         setStepperMaximums(masterStepper: masterStepper, kitchenDishStepper: kitchenDishStepper, kitchenStepper: kitchenStepper, regularStepper: regularBedroomStepper, garageStepper: garageStepper, laundryStepper: laundryStepper)
         
     }
+    
+    func updateMinCleanerLabel(){
+        minCleanersLabel.text = "Cleaners: \(orderCounter.requiredCleaners()) x $\(feePerCleaner)"
+    }
 
     
     
@@ -384,6 +421,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
         updateLaundryLabel()
         hideTooManyLabel()
         updateTotalLabel()
+        updateMinCleanerLabel()
     }
     
     
@@ -394,8 +432,10 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     
     func updateTotalLabel(){
         setOrderCounter()
-        totalLabel.text = "Total: $\(Double(calculateTotal(orderCount: orderCounter)) + cleanUpFee)"
+        totalLabel.text = "Total: $\(calcTotalWithFees(orderCount: orderCounter))"
     }
+    
+
     
     
     func updateDefaultButton(imageName: String){
@@ -436,7 +476,14 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
                 destinationVC.orderCounter = orderCounter
             }
         }
+        if segue.identifier == "includedSegue"{
+            if let destinationVC = segue.destination as? userIncludedViewController {
+                destinationVC.included = included
+            }
+        }
     }
+    
+
     
     
     
