@@ -8,7 +8,7 @@
 
 import Foundation
 import MapKit
-
+import UIKit
 
 struct Request{
     var userLat: Double        = 0.00
@@ -43,3 +43,10 @@ func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLoc
     return request
 }
 
+
+
+func hideImagesInArray(images: [UIImageView]){
+    for image in images{
+        image.isHidden = true
+    }
+}

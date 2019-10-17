@@ -27,7 +27,15 @@ func addPendingRequestToDatabase(userLocation: CLLocationCoordinate2D, userID : 
     let shownToADriver   = false
     let noteText         = note.text ?? "No notes"
     
-    let requests = ["lat": lat , "long": long, "uid":userID, "shownToADriver": shownToADriver, "amount": amount, "roomCount" : orderCounterToDict(orderCount: orderCounter), "address" : userAddress, "note" : noteText] as [String : Any]
+    let requests = ["lat": lat ,
+                    "long": long,
+                    "uid":userID,
+                    "shownToADriver": shownToADriver,
+                    "amount": amount,
+                    "roomCount" : orderCounterToDict(orderCount: orderCounter),
+                    "address" : userAddress,
+                    "note" : noteText,
+                    "status" : "requestMode"] as [String : Any]
     Database.database().reference().child("currentRequests").child(userID).updateChildValues(requests, withCompletionBlock: { (error, ref) in
         return
     })

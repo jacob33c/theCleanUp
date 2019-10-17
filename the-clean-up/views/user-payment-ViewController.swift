@@ -13,6 +13,8 @@ import Stripe
 import JSSAlertView
 import AyLoading
 import MapKit
+import WVCheckMark
+
 
 
 class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate, UITextFieldDelegate {
@@ -56,6 +58,10 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     @IBOutlet weak var regularBedroomStepper: UIStepper!
     @IBOutlet weak var garageStepper: UIStepper!
     @IBOutlet weak var laundryStepper: UIStepper!
+    
+    
+//MARK:- VIEWS
+    
     
     
     
@@ -181,7 +187,8 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
         setOrderCounter()
         addPendingRequestToDatabase(userLocation: userLocation, userID: uid, orderCounter: orderCounter, userAddress: userAddress, note: notesTextfield)
         if postChargeToDatabase(uid: uid, orderCounter: orderCounter) == false{
-            self.performSegue(withIdentifier: "paymentToProgressSegue", sender: nil)
+                self.performSegue(withIdentifier: "paymentToProgressSegue", sender: nil)
+            
         }
         
     }

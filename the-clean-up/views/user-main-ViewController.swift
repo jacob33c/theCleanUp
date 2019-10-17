@@ -44,7 +44,7 @@ class userViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tap)
         self.apartmentNumberText.delegate = self
         addShadowToButton(button: requestButton)
-
+        centerViewOnUserLocation()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -110,10 +110,12 @@ class userViewController: UIViewController, UITextFieldDelegate {
     func loadUserData() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         userID = uid
-        Database.database().reference().child("users").child(uid).child("username").observeSingleEvent(of: .value) { (snapshot) in
+        Database.database().reference().child("users").child(uid).child("status").observeSingleEvent(of: .value) { (snapshot) in
             
-            guard let username = snapshot.value as? String else { return }
-            print("Welcome, \(username)")
+            guard let status = snapshot.value as? String else { return }
+            if status == "requestMode"{
+                self.performSegue(withIdentifier: "requestSegue", sender: nil)
+            }
         }
     }
     //end load user data
@@ -217,6 +219,12 @@ class userViewController: UIViewController, UITextFieldDelegate {
     }
     
     
+    
+    @IBAction func recenterButtonTapped(_ sender: Any) {
+        centerViewOnUserLocation()
+    }
+    
+    
     //this function will handle what happens when the request button is tapped.
     @IBAction func requestButtonTapped(_ sender: Any) {
         if stNum != "" {
@@ -226,7 +234,9 @@ class userViewController: UIViewController, UITextFieldDelegate {
                 text: "Please confirm the the address of the cleaning",
                 buttonText: "Confirm",
                 cancelButtonText: "Cancel",
-                color: UIColor(red:0.60, green:0.82, blue:0.80, alpha:1.0)
+                color: UIColor.systemTeal,
+                iconImage: UIImage(named: "broom")
+
 
             )
             alertview.addAction(self.confirmLocation)
@@ -237,7 +247,9 @@ class userViewController: UIViewController, UITextFieldDelegate {
                 title: "Error",
                 text: "Please move the pin to a valid location",
                 buttonText: "OK",
-                color: UIColor.systemOrange
+                color: UIColor.systemOrange,
+                iconImage: UIImage(named: "error")
+
             )
         }
     }

@@ -12,4 +12,5 @@ target 'the-clean-up' do
         pod 'Alamofire'
         pod 'Stripe'
 	pod 'AyLoading', '4.0.1'
+	pod 'WVCheckMark'
 end

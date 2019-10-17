@@ -112,6 +112,12 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
         amountLabel.text = "$\(amountString)"
     }
 
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "userToRatingSegue"{
+            if let destinationVC = segue.destination as? ratingsViewController{
+                destinationVC.order = orderCounter
+            }
+        }
+    }
     
 }
