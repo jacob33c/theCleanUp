@@ -83,8 +83,8 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - SCLAlertView (0.8)
   - Stripe (16.0.7)
-  - WVCheckMark (1.0.13)
 
 DEPENDENCIES:
   - Alamofire
@@ -93,8 +93,8 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - JSSAlertView
+  - SCLAlertView
   - Stripe
-  - WVCheckMark
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -119,7 +119,7 @@ SPEC REPOS:
     - nanopb
     - Stripe
   trunk:
-    - WVCheckMark
+    - SCLAlertView
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
@@ -141,9 +141,9 @@ SPEC CHECKSUMS:
   JSSAlertView: 84ec53a0cbcfaa25a09293751356afed09484023
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
   Stripe: 67f64f64314503b396a71c55535d5307d7e5c9ff
-  WVCheckMark: 9f14a82ee0390599aca0a4d28de84db38de03cd3
 
-PODFILE CHECKSUM: 2dbd126a194b72e3a342f043c0a872ed8c125561
+PODFILE CHECKSUM: 6f1a38656a6f3ca7e3d75b549eb90af258a86870
 
 COCOAPODS: 1.8.3

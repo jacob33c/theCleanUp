@@ -13,8 +13,7 @@ import Stripe
 import JSSAlertView
 import AyLoading
 import MapKit
-import WVCheckMark
-
+import SCLAlertView
 
 
 class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate, UITextFieldDelegate {
@@ -171,14 +170,20 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     @IBAction func dfbt(_ sender: UIButton) {
         buttonLabel.isHighlighted = true
         setOrderCounter()
-        let alertview = JSSAlertView().show(
-            self,
-            title: "Please Confirm Request",
-            text: "You will be charged $\(calcTotalWithFees(orderCount: orderCounter))",
-            cancelButtonText: "Cancel")
-        alertview.addAction {
+//        let alertview = JSSAlertView().show(
+//            self,
+//            title: "Please Confirm Request",
+//            text: "You will be charged $\(calcTotalWithFees(orderCount: orderCounter))",
+//            cancelButtonText: "Cancel")
+//        alertview.addAction {
+//            self.createCharge()
+//        }
+        let alertView = SCLAlertView()
+        alertView.addButton("Confirm") {
             self.createCharge()
         }
+        alertView.showSuccess("Please Confirm Request", subTitle: "You will be charged $\(calcTotalWithFees(orderCount: orderCounter))", closeButtonTitle: "Cancel")
+        
     }
     
     //MARK: - CREATE CHARGE IN DB

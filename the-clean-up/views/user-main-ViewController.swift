@@ -12,6 +12,7 @@ import CoreLocation
 import JSSAlertView
 import FirebaseAuth
 import FirebaseDatabase
+import SCLAlertView
 
 class userViewController: UIViewController, UITextFieldDelegate {
 
@@ -51,6 +52,7 @@ class userViewController: UIViewController, UITextFieldDelegate {
         return false
     }
     
+
     
     //set up the location manager
     func setupLocationManager() {
@@ -215,6 +217,7 @@ class userViewController: UIViewController, UITextFieldDelegate {
                     self.addressLabel.text = "\(streetNumber) \(streetName)"
                 }
             }
+        centerViewOnUserLocation()
     }
     
     
@@ -227,24 +230,16 @@ class userViewController: UIViewController, UITextFieldDelegate {
     //this function will handle what happens when the request button is tapped.
     @IBAction func requestButtonTapped(_ sender: Any) {
         if stNum != "" {
-            let alertview = JSSAlertView().show(
-                self,
-                title: "\(stNum) \(stName)",
-                text: "Please confirm the the address of the cleaning",
-                buttonText: "Confirm",
-                cancelButtonText: "Cancel",
-                color: UIColor.systemTeal
-            )
-            alertview.addAction(self.confirmLocation)
+            let alertView = SCLAlertView()
+            alertView.addButton("Confirm") {
+                self.confirmLocation()
+            }
+            alertView.showInfo("\(stNum) \(stName)", subTitle: "Please confirm the the address of the cleaning", closeButtonTitle: "Cancel")
+            
         }
         else {
-            JSSAlertView().show(
-                self,
-                title: "Error",
-                text: "Please move the pin to a valid location",
-                buttonText: "OK",
-                color: UIColor.systemOrange
-            )
+            SCLAlertView().showError("Error", subTitle: "Please move the pin to a valid location.") // Error
+
         }
     }
     

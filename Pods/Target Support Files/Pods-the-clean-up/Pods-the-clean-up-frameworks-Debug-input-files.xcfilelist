@@ -4,7 +4,7 @@ ${BUILT_PRODUCTS_DIR}/AyLoading/AyLoading.framework
 ${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework
 ${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework
 ${BUILT_PRODUCTS_DIR}/JSSAlertView/JSSAlertView.framework
+${BUILT_PRODUCTS_DIR}/SCLAlertView/SCLAlertView.framework
 ${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework
-${BUILT_PRODUCTS_DIR}/WVCheckMark/WVCheckMark.framework
 ${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework
 ${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework

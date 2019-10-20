@@ -115,7 +115,7 @@
             }
             else {
                 self.onlineButton.setTitle("Go Online", for: .normal)
-                self.onlineButton.backgroundColor = UIColor(red:0.00, green:0.48, blue:1.00, alpha:1.0)
+                self.onlineButton.backgroundColor = UIColor(red:0.30, green:0.29, blue:0.39, alpha:1.0)
                 isOnline = false
                 print("online is now false")
             }

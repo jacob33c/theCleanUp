@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double WVCheckMarkVersionNumber;
-FOUNDATION_EXPORT const unsigned char WVCheckMarkVersionString[];
+FOUNDATION_EXPORT double SCLAlertViewVersionNumber;
+FOUNDATION_EXPORT const unsigned char SCLAlertViewVersionString[];
 
