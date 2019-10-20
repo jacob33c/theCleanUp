@@ -31,7 +31,6 @@ class settingsViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        addShadowToButtons(buttons: settingsButton)
         loadUserData()
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)

@@ -43,7 +43,6 @@ class userViewController: UIViewController, UITextFieldDelegate {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
         self.apartmentNumberText.delegate = self
-        addShadowToButton(button: requestButton)
         centerViewOnUserLocation()
     }
     
@@ -234,10 +233,7 @@ class userViewController: UIViewController, UITextFieldDelegate {
                 text: "Please confirm the the address of the cleaning",
                 buttonText: "Confirm",
                 cancelButtonText: "Cancel",
-                color: UIColor.systemTeal,
-                iconImage: UIImage(named: "broom")
-
-
+                color: UIColor.systemTeal
             )
             alertview.addAction(self.confirmLocation)
         }
@@ -247,9 +243,7 @@ class userViewController: UIViewController, UITextFieldDelegate {
                 title: "Error",
                 text: "Please move the pin to a valid location",
                 buttonText: "OK",
-                color: UIColor.systemOrange,
-                iconImage: UIImage(named: "error")
-
+                color: UIColor.systemOrange
             )
         }
     }

@@ -18,7 +18,7 @@ struct Rating{
     var order   = cleaningOrderCount()
     var uid     = String()
     
-    init(titleInit: String, ratingInit: Int, orderInit: cleaningOrderCount) {
+    mutating func setValues(titleInit: String, ratingInit: Int, orderInit: cleaningOrderCount) {
         title   = titleInit
         stars   = ratingInit
         order   = orderInit
@@ -47,8 +47,12 @@ struct Rating{
         uid = Auth.auth().currentUser?.uid ?? "user not signed in"
     }
     
+    func setDate(){
+        
+    }
+    
     func submitToBackend(){
-        Database.database().reference().child("ratings").child(uid).updateChildValues(ratingToDictionary(), withCompletionBlock: { (error, ref) in
+        Database.database().reference().child("\(uid)/currentRequests/ratings").updateChildValues(ratingToDictionary(), withCompletionBlock: { (error, ref) in
                return
            })
     }

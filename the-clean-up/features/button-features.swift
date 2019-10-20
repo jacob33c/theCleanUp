@@ -48,18 +48,6 @@ import UIKit
 }
 
 
-func addShadowToButton(button : UIButton){
-    button.layer.shadowColor = UIColor(red:0.74, green:0.58, blue:0.57, alpha:1.0).cgColor
-    button.layer.shadowOffset = CGSize(width: 3.5, height: 5.0)
-    button.layer.shadowOpacity = 0.3
-    button.layer.shadowRadius = 0.0
-    button.layer.masksToBounds = false
-}
 
-func addShadowToButtons(buttons: [UIButton]){
-    for button in buttons{
-        addShadowToButton(button: button)
-    }
-}
 
 

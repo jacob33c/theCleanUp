@@ -15,6 +15,7 @@ class ratingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var notesTextField: UITextField!
     var rating = Rating()
     var order  = cleaningOrderCount()
+    @IBOutlet weak var ratingSlider: UISlider!
     
     
     override func viewDidLoad() {
@@ -46,5 +47,11 @@ class ratingsViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-
+    
+    
+    @IBAction func submitButtonTapped(_ sender: Any) {
+        rating.setValues(titleInit: "", ratingInit: Int(ratingSlider.value), orderInit: order)
+        rating.submitToBackend()
+    }
+    
 }

@@ -388,12 +388,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     
     
     
-    //MARK: - GENERAL UI STUFF
-    func addShadowsToAllButtons(){
-        addShadowToButton(button: cancelButton)
-        addShadowToButton(button: defaultPaymentButton)
-        addShadowToButton(button: newPaymentButton)
-    }
+
     
     func showTooManyLabel(max : Int){
         tooManyLabel.isHidden = false
@@ -407,7 +402,6 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     
     func setUpUserInterface(){
         serviceFeeLabel.text = "Service Fee: $\(cleanUpFee)"
-        addShadowsToAllButtons()
         setStepperMaximums(masterStepper: masterStepper, kitchenDishStepper: kitchenDishStepper, kitchenStepper: kitchenStepper, regularStepper: regularBedroomStepper, garageStepper: garageStepper, laundryStepper: laundryStepper)
         
     }

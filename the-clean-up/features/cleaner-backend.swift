@@ -9,6 +9,8 @@
 import Foundation
 import MapKit
 import UIKit
+import FirebaseDatabase
+
 
 struct Request{
     var userLat: Double        = 0.00
@@ -16,7 +18,6 @@ struct Request{
     var distance: Double       = 0.00
     var paidOrNot: Bool        = false
     var uid: String            = ""
-    var hasBeenShownToADriver  = false
     var address                = ""
     var note                   = ""
     var amount                 = 0
@@ -24,7 +25,7 @@ struct Request{
 }
 
 
-func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLocation, index: Int, uid: String, hasBeenShown: Bool, address: String, amount: Int, note: String, order: [String:Any]) -> Request {
+func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLocation, index: Int, uid: String,address: String, amount: Int, note: String, order: [String:Any]) -> Request {
         var request                   = Request()
         print("addToArrayWithDistance")
         let distance                  = driverCLLocation.distance(from: riderCLLocation) / 1000
@@ -37,7 +38,6 @@ func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLoc
         request.address               = address
         request.note                  = note
         request.amount                = amount
-        request.hasBeenShownToADriver = hasBeenShown
         request.order                 = dictToOrderCounter(orderDictionary: order)
     
     return request
@@ -50,3 +50,20 @@ func hideImagesInArray(images: [UIImageView]){
         image.isHidden = true
     }
 }
+
+
+
+func moveNode(oldString : String, newString : String){
+    let oldRef =  Database.database().reference().child(oldString)
+    let newRef =  Database.database().reference().child(newString)
+    print("oldString = \(oldString)")
+    print("newString = \(newString)")
+    oldRef.observeSingleEvent(of: .value) { (snapshot) in
+        let value = snapshot.value as? [String: Any]
+        newRef.updateChildValues(value ?? ["no value" : true])
+        oldRef.removeValue()
+    }
+}
+
+
+

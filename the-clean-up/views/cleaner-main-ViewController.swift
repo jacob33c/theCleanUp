@@ -12,6 +12,7 @@
     import JSSAlertView
     import FirebaseDatabase
     import AyLoading
+    import FirebaseAuth
 
     class cleanerViewController: UIViewController, MKMapViewDelegate {
         
@@ -42,6 +43,8 @@
 
 //MARK:- Request
         var request = Request()
+        
+        var DriverID = String()
 
 
 
@@ -57,6 +60,7 @@
         override func viewDidLoad() {
             super.viewDidLoad()
             mapView.delegate = self
+            authenticateUser()
             hideMapsButton()
             checkLocationServices()
             checkCurrentRequests()
@@ -73,6 +77,20 @@
                 }
             }
         }
+        
+        //this will check if the user is logged in
+        func authenticateUser() {
+            if Auth.auth().currentUser == nil {
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "rootSegue", sender: nil)
+                }
+            }
+            else{
+                DriverID = Auth.auth().currentUser?.uid ?? "no ID"
+            }
+        }
+        
+        
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if segue.identifier == "cleanerProgressSegue"{
                 if let destinationVC = segue.destination as? cleanerProgressViewController{
@@ -134,16 +152,14 @@
                     if let lat = cleanRequestDictionary["lat"] as? Double{
                     if let long = cleanRequestDictionary["long"] as? Double{
                     if let uid = cleanRequestDictionary["uid"] as? String{
-                    if let hasBeenShown = cleanRequestDictionary["shownToADriver"] as? Bool{
                     if let address = cleanRequestDictionary["address"] as? String{
                     if let amount = cleanRequestDictionary["amount"] as? Int{
                     if let order  = cleanRequestDictionary["roomCount"] as? [String :Any] {
                     let note             = cleanRequestDictionary["note"] as? String ?? "No Note"
                     let riderCLLocation  = CLLocation(latitude: lat, longitude: long)
                     let driverCLLocation = CLLocation(latitude: driverLocation.latitude, longitude: driverLocation.longitude)
-                    let request = addToArrayWithDistance(riderCLLocation: riderCLLocation, driverCLLocation: driverCLLocation, index: index, uid: uid, hasBeenShown: hasBeenShown, address: address, amount: amount, note: note, order: order)
+                    let request = addToArrayWithDistance(riderCLLocation: riderCLLocation, driverCLLocation: driverCLLocation, index: index, uid: uid, address: address, amount: amount, note: note, order: order)
                     arrayWithDistance.append(request)
-                    }
                     }
                     }
                     }
@@ -191,17 +207,25 @@
         
         
         
+        
+        
         func checkClosestRequest(){
             print("arrayWithDistance.count = \(arrayWithDistance.count)")
             if arrayWithDistance.count > 0{
                 let closestRequest = arrayWithDistance[0]
-                let shownUpdate = ["shownToADriver":true] as [String : Any]
-                Database.database().reference().child("currentRequests").child(closestRequest.uid).updateChildValues(shownUpdate, withCompletionBlock: { (error, ref) in
-                    return
-                })
+                
+                
+                
+               
+                let old = "currentRequests/\(closestRequest.uid)"
+                let new = "drivers/\(DriverID)/currentClean"
+
                 let miles = kilometersToMiles(distance: closestRequest.distance)
                 playRequestFoundSound()
                 if closestRequest.distance < 9 && closestRequest.userLat != 0{
+                    getRequestDictionary(userID: closestRequest.uid)
+                    moveNode(oldString: old , newString: new)
+                    cleanerInRequest = true
                     print("request found")
                     let alert = JSSAlertView().show(
                         self,
@@ -210,7 +234,8 @@
                         buttonText: "Accept",
                         cancelButtonText: "Decline",
                         color: UIColor(red:0.48, green:0.88, blue:0.68, alpha:1.0),
-                        iconImage: UIImage(named: "payIcon")
+                        iconImage: UIImage(named: "payIcon"),
+                        timeLeft: 10
                     )
                     inTheMiddleOfRequst = true
                     alert.setTitleFont("Futura-CondensedExtraBold")
@@ -220,35 +245,22 @@
                 }
             }
         }
-        
-        
-        
-        
-        func setupLocationManager() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        }
 
         
-        
- 
-        
-        
-        
-        
-        
-        
-        
-        
-        func checkLocationServices() {
-            if CLLocationManager.locationServicesEnabled() {
-                setupLocationManager()
-                checkLocationAuthorization()
-            } else {
-                // Show alert letting the user know they have to turn this on.
-            }
-        }
-        
+        func denyRequest(userID: String){
+              print("deny request")
+
+              let old = "drivers/\(DriverID)/currentClean"
+              let new = "currentRequests/\(userID)"
+              moveNode(oldString: old , newString: new)
+              print("start timer")
+              Timer.scheduledTimer(withTimeInterval: 180, repeats: false) { (timer) in
+                  self.inTheMiddleOfRequst = false
+                  print("timeout over")
+                  return
+              }
+
+          }
         
         func acceptRequest(userID: String, address : String){
             request = arrayWithDistance[0]
@@ -290,20 +302,7 @@
         }
         
         
-        func denyRequest(userID: String){
-            print("deny request")
-            let shownUpdate = ["shownToADriver":false] as [String : Any]
-            Database.database().reference().child("currentRequests").child(userID).updateChildValues(shownUpdate, withCompletionBlock: { (error, ref) in
-                return
-            })
-            print("start timer")
-            Timer.scheduledTimer(withTimeInterval: 180, repeats: false) { (timer) in
-                self.inTheMiddleOfRequst = false
-                print("timeout over")
-                return
-            }
-
-        }
+  
         
 //MARK: - Location functions
         func getDirections(userID: String) {
@@ -343,8 +342,7 @@
         }
         
         func hideMapsButton(){
-            addShadowToButton(button: openInMapsButton)
-            addShadowToButton(button: onlineButton)
+   
             openInMapsButton.isHidden = true
         }
         func showMapsButton(){
@@ -380,6 +378,21 @@
                 request.requestsAlternateRoutes = false
             }
             return request
+        }
+        
+        
+        func setupLocationManager() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        }
+
+        func checkLocationServices() {
+            if CLLocationManager.locationServicesEnabled() {
+                setupLocationManager()
+                checkLocationAuthorization()
+            } else {
+                // Show alert letting the user know they have to turn this on.
+            }
         }
         
         
