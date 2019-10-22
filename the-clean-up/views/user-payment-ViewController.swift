@@ -170,20 +170,17 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     @IBAction func dfbt(_ sender: UIButton) {
         buttonLabel.isHighlighted = true
         setOrderCounter()
-//        let alertview = JSSAlertView().show(
-//            self,
-//            title: "Please Confirm Request",
-//            text: "You will be charged $\(calcTotalWithFees(orderCount: orderCounter))",
-//            cancelButtonText: "Cancel")
-//        alertview.addAction {
-//            self.createCharge()
-//        }
-        let alertView = SCLAlertView()
-        alertView.addButton("Confirm") {
-            self.createCharge()
+        if cleaningMinimumNotMet(orderCount: orderCounter){
+            let alertView = SCLAlertView()
+            alertView.showError("Minimum not met", subTitle: "Please add to your cleaning to meet the $20.00 minimum")
         }
-        alertView.showSuccess("Please Confirm Request", subTitle: "You will be charged $\(calcTotalWithFees(orderCount: orderCounter))", closeButtonTitle: "Cancel")
-        
+        else{
+            let alertView = SCLAlertView()
+            alertView.addButton("Confirm") {
+                self.createCharge()
+            }
+            alertView.showSuccess("Please Confirm Request", subTitle: "You will be charged $\(calcTotalWithFees(orderCount: orderCounter))", closeButtonTitle: "Cancel")
+        }
     }
     
     //MARK: - CREATE CHARGE IN DB

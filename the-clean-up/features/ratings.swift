@@ -51,13 +51,14 @@ struct Rating{
         
     }
     
-    func submitToBackend(){        Database.database().reference().child("\(uid)/currentRequests/ratings").updateChildValues(ratingToDictionary(), withCompletionBlock: { (error, ref) in
+    func submitToBackend(){
+        Database.database().reference().child("/\(uid)/currentRequest/userRating").updateChildValues(ratingToDictionary(), withCompletionBlock: { (error, ref) in
                return
            })
     }
-    
-    
-    
-    
-    
+    func endTransaction(){
+        let old = "users/\(uid)/currentRequest"
+        let new = "users/\(uid)/pastRequest"
+        moveNode(oldString: old, newString: new)
+    }
 }

@@ -182,4 +182,13 @@ func calcTotalWithFees(orderCount: cleaningOrderCount) -> Double {
     return roundedTotal
 }
 
+func cleaningMinimumNotMet(orderCount: cleaningOrderCount) -> Bool{
+    if calculateTotal(orderCount: orderCount) < 20{
+        return true
+    }
+    else{
+        return false
+    }
+}
+
 

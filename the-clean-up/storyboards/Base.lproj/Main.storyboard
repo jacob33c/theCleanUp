@@ -1257,6 +1257,7 @@ experience for everyone involved. Thank you for taking the time
                         <outletCollection property="starsImages" destination="ttL-lH-2CP" collectionClass="NSMutableArray" id="AfY-Lw-g6J"/>
                         <outletCollection property="starsImages" destination="YP1-RL-lxQ" collectionClass="NSMutableArray" id="vN3-Ga-CN6"/>
                         <outletCollection property="starsImages" destination="apC-2a-vjj" collectionClass="NSMutableArray" id="Ym3-EA-T7a"/>
+                        <segue destination="ncM-xm-JOi" kind="presentation" identifier="ratingToMainSegue" modalPresentationStyle="fullScreen" id="npN-eC-eo3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t71-9H-0er" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2203,9 +2204,9 @@ experience for everyone involved. Thank you for taking the time
     <inferredMetricsTieBreakers>
         <segue reference="hYc-VD-nC2"/>
         <segue reference="wez-g8-Kgs"/>
-        <segue reference="kA8-tv-4KA"/>
+        <segue reference="EzL-UG-MJL"/>
         <segue reference="vk4-HS-Qm5"/>
         <segue reference="x2B-zx-PNn"/>
-        <segue reference="ydA-NO-B3E"/>
+        <segue reference="npN-eC-eo3"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -57,6 +57,8 @@ class ratingsViewController: UIViewController, UITextFieldDelegate {
     @IBAction func submitButtonTapped(_ sender: Any) {
         rating.setValues(titleInit: "", ratingInit: Int(ratingSlider.value), orderInit: order)
         rating.submitToBackend()
+        rating.endTransaction()
+        performSegue(withIdentifier: "ratingToMainSegue", sender: nil)
     }
     
 }
