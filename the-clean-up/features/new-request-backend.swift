@@ -24,22 +24,31 @@ func addPendingRequestToDatabase(userLocation: CLLocationCoordinate2D, userID : 
     let amount           = (Int(calcTotalWithFees(orderCount: orderCounter) * 100))
     let lat              = userLocation.latitude
     let long             = userLocation.longitude
-    let shownToADriver   = false
     let noteText         = note.text ?? "No notes"
+    let status           = "pending"
+    let order            = orderCounterToDict(orderCount: orderCounter)
     
     let requests = ["lat": lat ,
                     "long": long,
                     "uid":userID,
-                    "shownToADriver": shownToADriver,
                     "amount": amount,
-                    "roomCount" : orderCounterToDict(orderCount: orderCounter),
+                    "roomCount" : order,
                     "address" : userAddress,
                     "note" : noteText,
                     "status" : "requestMode"] as [String : Any]
     Database.database().reference().child("currentRequests").child(userID).updateChildValues(requests, withCompletionBlock: { (error, ref) in
         return
     })
+    
+    let tracker = ["status" : status,
+                   "order"  : order] as [String : Any]
+    Database.database().reference().child("users/\(userID)/currentRequest").updateChildValues(tracker, withCompletionBlock: { (error, ref) in
+        return
+    })
 }
+
+
+
 
 func orderCounterToDict(orderCount : cleaningOrderCount) -> [String : Any]{
     let masterCount      = orderCount.masterBedroomCount
@@ -70,5 +79,7 @@ func dictToOrderCounter(orderDictionary: [String: Any]) -> cleaningOrderCount{
     orderCount.laundryCount       = orderDictionary["laundryCount"]     as? Int ?? 0
     return orderCount
 }
+
+
 
 

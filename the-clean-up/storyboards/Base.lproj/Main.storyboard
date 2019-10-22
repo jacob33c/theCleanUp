@@ -457,6 +457,7 @@
                         <outlet property="requestButton" destination="glB-eY-6qy" id="Pfe-tA-L2h"/>
                         <segue destination="BK2-Gl-efy" kind="show" identifier="requestSegue" id="oY4-Ez-G41"/>
                         <segue destination="4MI-G3-UDk" kind="presentation" identifier="rootSegue" modalPresentationStyle="fullScreen" id="hYc-VD-nC2"/>
+                        <segue destination="Our-D9-fMQ" kind="presentation" identifier="mainInProgressSegue" modalPresentationStyle="fullScreen" id="vk4-HS-Qm5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cDX-rk-0yL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1172,7 +1173,7 @@
                                 <rect key="frame" x="105" y="31" width="204" height="99"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="heb-qy-Hwl">
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="heb-qy-Hwl">
                                 <rect key="frame" x="62" y="405" width="291" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
@@ -2203,6 +2204,7 @@ experience for everyone involved. Thank you for taking the time
         <segue reference="hYc-VD-nC2"/>
         <segue reference="wez-g8-Kgs"/>
         <segue reference="kA8-tv-4KA"/>
+        <segue reference="vk4-HS-Qm5"/>
         <segue reference="x2B-zx-PNn"/>
         <segue reference="ydA-NO-B3E"/>
     </inferredMetricsTieBreakers>

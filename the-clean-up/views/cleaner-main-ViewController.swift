@@ -13,6 +13,7 @@
     import FirebaseDatabase
     import AyLoading
     import FirebaseAuth
+    import SCLAlertView
 
     class cleanerViewController: UIViewController, MKMapViewDelegate {
         
@@ -223,25 +224,66 @@
                 let miles = kilometersToMiles(distance: closestRequest.distance)
                 playRequestFoundSound()
                 if closestRequest.distance < 9 && closestRequest.userLat != 0{
+                    print("ran closest request")
                     getRequestDictionary(userID: closestRequest.uid)
                     moveNode(oldString: old , newString: new)
                     cleanerInRequest = true
+                    inTheMiddleOfRequst  = true
                     print("request found")
-                    let alert = JSSAlertView().show(
-                        self,
-                        title:"Order will pay $\(costMinusServiceFee(amount: closestRequest.amount))",
-                        text: distanceToString(distance: miles),
-                        buttonText: "Accept",
-                        cancelButtonText: "Decline",
-                        color: UIColor(red:0.48, green:0.88, blue:0.68, alpha:1.0),
-                        iconImage: UIImage(named: "payIcon"),
-                        timeLeft: 10
+//                    let alert = JSSAlertView().show(
+//                        self,
+//                        title:"Order will pay $\(costMinusServiceFee(amount: closestRequest.amount))",
+//                        text: distanceToString(distance: miles),
+//                        buttonText: "Accept",
+//                        cancelButtonText: "Decline",
+//                        color: UIColor(red:0.48, green:0.88, blue:0.68, alpha:1.0),
+//                        iconImage: UIImage(named: "payIcon"),
+//                        timeLeft: 10
+//                    )
+//                    inTheMiddleOfRequst = true
+//                    alert.setTitleFont("Futura-CondensedExtraBold")
+//                    alert.setTextFont("Futura-CondensedExtraBold")
+//                    alert.addAction {self.acceptRequest(userID: closestRequest.uid, address: closestRequest.address)}
+//                    alert.addCancelAction {self.denyRequest(userID: closestRequest.uid)}
+                    
+                    
+                    
+                    let pay       = costMinusServiceFee(amount: closestRequest.amount)
+                    let appearance = SCLAlertView.SCLAppearance(
+                        kTitleFont: UIFont(name: "Futura-CondensedExtraBold", size: 20)!,
+                        kTextFont:  UIFont(name: "Futura-CondensedMedium", size: 20)!,
+                        showCloseButton: false
                     )
-                    inTheMiddleOfRequst = true
-                    alert.setTitleFont("Futura-CondensedExtraBold")
-                    alert.setTextFont("Futura-CondensedExtraBold")
-                    alert.addAction {self.acceptRequest(userID: closestRequest.uid, address: closestRequest.address)}
-                    alert.addCancelAction {self.denyRequest(userID: closestRequest.uid)}
+                    let alertView = SCLAlertView(appearance: appearance)
+                    alertView.addButton("Confirm") {
+                        self.acceptRequest(userID: closestRequest.uid,
+                                           address: closestRequest.address)
+                    }
+                    
+
+                    
+                    let timeoutValue: TimeInterval = 15.0
+                    let timeoutAction: SCLAlertView.SCLTimeoutConfiguration.ActionType = {
+                        self.denyRequest(userID: closestRequest.uid)
+                    }
+                    
+                    let showTimeout = SCLButton.ShowTimeoutConfiguration(prefix: "(", suffix: " s)")
+                    _ = alertView.addButton("Decline",
+                                            backgroundColor: UIColor(red:0.96, green:0.36, blue:0.24, alpha:1.0),
+                                            textColor: UIColor.white , showTimeout: showTimeout) {
+                        print("Timeout Button tapped")
+                        self.denyRequest(userID: closestRequest.uid)
+                    }
+                    
+                    
+                    
+                    alertView.showSuccess("Clean will pay $\(pay)",
+                                          subTitle: distanceToString(distance: miles),
+                                          closeButtonTitle: "Decline",
+                                          timeout: SCLAlertView.SCLTimeoutConfiguration(timeoutValue: timeoutValue, timeoutAction: timeoutAction))
+                    
+                    print("alertView added")
+                    
                 }
             }
         }

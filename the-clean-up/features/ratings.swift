@@ -51,8 +51,7 @@ struct Rating{
         
     }
     
-    func submitToBackend(){
-        Database.database().reference().child("\(uid)/currentRequests/ratings").updateChildValues(ratingToDictionary(), withCompletionBlock: { (error, ref) in
+    func submitToBackend(){        Database.database().reference().child("\(uid)/currentRequests/ratings").updateChildValues(ratingToDictionary(), withCompletionBlock: { (error, ref) in
                return
            })
     }

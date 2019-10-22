@@ -33,6 +33,8 @@ class userViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var apartmentNumberText: UITextField!
     
+    var orderCounter = cleaningOrderCount()
+    
     
     
     
@@ -100,10 +102,26 @@ class userViewController: UIViewController, UITextFieldDelegate {
             }
         }
         else {
-            loadUserData()
+            let id = (Auth.auth().currentUser?.uid)!
+            let ref    = Database.database().reference().child("users/\(id)/currentRequest")
+            ref.observeSingleEvent(of : .value) { (snapshot) in
+                let value = snapshot.value as? [String : Any]
+                if  value?["status"] == nil{
+                    print("empty")
+                    self.loadUserData()
+                }
+                else{
+                    print("needs to move to user progress")
+                    self.orderCounter =   dictToOrderCounter(orderDictionary: value?["order"] as! [String : Any])
+                    self.performSegue(withIdentifier: "mainInProgressSegue", sender: nil)
+                }
+            }
+
         }
     }
     // end authenticating user
+    
+
     
     
     // MARK: - LoaduserData
@@ -259,6 +277,11 @@ class userViewController: UIViewController, UITextFieldDelegate {
                 destinationVC.userLocation = getCenterLocation(for: mapView).coordinate
                 let addressString          = (addressLabel.text ??  "no address recorded, please contact client") + " Room: " + (apartmentNumberText.text ?? "no room #")
                 destinationVC.userAddress  = addressString
+            }
+        }
+        if segue.identifier == "mainInProgressSegue"{
+            if let destinationVC = segue.destination as? progressViewController{
+                destinationVC.orderCounter = orderCounter
             }
         }
     }

@@ -21,6 +21,8 @@ class ratingsViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.notesTextField.delegate = self
+        sliderValueChanged(ratingSlider)
+        
 
 
         // Do any additional setup after loading the view.
@@ -46,6 +48,9 @@ class ratingsViewController: UIViewController, UITextFieldDelegate {
             index += 1
         }
     }
+    
+    
+    
     
     
     
