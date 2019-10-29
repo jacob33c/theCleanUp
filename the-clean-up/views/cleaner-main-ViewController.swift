@@ -88,8 +88,20 @@
             }
             else{
                 DriverID = Auth.auth().currentUser?.uid ?? "no ID"
+                getCleanerRequestFromDB(uid: DriverID) { (cleanRequest) in
+                    if cleanRequest.address != "" {
+                        self.request = cleanRequest
+                        self.arrayWithDistance.append(self.request)
+                        self.driverLocation = self.request.driverLocation.coordinate
+                        self.userLocation   = CLLocationCoordinate2D(latitude: self.request.userLat, longitude: self.request.userLong)
+                        self.acceptRequest(userID: self.DriverID, address: self.request.address)
+                    }
+                }
             }
         }
+        
+
+        
         
         
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -230,23 +242,6 @@
                     cleanerInRequest = true
                     inTheMiddleOfRequst  = true
                     print("request found")
-//                    let alert = JSSAlertView().show(
-//                        self,
-//                        title:"Order will pay $\(costMinusServiceFee(amount: closestRequest.amount))",
-//                        text: distanceToString(distance: miles),
-//                        buttonText: "Accept",
-//                        cancelButtonText: "Decline",
-//                        color: UIColor(red:0.48, green:0.88, blue:0.68, alpha:1.0),
-//                        iconImage: UIImage(named: "payIcon"),
-//                        timeLeft: 10
-//                    )
-//                    inTheMiddleOfRequst = true
-//                    alert.setTitleFont("Futura-CondensedExtraBold")
-//                    alert.setTextFont("Futura-CondensedExtraBold")
-//                    alert.addAction {self.acceptRequest(userID: closestRequest.uid, address: closestRequest.address)}
-//                    alert.addCancelAction {self.denyRequest(userID: closestRequest.uid)}
-                    
-                    
                     
                     let pay       = costMinusServiceFee(amount: closestRequest.amount)
                     let appearance = SCLAlertView.SCLAppearance(
@@ -258,6 +253,8 @@
                     alertView.addButton("Confirm") {
                         self.acceptRequest(userID: closestRequest.uid,
                                            address: closestRequest.address)
+                        self.userLocation.latitude  = closestRequest.userLat
+                        self.userLocation.longitude = closestRequest.userLong
                     }
                     
 
@@ -305,24 +302,26 @@
           }
         
         func acceptRequest(userID: String, address : String){
-            request = arrayWithDistance[0]
+            if arrayWithDistance.count == 0{
+                print("array empty")
+            }
+            else{
+                request = arrayWithDistance[0]
+            }
             print("request order master = \(request.order.masterBedroomCount)")
             hideOnlineButtonShowArrivedButton()
             print("request accepted")
             addressLabel.ay.startLoading()
             addressLabel.isHidden  = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
                 self.addressLabel.ay.stopLoading()
                 self.addressLabel.text = address
-            }
-            let driverLoc = ["driverLat": driverLocation.latitude, "driverLong": driverLocation.longitude] as [String : Any]
-            Database.database().reference().child("currentRequests").child(userID).updateChildValues(driverLoc, withCompletionBlock: { (error, ref) in
-                return
-            })
+//            }
+            cleanerAcceptBackend(uid: DriverID, driverLat: driverLocation.latitude, driverLong: driverLocation.longitude, userID: userID)
             inTheMiddleOfRequst = true
-            getUserLocation(userId: userID)
+//            getUserLocation(userId: userID)
             getDirections(userID: userID)
-            
+            updateTravelTimeInDB(userLocation: userLocation, cleanerLocation: driverLocation)
         }
         
         func hideOnlineButtonShowArrivedButton(){
@@ -349,8 +348,8 @@
 //MARK: - Location functions
         func getDirections(userID: String) {
             mapView.ay.startLoading(message: "Loading...")
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
+        
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
                 self.mapView.ay.stopLoading()
                 print("4.5 sec delay over")
                 let request = self.createDirectionsRequest(from: self.driverLocation, userID: userID)
@@ -371,6 +370,7 @@
                     for route in response.routes {
                         self.mapView.addOverlay(route.polyline)
                         self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+                        print(route.expectedTravelTime)
                     }
                 }
                 self.showMapsButton()
@@ -440,17 +440,17 @@
         
 
         func getUserLocation(userId: String){
-            Database.database().reference().child("currentRequests").child(userId).observeSingleEvent(of: .value) { (snapshot) in
+            Database.database().reference().child("drivers/\(DriverID)/currentClean").observeSingleEvent(of: .value) { (snapshot) in
                 let value = snapshot.value as? NSDictionary
                 let lat = value?["lat"] as? Double ?? 0
                 let long = value?["long"] as? Double ?? 0
-                
+
                 self.userLocation.latitude = lat
                 self.userLocation.longitude = long
                 print("updated user location")
                 print("user lat = \(self.userLocation.latitude)")
                 print("user long  = \(self.userLocation.longitude)")
-                
+
             }
         }
         
@@ -522,6 +522,10 @@
         }
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            var userPin        = MKPointAnnotation()
+            userPin.coordinate = userLocation
+            userPin.title      = "Client's Location"
+            mapView.addAnnotation(userPin)
             let renderer = MKPolylineRenderer(overlay: overlay as! MKPolyline)
             renderer.strokeColor = UIColor(red:0.60, green:0.82, blue:0.80, alpha:1.0)
             renderer.lineWidth = 5.0

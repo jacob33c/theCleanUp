@@ -29,9 +29,21 @@ class userIncludedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setLabels(includedItems: included)
         // Do any additional setup after loading the view.
     }
     
+    
+    func setLabels(includedItems: RoomIncluded){
+        titleLabel.text = included.titled
+        label1.text     = included.included1
+        label2.text     = included.included2
+        label3.text     = included.included3
+        label4.text     = included.included4
+        label5.text     = included.included5
+        label6.text     = included.included6
+        label7.text     = included.included7
+    }
     
 
 

@@ -39,7 +39,8 @@ func addPendingRequestToDatabase(userLocation: CLLocationCoordinate2D, userID : 
     Database.database().reference().child("currentRequests").child(userID).updateChildValues(requests, withCompletionBlock: { (error, ref) in
         return
     })
-    
+//  
+
     let tracker = ["status" : status,
                    "order"  : order] as [String : Any]
     Database.database().reference().child("users/\(userID)/currentRequest").updateChildValues(tracker, withCompletionBlock: { (error, ref) in

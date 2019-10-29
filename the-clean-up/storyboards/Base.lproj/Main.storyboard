@@ -190,7 +190,7 @@
                     <connections>
                         <outlet property="emailText" destination="Yyj-v0-uSD" id="KEZ-oG-ih0"/>
                         <outlet property="passwordText" destination="jeK-lg-IlU" id="z6R-PS-J4d"/>
-                        <segue destination="ncM-xm-JOi" kind="presentation" identifier="userSegue" id="9jh-ig-8HI"/>
+                        <segue destination="ncM-xm-JOi" kind="presentation" identifier="userSegue" modalPresentationStyle="fullScreen" id="9jh-ig-8HI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Djd-VJ-qAg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -458,6 +458,7 @@
                         <segue destination="BK2-Gl-efy" kind="show" identifier="requestSegue" id="oY4-Ez-G41"/>
                         <segue destination="4MI-G3-UDk" kind="presentation" identifier="rootSegue" modalPresentationStyle="fullScreen" id="hYc-VD-nC2"/>
                         <segue destination="Our-D9-fMQ" kind="presentation" identifier="mainInProgressSegue" modalPresentationStyle="fullScreen" id="vk4-HS-Qm5"/>
+                        <segue destination="VyL-kg-YvW" kind="presentation" identifier="userToCleanSegue" modalPresentationStyle="fullScreen" id="wKJ-zd-U0B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cDX-rk-0yL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -627,7 +628,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X9b-SA-bog" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6396" y="139"/>
+            <point key="canvasLocation" x="6396" y="-25"/>
         </scene>
         <!--Payment View Controller-->
         <scene sceneID="45A-p3-yn4">
@@ -1093,11 +1094,11 @@
                                 <rect key="frame" x="20" y="209" width="374" height="459"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Looking for a driver!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xyu-oH-8kM">
-                                <rect key="frame" x="29" y="112" width="347" height="41"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Looking for a cleaner." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xyu-oH-8kM">
+                                <rect key="frame" x="32" y="112" width="342" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="31"/>
-                                <color key="textColor" red="0.29803921570000003" green="0.29411764709999999" blue="0.38823529410000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="29"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="$199.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cm9-dG-dCY">
@@ -1123,14 +1124,14 @@
                                 <rect key="frame" x="20" y="676" width="126" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="23"/>
-                                <color key="textColor" red="0.29803921570000003" green="0.29411764709999999" blue="0.38823529410000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SzJ-7X-z9M">
                                 <rect key="frame" x="27" y="709" width="358" height="93"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="24"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="99 Minutes away" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3c5-T3-YbY">
@@ -1146,7 +1147,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <viewLayoutGuide key="safeArea" id="b0k-yt-TjL"/>
                     </view>
                     <connections>
@@ -1262,7 +1263,7 @@ experience for everyone involved. Thank you for taking the time
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t71-9H-0er" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7702.898550724638" y="260.49107142857144"/>
+            <point key="canvasLocation" x="8929" y="-773"/>
         </scene>
         <!--user-login-->
         <scene sceneID="7y0-zm-r4W">
@@ -1606,11 +1607,6 @@ experience for everyone involved. Thank you for taking the time
                                         <real key="value" value="9"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="goOnlineButtonTapped:" destination="VyL-kg-YvW" eventType="touchUpInside" id="0uE-Zd-kMT"/>
-                                    <action selector="requestButtonTapped:" destination="ncM-xm-JOi" eventType="touchUpInside" id="jXq-tA-xGy"/>
-                                    <segue destination="hFy-dS-LLA" kind="presentation" identifier="cleanerToRatingSegue" id="kA8-tv-4KA"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Type of  bedroom" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sgl-f3-TYR">
                                 <rect key="frame" x="26" y="60" width="92" height="59"/>
@@ -1992,7 +1988,7 @@ experience for everyone involved. Thank you for taking the time
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nzc-Yw-BvG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6395.652173913044" y="905.35714285714278"/>
+            <point key="canvasLocation" x="6396" y="824"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="bBd-hi-hZc">
@@ -2203,8 +2199,7 @@ experience for everyone involved. Thank you for taking the time
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="hYc-VD-nC2"/>
-        <segue reference="wez-g8-Kgs"/>
-        <segue reference="EzL-UG-MJL"/>
+        <segue reference="wKJ-zd-U0B"/>
         <segue reference="vk4-HS-Qm5"/>
         <segue reference="x2B-zx-PNn"/>
         <segue reference="npN-eC-eo3"/>

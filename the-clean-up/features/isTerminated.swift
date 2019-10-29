@@ -14,6 +14,8 @@ import FirebaseDatabase
 
 var cleanerInRequest = false
 var requestDitctionary = [String: Any]()
+var driverAccepted = false
+
 
 
 

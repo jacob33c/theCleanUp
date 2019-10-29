@@ -12,6 +12,9 @@ import UIKit
 import FirebaseDatabase
 
 
+
+
+
 struct Request{
     var userLat: Double        = 0.00
     var userLong: Double       = 0.00
@@ -22,7 +25,50 @@ struct Request{
     var note                   = ""
     var amount                 = 0
     var order                  = cleaningOrderCount()
+    var driverLocation         = CLLocation()
 }
+
+func getCleanerRequestFromDB(uid : String, completion: @escaping (Request) -> Void){
+    
+    var request   = Request()
+    let driverRef = Database.database().reference().child("drivers/\(uid)/currentClean")
+    
+    driverRef.observeSingleEvent(of: .value) { (snapshot) in
+        let value = snapshot.value as? [String : Any]
+        print(value)
+        if value?["roomCount"] == nil{
+            print("roomCount = nil")
+            return
+        }
+        else{
+            let orderDict          = value?["roomCount"] as! [String : Any]
+            request.userLat        = value?["lat"]   as? Double ?? 0
+            request.userLong       = value?["long"]  as? Double ?? 0
+            let cleanerLat         = value?["driverLat"] as? Double ?? 0
+            let cleanerLong        = value?["driverLong"] as? Double ?? 0
+            let userLocation       = CLLocation(latitude: request.userLat, longitude: request.userLong)
+            let cleanerLoc         = CLLocation(latitude: cleanerLat, longitude: cleanerLong)
+            let distance           = cleanerLoc.distance(from: userLocation) / 1000
+            let roundedDist        = round(distance * 100) / 100
+            request.distance       = roundedDist
+            request.paidOrNot      = false
+            request.uid            = value?["uid"] as? String ?? ""
+            request.address        = value?["address"] as? String ?? ""
+            request.note           = value?["note"] as? String ?? ""
+            request.amount         = value?["amount"] as? Int ?? 0
+            request.driverLocation = cleanerLoc
+            request.order          = dictToOrderCounter(orderDictionary: orderDict)
+            driverAccepted         = true
+            print("request1 = \(request)")
+            completion(request)
+        }
+    }
+    print("request2 = \(request)")
+}
+
+
+
+
 
 
 func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLocation, index: Int, uid: String,address: String, amount: Int, note: String, order: [String:Any]) -> Request {
@@ -65,5 +111,51 @@ func moveNode(oldString : String, newString : String){
     }
 }
 
+//
+//func createTransactionID(uid: String){
+//    let cleanerString = "drivers/\(uid)/currentClean"
+//    let cleanerRef    = Database.database().reference().child(cleanerString).childByAutoId()
+//    print("transaction ID = \(transactionID)")
+//
+//
+//
+//}
 
+
+func cleanerAcceptBackend(uid: String, driverLat: Double, driverLong: Double, userID: String){
+    driverAccepted    = true
+    let cleanerString = "drivers/\(uid)/currentClean"
+    let currentRef    = Database.database().reference().child(cleanerString)
+    let cleanerRef    = Database.database().reference().child(cleanerString).childByAutoId()
+    let transactionID = cleanerRef.key ?? "notransactionID"
+    let cleanerLoc    = ["driverLat": driverLat, "driverLong": driverLong, "transactionID" : transactionID] as [String : Any]
+    let userString    = "users/\(userID)/currentRequest"
+    let userRef       = Database.database().reference().child(userString)
+    print(transactionID)
+    let status        = ["status" : "inRoute", "transactionID" : transactionID]
+
+    currentRef.updateChildValues(cleanerLoc) { (error, ref) in
+        return
+    }
+    userRef.updateChildValues(status) { (error, ref) in
+        return
+    }    
+}
+
+
+func updateTravelTimeInDB(userLocation: CLLocationCoordinate2D, cleanerLocation: CLLocationCoordinate2D){
+    print("updateTravelTimeinDB")
+    let request                     = MKDirections.Request()
+    let startingLocation            = MKPlacemark(coordinate: cleanerLocation)
+    let destination                 = MKPlacemark(coordinate: userLocation)
+    request.source                  = MKMapItem(placemark: startingLocation)
+    request.destination             = MKMapItem(placemark: destination)
+    request.transportType           = .automobile
+    request.requestsAlternateRoutes = false
+    let directions                  = MKDirections(request: request)
+    directions.calculateETA { (eta, error) in
+        print("time1 = \(eta?.expectedTravelTime) seconds")
+    }
+
+}
 

@@ -34,6 +34,7 @@ class userViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var apartmentNumberText: UITextField!
     
     var orderCounter = cleaningOrderCount()
+
     
     
     
@@ -102,21 +103,37 @@ class userViewController: UIViewController, UITextFieldDelegate {
             }
         }
         else {
-            let id = (Auth.auth().currentUser?.uid)!
-            let ref    = Database.database().reference().child("users/\(id)/currentRequest")
+            let id        = (Auth.auth().currentUser?.uid)!
+            let driverRef = Database.database().reference().child("users/\(id)")
+            driverRef.observeSingleEvent(of: .value) { (snapshot) in
+                let value = snapshot.value as? [String : Any]
+                if value?["driver"] as? Bool == true{
+                    self.performSegue(withIdentifier: "userToCleanSegue", sender: nil)
+                    return
+                }
+                print(value?["driver"] as? String ?? "no Value")
+                
+            }
+            
+            
+            let ref       = Database.database().reference().child("users/\(id)/currentRequest")
+
             ref.observeSingleEvent(of : .value) { (snapshot) in
                 let value = snapshot.value as? [String : Any]
                 if  value?["status"] == nil{
                     print("empty")
                     self.loadUserData()
                 }
-                else{
+                else if value?["status"] as? String == "inRoute"{
                     print("needs to move to user progress")
-                    self.orderCounter =   dictToOrderCounter(orderDictionary: value?["order"] as! [String : Any])
+                    if value?["order"] == nil {
+                        print("order is missing")
+                        return
+                    }
+                    self.orderCounter =  dictToOrderCounter(orderDictionary: value?["order"] as! [String : Any])
                     self.performSegue(withIdentifier: "mainInProgressSegue", sender: nil)
                 }
             }
-
         }
     }
     // end authenticating user

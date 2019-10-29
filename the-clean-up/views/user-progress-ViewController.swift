@@ -39,9 +39,9 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
         startTrackingUserLocation()
         centerViewOnUserLocation()
         loadUserData()
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in
-            self.loadUserData()
-        }
+//        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in
+//            self.loadUserData()
+//        }
         // Do any additional setup after loading the view.
     }
     
@@ -75,40 +75,49 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
     func loadUserData(){
         print("loading users data")
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("currentRequests").child(uid).observeSingleEvent(of: .value) { (snapshot) in
-            let value = snapshot.value as? NSDictionary
-            let amount = value?["amount"] as? Double ?? 0.00
-            let driverLat = value?["driverLat"] as? String ?? ""
-            let driverLong = value?["driverLong"] as? String ?? ""
-            print("amount= \(amount)")
-            print("driverLat = \(driverLat)")
-            print("driverLong = \(driverLong)")
-            self.updateAmountLabel(amount: amount)
-            if driverLat == ""{
+        let requestString = "users/\(uid)/currentRequest"
+        let requestRef    = Database.database().reference().child(requestString)
+        requestRef.observe(.value) { (snapshot) in
+            let value    = snapshot.value  as? [String : AnyObject] ?? [:]
+            let status   = value["status"] as? String
+            let order    = dictToOrderCounter(orderDictionary: value["order"] as? [String : Any] ??
+                ["noValue":true])
+            let minAway  = value["minAway"] as? String ?? "Pending"
+            self.orderCounter = order
+            print(self.orderCounter)
+            print("status = \(String(describing: status))")
+            if  status  == "pending"{
                 self.lookingForADriver()
             }
-            else{
-                self.driverFound()
+            else if status == "inRoute"{
+                self.driverFound(minAway: minAway)
             }
+            
+            
         }
     }
     //end getting data from data base
-    func driverFound(){
+    func driverFound(minAway : String){
         titleLabel.text = "Help is on the way!"
         titleLabel.textColor = UIColor.black
+        self.minutesAwayLabel.text = "\(minAway) minutes away"
+        self.minutesAwayLabel.ay.stopLoading() 
+        
     }
     
     
     func lookingForADriver(){
-        titleLabel.text = "Looking for a driver!"
+        titleLabel.text = "Looking for a cleaner."
         self.minutesAwayLabel.ay.startLoading(message: "Searching...")
         minutesAwayLabel.text = ""
         orderDescriptionLabel.text = orderCounter.orderCounterToString()
+        let cost = calcTotalWithFees(orderCount: orderCounter)
+        updateAmountLabel(amount: cost)
     }
     
     
     func updateAmountLabel(amount: Double){
-        let amountString = amount / 100
+        let amountString = amount
         amountLabel.text = "$\(amountString)"
     }
 
