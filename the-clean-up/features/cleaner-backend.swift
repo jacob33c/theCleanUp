@@ -143,7 +143,7 @@ func cleanerAcceptBackend(uid: String, driverLat: Double, driverLong: Double, us
 }
 
 
-func updateTravelTimeInDB(userLocation: CLLocationCoordinate2D, cleanerLocation: CLLocationCoordinate2D){
+func updateTravelTimeInDB(userLocation: CLLocationCoordinate2D, cleanerLocation: CLLocationCoordinate2D, uid: String){
     print("updateTravelTimeinDB")
     let request                     = MKDirections.Request()
     let startingLocation            = MKPlacemark(coordinate: cleanerLocation)
@@ -155,6 +155,11 @@ func updateTravelTimeInDB(userLocation: CLLocationCoordinate2D, cleanerLocation:
     let directions                  = MKDirections(request: request)
     directions.calculateETA { (eta, error) in
         print("time1 = \(eta?.expectedTravelTime) seconds")
+        let time          = Int((eta?.expectedTravelTime ?? 0) / 60)
+        let userString    = "users/\(uid)/currentRequest"
+        let userRef       = Database.database().reference().child(userString)
+        let timeDict      = ["minAway" : time]
+        userRef.updateChildValues(timeDict)
     }
 
 }

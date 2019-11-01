@@ -56,9 +56,16 @@ struct Rating{
                return
            })
     }
-    func endTransaction(){
-        let old = "users/\(uid)/currentRequest"
-        let new = "users/\(uid)/pastRequest"
-        moveNode(oldString: old, newString: new)
+    func endTransaction(completion: @escaping ((Bool) -> Void)){
+        let old     = "users/\(uid)/currentRequest"
+        let oldRef  = Database.database().reference().child(old)
+        
+        oldRef.observeSingleEvent(of: .value) { (snapshot) in
+            let value         = snapshot.value as? [String : Any]
+            let transactionID = value?["transactionID"] ?? "noTransactionID"
+            let new           = "users/\(self.uid)/pastRequests/\(transactionID)"
+            moveNode(oldString: old, newString: new)
+            completion(true)
+        }
     }
 }

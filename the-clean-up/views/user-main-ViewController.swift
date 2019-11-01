@@ -56,6 +56,15 @@ class userViewController: UIViewController, UITextFieldDelegate {
     }
     
 
+    func weAreClosed(){
+        let appearance = SCLAlertView.SCLAppearance(
+            showCircularIcon: true
+        )
+        let alertView = SCLAlertView(appearance: appearance)
+        let alertViewIcon = UIImage(named: "closed") //Replace the IconImage text with the image name
+        alertView.showInfo("We are closed for the night!", subTitle: "We are open 7 days a week. HOURS: 7 AM - 7 PM", circleIconImage: alertViewIcon)
+    }
+    
     
     //set up the location manager
     func setupLocationManager() {
@@ -121,10 +130,10 @@ class userViewController: UIViewController, UITextFieldDelegate {
             ref.observeSingleEvent(of : .value) { (snapshot) in
                 let value = snapshot.value as? [String : Any]
                 if  value?["status"] == nil{
-                    print("empty")
+                    print("no status in DB right now")
                     self.loadUserData()
                 }
-                else if value?["status"] as? String == "inRoute"{
+                else if value?["status"] as? String == "inRoute" || value?["status"] as? String == "pending" {
                     print("needs to move to user progress")
                     if value?["order"] == nil {
                         print("order is missing")
@@ -144,7 +153,10 @@ class userViewController: UIViewController, UITextFieldDelegate {
     // MARK: - LoaduserData
     //this will get the users data from the auth and the data base
     func loadUserData() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("not signed in")
+            return
+        }
         userID = uid
         Database.database().reference().child("users").child(uid).child("status").observeSingleEvent(of: .value) { (snapshot) in
             
@@ -264,17 +276,20 @@ class userViewController: UIViewController, UITextFieldDelegate {
     
     //this function will handle what happens when the request button is tapped.
     @IBAction func requestButtonTapped(_ sender: Any) {
-        if stNum != "" {
+        if areWeOpen() != true {
+            weAreClosed()
+        }
+        else if stNum != "" {
             let alertView = SCLAlertView()
             alertView.addButton("Confirm") {
                 self.confirmLocation()
             }
             alertView.showInfo("\(stNum) \(stName)", subTitle: "Please confirm the the address of the cleaning", closeButtonTitle: "Cancel")
-            
+
         }
         else {
             SCLAlertView().showError("Error", subTitle: "Please move the pin to a valid location.") // Error
-
+            centerViewOnUserLocation()
         }
     }
     
@@ -282,6 +297,9 @@ class userViewController: UIViewController, UITextFieldDelegate {
     func confirmLocation() {
         if userID != ""{
             performSegue(withIdentifier: "requestSegue", sender: nil)
+        }
+        else {
+            print("please sign in")
         }
     }
     //end confirm location

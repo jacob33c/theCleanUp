@@ -39,10 +39,7 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
         startTrackingUserLocation()
         centerViewOnUserLocation()
         loadUserData()
-//        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in
-//            self.loadUserData()
-//        }
-        // Do any additional setup after loading the view.
+        updateLabels()
     }
     
     
@@ -78,47 +75,68 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
         let requestString = "users/\(uid)/currentRequest"
         let requestRef    = Database.database().reference().child(requestString)
         requestRef.observe(.value) { (snapshot) in
+            print("observe func ran")
             let value    = snapshot.value  as? [String : AnyObject] ?? [:]
             let status   = value["status"] as? String
             let order    = dictToOrderCounter(orderDictionary: value["order"] as? [String : Any] ??
                 ["noValue":true])
-            let minAway  = value["minAway"] as? String ?? "Pending"
+            let minAway  = value["minAway"] as? Int
+            print(minAway)
             self.orderCounter = order
             print(self.orderCounter)
-            print("status = \(String(describing: status))")
-            if  status  == "pending"{
+            print("status = \(status ?? "no status")")
+            switch status {
+            case "pending":
                 self.lookingForADriver()
+            case "inRoute":
+                self.inRoute(minAway:minAway ?? 0)
+            case "inProgress":
+                self.cleanInProgress()
+            case "cleanFinished":
+                self.cleanFinished()
+                requestRef.removeAllObservers()
+            default:
+                print("something went wrong")
             }
-            else if status == "inRoute"{
-                self.driverFound(minAway: minAway)
-            }
-            
-            
         }
-    }
-    //end getting data from data base
-    func driverFound(minAway : String){
-        titleLabel.text = "Help is on the way!"
-        titleLabel.textColor = UIColor.black
-        self.minutesAwayLabel.text = "\(minAway) minutes away"
-        self.minutesAwayLabel.ay.stopLoading() 
-        
+ 
     }
     
+    //end getting data from data base
+    func inRoute(minAway : Int){
+        self.minutesAwayLabel.ay.stopLoading()
+        titleLabel.text = "Help is on the way!"
+        if minAway <= 1{
+            self.minutesAwayLabel.text = "Cleaner is arriving!"
+        }
+        else{
+            self.minutesAwayLabel.text = "\(minAway) minutes away"
+        }
+        
+        print(minAway)
+    }
+    
+    func cleanInProgress(){
+        titleLabel.text = "Cleaning in Progress."
+
+    }
+    
+    func cleanFinished(){
+        performSegue(withIdentifier: "userProgressToRatingSegue", sender: nil)
+    }
     
     func lookingForADriver(){
         titleLabel.text = "Looking for a cleaner."
         self.minutesAwayLabel.ay.startLoading(message: "Searching...")
         minutesAwayLabel.text = ""
-        orderDescriptionLabel.text = orderCounter.orderCounterToString()
-        let cost = calcTotalWithFees(orderCount: orderCounter)
-        updateAmountLabel(amount: cost)
     }
     
     
-    func updateAmountLabel(amount: Double){
-        let amountString = amount
-        amountLabel.text = "$\(amountString)"
+    
+    func updateLabels(){
+        orderDescriptionLabel.text = orderCounter.orderCounterToString()
+        let cost = calcTotalWithFees(orderCount: orderCounter)
+        amountLabel.text = "$\(cost)"
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

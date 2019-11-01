@@ -321,7 +321,13 @@
             inTheMiddleOfRequst = true
 //            getUserLocation(userId: userID)
             getDirections(userID: userID)
-            updateTravelTimeInDB(userLocation: userLocation, cleanerLocation: driverLocation)
+            startUpdatingTravelTime(uid: userID)
+        }
+        
+        func startUpdatingTravelTime(uid: String){
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                updateTravelTimeInDB(userLocation: self.userLocation, cleanerLocation: self.driverLocation, uid: uid)
+            }
         }
         
         func hideOnlineButtonShowArrivedButton(){

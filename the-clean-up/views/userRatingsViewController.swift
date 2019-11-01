@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AyLoading
 
 class ratingsViewController: UIViewController, UITextFieldDelegate {
 
@@ -16,12 +17,14 @@ class ratingsViewController: UIViewController, UITextFieldDelegate {
     var rating = Rating()
     var order  = cleaningOrderCount()
     @IBOutlet weak var ratingSlider: UISlider!
+    @IBOutlet weak var submitRatingButton: UIButton!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.notesTextField.delegate = self
         sliderValueChanged(ratingSlider)
+        submitRatingButton.ay.stopLoading()
         
 
 
@@ -57,8 +60,14 @@ class ratingsViewController: UIViewController, UITextFieldDelegate {
     @IBAction func submitButtonTapped(_ sender: Any) {
         rating.setValues(titleInit: "", ratingInit: Int(ratingSlider.value), orderInit: order)
         rating.submitToBackend()
-        rating.endTransaction()
-        performSegue(withIdentifier: "ratingToMainSegue", sender: nil)
+        rating.endTransaction() { _ in ()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+               // Code you want to be delayed
+                self.performSegue(withIdentifier: "ratingToMainSegue", sender: nil)
+                self.submitRatingButton.ay.startLoading()
+            }
+            
+        }
     }
     
 }
