@@ -528,7 +528,7 @@
         }
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-            var userPin        = MKPointAnnotation()
+            let userPin        = MKPointAnnotation()
             userPin.coordinate = userLocation
             userPin.title      = "Client's Location"
             mapView.addAnnotation(userPin)

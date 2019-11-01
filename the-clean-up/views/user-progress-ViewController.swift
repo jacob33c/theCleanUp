@@ -81,7 +81,7 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
             let order    = dictToOrderCounter(orderDictionary: value["order"] as? [String : Any] ??
                 ["noValue":true])
             let minAway  = value["minAway"] as? Int
-            print(minAway)
+            print(minAway ?? 0)
             self.orderCounter = order
             print(self.orderCounter)
             print("status = \(status ?? "no status")")

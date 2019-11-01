@@ -8,12 +8,12 @@
 
 import UIKit
 
-class cleanerProgressViewController: UIViewController {
+class cleanerProgressViewController: UIViewController, UIImagePickerControllerDelegate {
     
 //MARK:- BUTTONS
     
-//MARK:- IMAGES
-
+    @IBOutlet var checkMarkButtons: [UIButton]!
+    //MARK:- IMAGES
     @IBOutlet var checkmarkImages: [UIImageView]!
     
     
@@ -35,12 +35,20 @@ class cleanerProgressViewController: UIViewController {
     var requestNote = String()
     var included    = RoomIncluded()
     
+    var imagePickerController : UIImagePickerController!
+
+    
+    
+    
+    
+    
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setLabels()
         hideImagesInArray(images: checkmarkImages)
+        setLabels()
         print(orderCount.orderCounterToString())
         // Do any additional setup after loading the view.
     }
@@ -54,10 +62,30 @@ class cleanerProgressViewController: UIViewController {
         garageCountLabel.text       = orderCount.garageCount.description
         laundryCountLabel.text      = orderCount.laundryCount.description
         notesLabel.text             = requestNote
+        checkRequiredRooms()
     }
     
-   
+    func checkRequiredRooms(){
+        if notRequired(roomCount: orderCount.masterBedroomCount) {cancelIcon(index: 0)}
+        if notRequired(roomCount: orderCount.kitchenDishCount)  {cancelIcon(index: 1)}
+        if notRequired(roomCount: orderCount.kitchenCount)      {cancelIcon(index: 2)}
+        if notRequired(roomCount: orderCount.regularRoomCount)  {cancelIcon(index: 3)}
+        if notRequired(roomCount: orderCount.garageCount)       {cancelIcon(index: 4)}
+        if notRequired(roomCount: orderCount.laundryCount)       {cancelIcon(index: 5)}
+        
+    }
+
+    func cancelIcon(index: Int){
+        checkmarkImages[index].image      = UIImage(named: "cancel")
+        checkmarkImages[index].isHidden   = false
+        checkMarkButtons[index].isEnabled = false
+        //TODO:- make sure buttons are disabled
+    }
+    
+    
+    
     @IBAction func checkButtonTapped(_ sender: UIButton) {
+        onPhotoButton()
         if checkmarkImages[sender.tag].isHidden{
             checkmarkImages[sender.tag].isHidden = false
         }
@@ -65,6 +93,19 @@ class cleanerProgressViewController: UIViewController {
             checkmarkImages[sender.tag].isHidden = true
             
         }
+    }
+    
+    
+    
+    func onPhotoButton() {
+       imagePickerController = UIImagePickerController()
+//       imagePickerController.delegate = self
+       imagePickerController.sourceType = .camera
+       present(imagePickerController, animated: true, completion: nil)
+    }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        imagePickerController.dismiss(animated: true, completion: nil)
+
     }
     
     
@@ -102,7 +143,11 @@ class cleanerProgressViewController: UIViewController {
             }
         }
     }
-
+    
+    
+    
+    
+    
     
     
  

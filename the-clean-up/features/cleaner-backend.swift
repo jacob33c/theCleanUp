@@ -35,7 +35,6 @@ func getCleanerRequestFromDB(uid : String, completion: @escaping (Request) -> Vo
     
     driverRef.observeSingleEvent(of: .value) { (snapshot) in
         let value = snapshot.value as? [String : Any]
-        print(value)
         if value?["roomCount"] == nil{
             print("roomCount = nil")
             return
@@ -111,15 +110,7 @@ func moveNode(oldString : String, newString : String){
     }
 }
 
-//
-//func createTransactionID(uid: String){
-//    let cleanerString = "drivers/\(uid)/currentClean"
-//    let cleanerRef    = Database.database().reference().child(cleanerString).childByAutoId()
-//    print("transaction ID = \(transactionID)")
-//
-//
-//
-//}
+
 
 
 func cleanerAcceptBackend(uid: String, driverLat: Double, driverLong: Double, userID: String){
@@ -154,7 +145,6 @@ func updateTravelTimeInDB(userLocation: CLLocationCoordinate2D, cleanerLocation:
     request.requestsAlternateRoutes = false
     let directions                  = MKDirections(request: request)
     directions.calculateETA { (eta, error) in
-        print("time1 = \(eta?.expectedTravelTime) seconds")
         let time          = Int((eta?.expectedTravelTime ?? 0) / 60)
         let userString    = "users/\(uid)/currentRequest"
         let userRef       = Database.database().reference().child(userString)
@@ -164,3 +154,12 @@ func updateTravelTimeInDB(userLocation: CLLocationCoordinate2D, cleanerLocation:
 
 }
 
+func notRequired(roomCount : Int) -> Bool{
+    if roomCount > 0 {
+        return false
+    }
+    else{
+        return true
+    }
+    print("room count = \(roomCount)")
+}
