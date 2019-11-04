@@ -22,12 +22,12 @@ let feePerCleaner          = 4.99
 
 
 //MARK:- MAXIMUMS
-let masterMax        = 2.0
-let kitchenDishMax   = 2.0
-let kitchenMax       = 2.0
-let regularMax       = 4.0
+let masterMax        = 1.0
+let kitchenDishMax   = 1.0
+let kitchenMax       = 1.0
+let regularMax       = 2.0
 let garageMax        = 1.0
-let laundryMax       = 4.0
+let laundryMax       = 2.0
 
 //MARK:- MISC VARIABLES
 let roomsPerCleaner = 3.0
@@ -50,6 +50,7 @@ struct cleaningOrderCount {
     var regularRoomCount   : Int = 0
     var garageCount        : Int = 0
     var laundryCount       : Int = 0
+    var clientsUID               = String()
         
     mutating func setAll(masterInit : Int, kitchenDishInit : Int, kitchenInit : Int, regularInit : Int, garageInit : Int, laundryInit : Int) {
         masterBedroomCount = masterInit
@@ -70,6 +71,10 @@ struct cleaningOrderCount {
     }
     
     func requiredCleaners() -> Int{
+        return 1
+    }
+    
+    func requiredCleanersFuture() -> Int{
         var minRequiredCleaners = Int()
         let roomCount           = masterBedroomCount + kitchenDishCount + kitchenCount +
                                 regularRoomCount + garageCount + (laundryCount / 2)

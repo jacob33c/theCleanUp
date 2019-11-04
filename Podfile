@@ -9,8 +9,11 @@ target 'the-clean-up' do
         pod 'Firebase/Auth'
         pod 'Firebase/Database'
         pod 'Firebase/Core'
-        pod 'Alamofire'
+        pod 'Firebase/Storage'
+	pod 'Alamofire'
         pod 'Stripe'
 	pod 'AyLoading', '4.0.1'
 	pod 'SCLAlertView'
+	pod "BSImagePicker", "~> 2.8"
+	pod 'LinearProgressBarMaterial'
 end

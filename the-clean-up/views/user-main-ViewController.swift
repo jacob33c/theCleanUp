@@ -113,6 +113,7 @@ class userViewController: UIViewController, UITextFieldDelegate {
         }
         else {
             let id        = (Auth.auth().currentUser?.uid)!
+            print(id)
             let driverRef = Database.database().reference().child("users/\(id)")
             driverRef.observeSingleEvent(of: .value) { (snapshot) in
                 let value = snapshot.value as? [String : Any]
@@ -121,19 +122,15 @@ class userViewController: UIViewController, UITextFieldDelegate {
                     return
                 }
                 print(value?["driver"] as? String ?? "no Value")
-                
             }
-            
-            
             let ref       = Database.database().reference().child("users/\(id)/currentRequest")
-
             ref.observeSingleEvent(of : .value) { (snapshot) in
                 let value = snapshot.value as? [String : Any]
                 if  value?["status"] == nil{
                     print("no status in DB right now")
                     self.loadUserData()
                 }
-                else if value?["status"] as? String == "inRoute" || value?["status"] as? String == "pending" {
+                else{
                     print("needs to move to user progress")
                     if value?["order"] == nil {
                         print("order is missing")
@@ -153,18 +150,8 @@ class userViewController: UIViewController, UITextFieldDelegate {
     // MARK: - LoaduserData
     //this will get the users data from the auth and the data base
     func loadUserData() {
-        guard let uid = Auth.auth().currentUser?.uid else {
-            print("not signed in")
-            return
-        }
-        userID = uid
-        Database.database().reference().child("users").child(uid).child("status").observeSingleEvent(of: .value) { (snapshot) in
-            
-            guard let status = snapshot.value as? String else { return }
-            if status == "requestMode"{
-                self.performSegue(withIdentifier: "requestSegue", sender: nil)
-            }
-        }
+        print("user id = \(Auth.auth().currentUser?.uid.debugDescription)")
+        userID = Auth.auth().currentUser?.uid ?? ""
     }
     //end load user data
     
@@ -296,9 +283,11 @@ class userViewController: UIViewController, UITextFieldDelegate {
     //this is what happens when we confirm the location of the request
     func confirmLocation() {
         if userID != ""{
+            print(userID)
             performSegue(withIdentifier: "requestSegue", sender: nil)
         }
         else {
+            print(userID)
             print("please sign in")
         }
     }

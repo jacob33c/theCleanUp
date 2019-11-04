@@ -113,7 +113,7 @@ func moveNode(oldString : String, newString : String){
 
 
 
-func cleanerAcceptBackend(uid: String, driverLat: Double, driverLong: Double, userID: String){
+func cleanerAcceptBackend(uid: String, driverLat: Double, driverLong: Double, userID: String) -> String{
     driverAccepted    = true
     let cleanerString = "drivers/\(uid)/currentClean"
     let currentRef    = Database.database().reference().child(cleanerString)
@@ -130,7 +130,8 @@ func cleanerAcceptBackend(uid: String, driverLat: Double, driverLong: Double, us
     }
     userRef.updateChildValues(status) { (error, ref) in
         return
-    }    
+    }
+    return transactionID
 }
 
 
@@ -151,8 +152,17 @@ func updateTravelTimeInDB(userLocation: CLLocationCoordinate2D, cleanerLocation:
         let timeDict      = ["minAway" : time]
         userRef.updateChildValues(timeDict)
     }
-
 }
+
+
+func cleanInProgressDB(userID : String){
+    let userString    = "users/\(userID)/currentRequest"
+    let userRef       = Database.database().reference().child(userString)
+    let progressDict  = ["status" : "inProgress"]
+    userRef.updateChildValues(progressDict)
+}
+
+
 
 func notRequired(roomCount : Int) -> Bool{
     if roomCount > 0 {
@@ -161,5 +171,4 @@ func notRequired(roomCount : Int) -> Bool{
     else{
         return true
     }
-    print("room count = \(roomCount)")
 }

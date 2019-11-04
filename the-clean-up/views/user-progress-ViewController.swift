@@ -11,6 +11,7 @@ import MapKit
 import FirebaseAuth
 import FirebaseDatabase
 import AyLoading
+import LinearProgressBarMaterial
 
 class progressViewController: UIViewController, CLLocationManagerDelegate {
 
@@ -29,6 +30,10 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
     
     
     var orderCounter = cleaningOrderCount.init()
+    
+    let linearBar = LinearProgressBar()
+
+
 
     
     
@@ -67,9 +72,16 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
     }
     //end tracking on user fun
     
+    func startProgressAnimation() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.linearBar.startAnimation()
+        }
+    }
+    
     
     //this will get the users data from the auth and the data base
     func loadUserData(){
+        startProgressAnimation()
         print("loading users data")
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let requestString = "users/\(uid)/currentRequest"
@@ -87,9 +99,9 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
             print("status = \(status ?? "no status")")
             switch status {
             case "pending":
-                self.lookingForADriver()
+                self.cleanPending()
             case "inRoute":
-                self.inRoute(minAway:minAway ?? 0)
+                self.cleanInRoute(minAway:minAway ?? 0)
             case "inProgress":
                 self.cleanInProgress()
             case "cleanFinished":
@@ -103,7 +115,15 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     //end getting data from data base
-    func inRoute(minAway : Int){
+    
+    func cleanPending(){
+         titleLabel.text = "Looking for a cleaner."
+         self.minutesAwayLabel.ay.startLoading(message: "Searching...")
+         minutesAwayLabel.text = ""
+     }
+    
+    
+    func cleanInRoute(minAway : Int){
         self.minutesAwayLabel.ay.stopLoading()
         titleLabel.text = "Help is on the way!"
         if minAway <= 1{
@@ -112,24 +132,18 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
         else{
             self.minutesAwayLabel.text = "\(minAway) minutes away"
         }
-        
-        print(minAway)
     }
     
     func cleanInProgress(){
-        titleLabel.text = "Cleaning in Progress."
-
+        titleLabel.text        = "Cleaning in Progress."
+        minutesAwayLabel.text  = "Your maid has arrived"
     }
     
     func cleanFinished(){
         performSegue(withIdentifier: "userProgressToRatingSegue", sender: nil)
     }
     
-    func lookingForADriver(){
-        titleLabel.text = "Looking for a cleaner."
-        self.minutesAwayLabel.ay.startLoading(message: "Searching...")
-        minutesAwayLabel.text = ""
-    }
+ 
     
     
     
@@ -146,5 +160,8 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
+    
+
+
     
 }

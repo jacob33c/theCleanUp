@@ -206,7 +206,6 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     //MARK: - MASTER BEDROOM STUFF
 
     @IBAction func masterStepperTapped(_ sender: UIStepper) {
-        masterStepper.maximumValue = 2
         masterBedroomText.text = Int(sender.value).description
         updatePriceLabels()
     }

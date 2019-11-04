@@ -46,6 +46,7 @@
         var request = Request()
         
         var DriverID = String()
+        var transactionID  = String()
 
 
 
@@ -107,8 +108,10 @@
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if segue.identifier == "cleanerProgressSegue"{
                 if let destinationVC = segue.destination as? cleanerProgressViewController{
-                    destinationVC.orderCount  = request.order
-                    destinationVC.requestNote = request.note
+                    destinationVC.orderCount    = request.order
+                    destinationVC.requestNote   = request.note
+                    destinationVC.clientUID     = request.uid
+                    destinationVC.transactionID = transactionID
                 }
             }
         }
@@ -317,7 +320,7 @@
                 self.addressLabel.ay.stopLoading()
                 self.addressLabel.text = address
 //            }
-            cleanerAcceptBackend(uid: DriverID, driverLat: driverLocation.latitude, driverLong: driverLocation.longitude, userID: userID)
+            transactionID = cleanerAcceptBackend(uid: DriverID, driverLat: driverLocation.latitude, driverLong: driverLocation.longitude, userID: userID)
             inTheMiddleOfRequst = true
 //            getUserLocation(userId: userID)
             getDirections(userID: userID)
