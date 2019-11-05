@@ -9,26 +9,54 @@
 import UIKit
 import AyLoading
 
-class ratingsViewController: UIViewController, UITextFieldDelegate {
+class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
     
     @IBOutlet var starsImages: [UIImageView]!
-    @IBOutlet weak var notesTextField: UITextField!
     var rating = Rating()
     var order  = cleaningOrderCount()
     @IBOutlet weak var ratingSlider: UISlider!
     @IBOutlet weak var submitRatingButton: UIButton!
     
+    @IBOutlet weak var tipTextField: UITextField!
+    @IBOutlet weak var notesTextView: UITextView!
+    
+    let numberToolbar: UIToolbar = UIToolbar()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.notesTextField.delegate = self
         sliderValueChanged(ratingSlider)
         submitRatingButton.ay.stopLoading()
+        setNotesPlaceholder()
+        self.tipTextField.delegate  = self
+        self.notesTextView.delegate = self
+       
         
-
+            
 
         // Do any additional setup after loading the view.
+    }
+    
+    func setNotesPlaceholder(){
+        notesTextView.text = "Use this section to add additional notes."
+        notesTextView.textColor = UIColor.lightGray
+        tipTextField.addDoneCancelToolbar()
+        notesTextView.addDoneButton(title: "Done", target: self, selector: #selector(tapDone(sender:)))
+    }
+    
+     @objc func tapDone(sender: UITextView) {
+        print("done")
+        self.view.endEditing(true)
+     }
+
+    @IBAction func tipTextDidChange(_ sender: Any) {
+        tipTextField.text = "$\(tipTextField.text)"
+    }
+    
+    @IBAction func tipDidChange(_ sender: Any) {
+        print("hello")
+        tipTextField.text = "$\(tipTextField.text)"
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -36,6 +64,14 @@ class ratingsViewController: UIViewController, UITextFieldDelegate {
            return false
     }
     
+
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
     
     
     @IBAction func sliderValueChanged(_ sender: UISlider) {
@@ -52,13 +88,11 @@ class ratingsViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
-    
-    
-    
+
+
     
     @IBAction func submitButtonTapped(_ sender: Any) {
-        rating.setValues(titleInit: "", ratingInit: Int(ratingSlider.value), orderInit: order)
+        rating.setValues(titleInit: "UserRating", ratingInit: Int(ratingSlider.value), orderInit: order, notesInit: notesTextView.text,tipInit: tipTextField.text ?? "")
         rating.submitToBackend()
         rating.endTransaction() { _ in ()
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
@@ -66,7 +100,6 @@ class ratingsViewController: UIViewController, UITextFieldDelegate {
                 self.performSegue(withIdentifier: "ratingToMainSegue", sender: nil)
                 self.submitRatingButton.ay.startLoading()
             }
-            
         }
     }
     

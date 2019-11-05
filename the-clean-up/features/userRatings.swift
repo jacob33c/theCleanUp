@@ -17,11 +17,14 @@ struct Rating{
     var notes   = String()
     var order   = cleaningOrderCount()
     var uid     = String()
+    var tip     = Double()
     
-    mutating func setValues(titleInit: String, ratingInit: Int, orderInit: cleaningOrderCount) {
+    mutating func setValues(titleInit: String, ratingInit: Int, orderInit: cleaningOrderCount, notesInit : String, tipInit : String) {
         title   = titleInit
         stars   = ratingInit
         order   = orderInit
+        notes   = notesInit
+        
         checkUid()
     }
     
@@ -30,15 +33,25 @@ struct Rating{
         stars = 0
         notes = ""
         order = cleaningOrderCount()
-        uid   = ""
+        checkUid()
     }
     
+    
+    func tipTextToDouble( tipString: String) -> Double{
+        if tipString == "" {
+            return 0.00
+        }
+        else{
+            return 1.0
+        }
+    }
     
     func ratingToDictionary() -> [String: Any]{
         let ratingDictionary = ["order"  : orderCounterToDict(orderCount: order),
                                 "title"  : title,
                                 "stars"  : stars,
                                 "notes"  : notes,
+                                "tip"    : tip,
                                 "uid"    : uid] as [String : Any]
         return ratingDictionary
     }
@@ -69,3 +82,26 @@ struct Rating{
         }
     }
 }
+
+struct DotNum {
+    private var fraction:String = ""
+    private var intval:String = ""
+    init() {}
+    mutating func enter(_ s:String) {
+        if fraction.count < 2 {
+          fraction = s + fraction
+        } else {
+          intval = s + intval
+        }
+    }
+    private var sFract:String {
+        if fraction.count == 0 { return "00" }
+        if fraction.count == 1 { return "0\(fraction)" }
+        return fraction
+    }
+    var stringVal:String {
+        if intval == ""  { return "0.\(sFract)" }
+        return "\(intval).\(sFract)"
+    }
+}
+

@@ -73,7 +73,8 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
     //end tracking on user fun
     
     func startProgressAnimation() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.linearBar.backgroundProgressBarColor = UIColor.white
             self.linearBar.startAnimation()
         }
     }
