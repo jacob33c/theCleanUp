@@ -8,6 +8,8 @@
 
 import UIKit
 import AyLoading
+import CurrencyText
+
 
 class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
@@ -18,8 +20,13 @@ class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     @IBOutlet weak var ratingSlider: UISlider!
     @IBOutlet weak var submitRatingButton: UIButton!
     
-    @IBOutlet weak var tipTextField: UITextField!
     @IBOutlet weak var notesTextView: UITextView!
+    
+    
+    @IBOutlet weak var tipTextField: UITextField!
+    
+    private var textFieldDelegate: CurrencyUITextFieldDelegate!
+
     
     let numberToolbar: UIToolbar = UIToolbar()
 
@@ -31,11 +38,29 @@ class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         setNotesPlaceholder()
         self.tipTextField.delegate  = self
         self.notesTextView.delegate = self
-       
+        setupTextFieldWithCurrencyDelegate()
         
             
 
         // Do any additional setup after loading the view.
+    }
+    
+    
+    private func setupTextFieldWithCurrencyDelegate() {
+        let currencyFormatter = CurrencyFormatter {
+            $0.maxValue = 100
+            $0.minValue = 0
+            $0.currency = .dollar
+            $0.locale = CurrencyLocale.englishUnitedStates
+            $0.hasDecimals = false
+            $0.decimalDigits = 2
+        }
+        
+        textFieldDelegate = CurrencyUITextFieldDelegate(formatter: currencyFormatter)
+        textFieldDelegate.clearsWhenValueIsZero = true
+        
+        tipTextField.delegate = textFieldDelegate
+        tipTextField.keyboardType = .numbersAndPunctuation
     }
     
     func setNotesPlaceholder(){
@@ -50,15 +75,7 @@ class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         self.view.endEditing(true)
      }
 
-    @IBAction func tipTextDidChange(_ sender: Any) {
-        tipTextField.text = "$\(tipTextField.text)"
-    }
-    
-    @IBAction func tipDidChange(_ sender: Any) {
-        print("hello")
-        tipTextField.text = "$\(tipTextField.text)"
-    }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
            self.view.endEditing(true)
            return false
@@ -92,13 +109,13 @@ class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDe
 
     
     @IBAction func submitButtonTapped(_ sender: Any) {
-        rating.setValues(titleInit: "UserRating", ratingInit: Int(ratingSlider.value), orderInit: order, notesInit: notesTextView.text,tipInit: tipTextField.text ?? "")
+//        rating.setValues(titleInit: "UserRating", ratingInit: Int(ratingSlider.value), orderInit: order, notesInit: notesTextView.text,tipInit: tipTextField.text ?? "")
         rating.submitToBackend()
         rating.endTransaction() { _ in ()
+            self.submitRatingButton.ay.startLoading()
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                // Code you want to be delayed
                 self.performSegue(withIdentifier: "ratingToMainSegue", sender: nil)
-                self.submitRatingButton.ay.startLoading()
             }
         }
     }

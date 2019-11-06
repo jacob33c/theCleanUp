@@ -16,4 +16,5 @@ target 'the-clean-up' do
 	pod 'SCLAlertView'
 	pod "BSImagePicker", "~> 2.8"
 	pod 'LinearProgressBarMaterial'
+	pod 'CurrencyText'
 end

@@ -1,0 +1,6 @@
+framework module CurrencyText {
+  umbrella header "CurrencyText-umbrella.h"
+
+  export *
+  module * { export * }
+}

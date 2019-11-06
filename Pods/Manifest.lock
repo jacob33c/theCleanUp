@@ -6,6 +6,12 @@ PODS:
     - BSGridCollectionViewLayout (= 1.2.5)
     - BSImageView (= 1.0.3)
   - BSImageView (1.0.3)
+  - CurrencyText (2.1.0):
+    - CurrencyText/CurrencyFormatter (= 2.1.0)
+    - CurrencyText/CurrencyUITextField (= 2.1.0)
+  - CurrencyText/CurrencyFormatter (2.1.0)
+  - CurrencyText/CurrencyUITextField (2.1.0):
+    - CurrencyText/CurrencyFormatter
   - Firebase/Auth (6.7.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.2.3)
@@ -103,6 +109,7 @@ DEPENDENCIES:
   - Alamofire
   - AyLoading (= 4.0.1)
   - BSImagePicker (~> 2.8)
+  - CurrencyText
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
@@ -138,6 +145,7 @@ SPEC REPOS:
     - BSGridCollectionViewLayout
     - BSImagePicker
     - BSImageView
+    - CurrencyText
     - FirebaseStorage
     - LinearProgressBarMaterial
     - SCLAlertView
@@ -148,6 +156,7 @@ SPEC CHECKSUMS:
   BSGridCollectionViewLayout: 333dcb457a5a3bdd9212607ab5756553dcfe06cb
   BSImagePicker: 07404254f2fcdaf5a2eb403c0f8c337267ce8738
   BSImageView: a149459433a2687157d034c78e059d30ac7f2544
+  CurrencyText: fca69b6515469de582e900acda3451a6cc8cb821
   Firebase: 291d7b0a7b393f252358083b5d224884126fa46d
   FirebaseAnalytics: 843c7f64a8f9c79f0d03281197ebe7bb1d58d477
   FirebaseAuth: e7f86c2dfc57281cd01f7da5e4b40e01e4510a4a
@@ -170,6 +179,6 @@ SPEC CHECKSUMS:
   SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
   Stripe: 67f64f64314503b396a71c55535d5307d7e5c9ff
 
-PODFILE CHECKSUM: d04c7f4cdc1a22afac69871be16056c524c5ea07
+PODFILE CHECKSUM: 331179149083e70bba8c9aeeb716721c3ca37e53
 
 COCOAPODS: 1.8.3
