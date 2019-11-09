@@ -10,8 +10,9 @@ import UIKit
 import FirebaseAuth
 import JSSAlertView
 import FirebaseDatabase
+import FirebaseUI
 
-class settingsViewController: UIViewController {
+class settingsViewController: UIViewController, FUIAuthDelegate {
     
     
     let user = Auth.auth().currentUser
@@ -194,8 +195,25 @@ class settingsViewController: UIViewController {
     
     func signOutandGotoRoot(){
         signOut()
-        DispatchQueue.main.async {
-            self.performSegue(withIdentifier: "rootSegue1", sender: nil)
-        }
+        hasCheckedPhoneSinceOpeningApp = false
+        performSegue(withIdentifier: "settingsToUserSegue", sender: nil)
+    }
+    
+    //MARK:- FIREBASE SIGN IN
+    func firebaseSignIn(){
+        guard let authUI = FUIAuth.defaultAuthUI() else {return}
+        authUI.delegate = self
+
+        let providers: [FUIAuthProvider] = [
+        FUIGoogleAuth(),
+        FUIEmailAuth(),
+        ]
+        authUI.providers = providers
+        authUI.shouldHideCancelButton = true
+        let authViewController = authUI.authViewController()
+        authViewController.modalPresentationStyle = .fullScreen
+        present(authViewController, animated: true)
     }
 }
+
+

@@ -84,7 +84,7 @@
         func authenticateUser() {
             if Auth.auth().currentUser == nil {
                 DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: "rootSegue", sender: nil)
+                    print("needs to sign in")
                 }
             }
             else{

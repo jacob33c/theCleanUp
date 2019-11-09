@@ -28,6 +28,7 @@
 		EB3E1F6A2357D570002DEE68 /* userRatingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3E1F692357D570002DEE68 /* userRatingsViewController.swift */; };
 		EB3E1F6C235AD2C7002DEE68 /* knownErrorsAndNeedFixes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = EB3E1F6B235AD2C7002DEE68 /* knownErrorsAndNeedFixes.rtf */; };
 		EB3E1F6E235C0181002DEE68 /* isTerminated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3E1F6D235C0181002DEE68 /* isTerminated.swift */; };
+		EB49C7BF2373ACCC00211EBB /* authenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB49C7BE2373ACCC00211EBB /* authenticationViewController.swift */; };
 		EB4FED81234D822300FD8F70 /* included-in-room.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4FED80234D822300FD8F70 /* included-in-room.swift */; };
 		EB4FED83234D863D00FD8F70 /* includedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4FED82234D863D00FD8F70 /* includedViewController.swift */; };
 		EB5B8AA5234901BE0043C988 /* Payment-backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5B8AA4234901BE0043C988 /* Payment-backend.swift */; };
@@ -42,6 +43,7 @@
 		EB76ED47236D4C1C00A0E024 /* storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB76ED46236D4C1C00A0E024 /* storage.swift */; };
 		EB76ED492370F48A00A0E024 /* uiview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB76ED482370F48A00A0E024 /* uiview.swift */; };
 		EB76ED4B23712BE600A0E024 /* moneyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB76ED4A23712BE600A0E024 /* moneyFormatter.swift */; };
+		EBB187B7237502D800B3EA22 /* signIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB187B6237502D800B3EA22 /* signIn.swift */; };
 		EBBE36B92314898900442BD8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBE36B82314898800442BD8 /* AppDelegate.swift */; };
 		EBBE36BB2314898900442BD8 /* main-controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBE36BA2314898900442BD8 /* main-controller.swift */; };
 		EBBE36BE2314898900442BD8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBBE36BC2314898900442BD8 /* Main.storyboard */; };
@@ -73,6 +75,7 @@
 		EB3E1F692357D570002DEE68 /* userRatingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userRatingsViewController.swift; sourceTree = "<group>"; };
 		EB3E1F6B235AD2C7002DEE68 /* knownErrorsAndNeedFixes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = knownErrorsAndNeedFixes.rtf; sourceTree = "<group>"; };
 		EB3E1F6D235C0181002DEE68 /* isTerminated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = isTerminated.swift; sourceTree = "<group>"; };
+		EB49C7BE2373ACCC00211EBB /* authenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = authenticationViewController.swift; sourceTree = "<group>"; };
 		EB4FED80234D822300FD8F70 /* included-in-room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "included-in-room.swift"; sourceTree = "<group>"; };
 		EB4FED82234D863D00FD8F70 /* includedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = includedViewController.swift; sourceTree = "<group>"; };
 		EB4FED84234D893000FD8F70 /* Cashapp Notification Sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Cashapp Notification Sound.mp3"; sourceTree = "<group>"; };
@@ -88,6 +91,7 @@
 		EB76ED46236D4C1C00A0E024 /* storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = storage.swift; sourceTree = "<group>"; };
 		EB76ED482370F48A00A0E024 /* uiview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uiview.swift; sourceTree = "<group>"; };
 		EB76ED4A23712BE600A0E024 /* moneyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moneyFormatter.swift; sourceTree = "<group>"; };
+		EBB187B6237502D800B3EA22 /* signIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = signIn.swift; sourceTree = "<group>"; };
 		EBBE36B52314898800442BD8 /* the-clean-up.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "the-clean-up.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBBE36B82314898800442BD8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBBE36BA2314898900442BD8 /* main-controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "main-controller.swift"; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 		EB1E6EA423176B4D00B2BC31 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				EB49C7BE2373ACCC00211EBB /* authenticationViewController.swift */,
 				EB1E6EA223174B9800B2BC31 /* cleaner-login-ViewController.swift */,
 				EB1E6EA523176B8C00B2BC31 /* cleaner-signup-ViewController.swift */,
 				EB1E6EBD2317852B00B2BC31 /* cleaner-main-ViewController.swift */,
@@ -160,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				EB1C331F2325DF2F00EFE0D9 /* textViewDone.swift */,
+				EBB187B6237502D800B3EA22 /* signIn.swift */,
 				EB3E1F6D235C0181002DEE68 /* isTerminated.swift */,
 				EB1C3734231DD6C00084ACEE /* createUsernameFromEmail.swift */,
 				EB1E6EA023174B0800B2BC31 /* one-line-text-field.swift */,
@@ -244,6 +250,7 @@
 				EBBE36B22314898800442BD8 /* Frameworks */,
 				EBBE36B32314898800442BD8 /* Resources */,
 				F971A8D2DD2E14126A1100FA /* [CP] Embed Pods Frameworks */,
+				E92034C2A88BFBE419BB2C34 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -328,6 +335,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E92034C2A88BFBE419BB2C34 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-the-clean-up/Pods-the-clean-up-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-the-clean-up/Pods-the-clean-up-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-the-clean-up/Pods-the-clean-up-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		F971A8D2DD2E14126A1100FA /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -354,6 +378,7 @@
 			files = (
 				EB3E1F682356D50B002DEE68 /* userRatings.swift in Sources */,
 				EB5B8AAD234BB9870043C988 /* cleanerBeforePicsViewController.swift in Sources */,
+				EBB187B7237502D800B3EA22 /* signIn.swift in Sources */,
 				EB76ED492370F48A00A0E024 /* uiview.swift in Sources */,
 				EB3E1F66234EB6B0002DEE68 /* button-image.swift in Sources */,
 				EB4FED81234D822300FD8F70 /* included-in-room.swift in Sources */,
@@ -364,6 +389,7 @@
 				EB1E6EBE2317852B00B2BC31 /* cleaner-main-ViewController.swift in Sources */,
 				EB76ED45236A342000A0E024 /* timeOpen.swift in Sources */,
 				EB1E6EA323174B9800B2BC31 /* cleaner-login-ViewController.swift in Sources */,
+				EB49C7BF2373ACCC00211EBB /* authenticationViewController.swift in Sources */,
 				EB1C3733231CC6150084ACEE /* user-payment-ViewController.swift in Sources */,
 				EB5B8AAF234BEAEF0043C988 /* playSound.swift in Sources */,
 				EB1E6EAA23176D6F00B2BC31 /* user-signup-ViewController.swift in Sources */,

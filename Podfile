@@ -7,7 +7,11 @@ target 'the-clean-up' do
   # Pods for the-clean-up
 	pod 'JSSAlertView'
         pod 'Firebase/Auth'
-        pod 'Firebase/Database'
+	pod 'FirebaseUI/Auth'
+	pod 'FirebaseUI/Google'
+	pod 'FirebaseUI/Phone'
+	pod 'FirebaseUI/Email'
+	pod 'Firebase/Database'
         pod 'Firebase/Core'
         pod 'Firebase/Storage'
 	pod 'Alamofire'

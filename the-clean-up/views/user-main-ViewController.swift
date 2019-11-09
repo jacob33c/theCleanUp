@@ -10,11 +10,12 @@ import UIKit
 import MapKit
 import CoreLocation
 import JSSAlertView
+import FirebaseUI
 import FirebaseAuth
 import FirebaseDatabase
 import SCLAlertView
 
-class userViewController: UIViewController, UITextFieldDelegate {
+class userViewController: UIViewController, UITextFieldDelegate, FUIAuthDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var addressLabel: UILabel!
@@ -42,12 +43,15 @@ class userViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkLocationServices()
-        authenticateUser()
         updateMapOnce()
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
         self.apartmentNumberText.delegate = self
         centerViewOnUserLocation()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        authenticateUser()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -104,14 +108,31 @@ class userViewController: UIViewController, UITextFieldDelegate {
     //end xheck location services
     
     
+//MARK:- FIREBASE SIGN IN
+    func firebaseSignIn(){
+        guard let authUI = FUIAuth.defaultAuthUI() else {return}
+        authUI.delegate = self
+
+        let providers: [FUIAuthProvider] = [
+        FUIGoogleAuth(),
+        FUIEmailAuth(),
+        ]
+        authUI.providers = providers
+        authUI.shouldHideCancelButton = true
+        let authViewController = authUI.authViewController()
+        authViewController.modalPresentationStyle = .fullScreen
+        present(authViewController, animated: true)
+    }
+    
+    
+    
     //this will check if the user is logged in
     func authenticateUser() {
         if Auth.auth().currentUser == nil {
-            DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "rootSegue", sender: nil)
-            }
+            firebaseSignIn()
         }
         else {
+            checkPhoneNumber()
             let id        = (Auth.auth().currentUser?.uid)!
             print(id)
             let driverRef = Database.database().reference().child("users/\(id)")
@@ -144,13 +165,101 @@ class userViewController: UIViewController, UITextFieldDelegate {
     }
     // end authenticating user
     
+    
+    func checkPhoneNumber(){
+        if hasCheckedPhoneSinceOpeningApp == false{
+            if Auth.auth().currentUser?.phoneNumber == nil {
+                hasCheckedPhoneSinceOpeningApp = true
+                print("phone number needs to be updated")
+                let appearance = SCLAlertView.SCLAppearance(
+                    showCloseButton: false
+                )
+                let alert = SCLAlertView(appearance: appearance)
+                let phoneNumText = alert.addTextField("555-123-4567")
+                phoneNumText.keyboardType    = .phonePad
+                phoneNumText.textContentType = .telephoneNumber
+                phoneNumText.textAlignment   = .center
+                alert.addButton("Submit") {
+                    self.submitPhone(phoneNumberText: phoneNumText)
+                }
+                alert.showEdit("Enter a phone number", subTitle: "Example: 555-123-4567")
+            }
+            else{
+                print(Auth.auth().currentUser?.phoneNumber as Any)
+            }
+        }
+    }
+    
+    
+    func submitPhone(phoneNumberText : UITextField){
+        print("Text value: \(phoneNumberText.text ?? "no value")")
+        let phonenumber = "+1\(phoneNumberText.text ?? "")"
+        PhoneAuthProvider.provider().verifyPhoneNumber(phonenumber, uiDelegate: nil) { (verificationID, error) in
+            if error != nil{
+                print(error as Any)
+                let appearance1 = SCLAlertView.SCLAppearance(
+                    showCloseButton: false
+                )
+                let alert1      = SCLAlertView(appearance: appearance1)
+                alert1.addButton("Try Again") {
+                    hasCheckedPhoneSinceOpeningApp = false
+                    self.checkPhoneNumber()
+                }
+                alert1.showError("Something went wrong", subTitle: error!.localizedDescription)
+            }
+            else{
+                print("get verification code")
+                let appearance2 = SCLAlertView.SCLAppearance(
+                    showCloseButton: false
+                )
+                let alert2           = SCLAlertView(appearance: appearance2)
+                let verificationText = alert2.addTextField("EX: 123456")
+                verificationText.keyboardType    = .numberPad
+                verificationText.textContentType = .oneTimeCode
+                verificationText.textAlignment   = .center
+                alert2.addButton("Submit") {
+                    let credential = PhoneAuthProvider.provider().credential(
+                        withVerificationID: verificationID ?? "",
+                        verificationCode: verificationText.text ?? "")
+                    Auth.auth().currentUser?.updatePhoneNumber(credential, completion: { (linkError) in
+                        if linkError != nil{
+                            print(linkError ?? "linkError")
+                            let appearanceLinkError = SCLAlertView.SCLAppearance(
+                                showCloseButton: false
+                            )
+                            let alertLinkError = SCLAlertView(appearance: appearanceLinkError)
+                            alertLinkError.addButton("Get new Code") {
+                                self.submitPhone(phoneNumberText: phoneNumberText)
+                            }
+                            alertLinkError.addButton("Enter a new Phone Number") {
+                                hasCheckedPhoneSinceOpeningApp = false
+                                self.checkPhoneNumber()
+                            }
+                            alertLinkError.showError("Something Went Wrong", subTitle: linkError!.localizedDescription)
+                        }
+                        else{
+                            createAccountInDatabase()
+                        }
+                    })
+                }
+                alert2.addButton("Get new code") {
+                    hasCheckedPhoneSinceOpeningApp = false
+                    self.checkPhoneNumber()
+                }
+                alert2.showEdit("Enter your verification code", subTitle: "Please check your text messages")
+
+                
+            }
+        }
+    }
+    
 
     
     
     // MARK: - LoaduserData
     //this will get the users data from the auth and the data base
     func loadUserData() {
-        print("user id = \(Auth.auth().currentUser?.uid.debugDescription)")
+//        print("user id = \(Auth.auth().currentUser?.uid.debugDescription)")
         userID = Auth.auth().currentUser?.uid ?? ""
     }
     //end load user data
@@ -263,7 +372,8 @@ class userViewController: UIViewController, UITextFieldDelegate {
     
     //this function will handle what happens when the request button is tapped.
     @IBAction func requestButtonTapped(_ sender: Any) {
-        if areWeOpen() != true {
+        
+        if areWeOpen() == true {
             weAreClosed()
         }
         else if stNum != "" {

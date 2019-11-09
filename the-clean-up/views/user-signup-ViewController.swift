@@ -67,7 +67,7 @@ class user_signup_ViewController: UIViewController {
                     else {
                         guard let uid = result?.user.uid else {return}
                         self.id = uid
-                        self.createAccount(email: email)
+//                        self.createAccount(email: email)
                     }
                 })
             }
@@ -77,9 +77,9 @@ class user_signup_ViewController: UIViewController {
     
     
 //this function will create an account in the real time data base
-    func createAccount(email: String){
+    func createAccount(email: String, phoneNumber: String){
         let username = self.createUsername(email: email)
-        let values = ["email": email, "username": username, "user": true, "driver":false] as [String : Any]
+        let values = ["email": email, "username": username, "user": true, "driver":false , "phoneNumber" : phoneNumber] as [String : Any]
         Database.database().reference().child("users").child(self.id).updateChildValues(values, withCompletionBlock: { (error, ref) in
             if let error = error {
                 JSSAlertView().danger(
@@ -89,7 +89,6 @@ class user_signup_ViewController: UIViewController {
                 )
             }
         })
-        self.performSegue(withIdentifier: "userSegue", sender: nil)
     }
 //end create account
     
