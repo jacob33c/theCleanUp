@@ -13,11 +13,11 @@ import FirebaseDatabase
 import AyLoading
 import LinearProgressBarMaterial
 
-class progressViewController: UIViewController, CLLocationManagerDelegate {
+class progressViewController: UIViewController, CLLocationManagerDelegate{
 
     
     let locationManager = CLLocationManager()
-    let regionInMeters: Double = 10000
+    let regionInMeters: Double = 1000
     
     @IBOutlet weak var amountLabel: UILabel!
 
@@ -27,13 +27,15 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var orderDescriptionLabel: UILabel!
     
+    @IBOutlet weak var phoneButton: UIButton!
     
     
     var orderCounter = cleaningOrderCount.init()
     
     let linearBar = LinearProgressBar()
+    var cleanerPhone = String()
 
-
+    var cleanerLocation       = CLLocationCoordinate2D()
 
     
     
@@ -45,6 +47,9 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
         centerViewOnUserLocation()
         loadUserData()
         updateLabels()
+        addCleanerLocationToMap()
+    
+        
     }
     
     
@@ -83,21 +88,22 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
     //this will get the users data from the auth and the data base
     func loadUserData(){
         startProgressAnimation()
+        addCleanerLocationToMap()
         print("loading users data")
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let requestString = "users/\(uid)/currentRequest"
         let requestRef    = Database.database().reference().child(requestString)
         requestRef.observe(.value) { (snapshot) in
             print("observe func ran")
-            let value    = snapshot.value  as? [String : AnyObject] ?? [:]
-            let status   = value["status"] as? String
-            let order    = dictToOrderCounter(orderDictionary: value["order"] as? [String : Any] ??
-                ["noValue":true])
-            let minAway  = value["minAway"] as? Int
-            print(minAway ?? 0)
+            let value         = snapshot.value  as? [String : AnyObject] ?? [:]
+            let status        = value["status"] as? String
+            self.cleanerPhone = value["cleanerPhone"] as? String ?? ""
+            let order         = dictToOrderCounter(orderDictionary: value["order"] as? [String : Any] ??
+                                ["noValue":true])
+            let minAway       = value["minAway"] as? Int
+            
             self.orderCounter = order
             print(self.orderCounter)
-            print("status = \(status ?? "no status")")
             switch status {
             case "pending":
                 self.cleanPending()
@@ -118,6 +124,7 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
     //end getting data from data base
     
     func cleanPending(){
+         phoneButton.isHidden = true
          titleLabel.text = "Looking for a cleaner."
          self.minutesAwayLabel.ay.startLoading(message: "Searching...")
          minutesAwayLabel.text = ""
@@ -125,6 +132,7 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
     
     
     func cleanInRoute(minAway : Int){
+        phoneButton.isHidden = false
         self.minutesAwayLabel.ay.stopLoading()
         titleLabel.text = "Help is on the way!"
         if minAway <= 1{
@@ -136,6 +144,7 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func cleanInProgress(){
+        phoneButton.isHidden = false
         titleLabel.text        = "Cleaning in Progress."
         minutesAwayLabel.text  = "Your maid has arrived"
     }
@@ -144,7 +153,34 @@ class progressViewController: UIViewController, CLLocationManagerDelegate {
         performSegue(withIdentifier: "userProgressToRatingSegue", sender: nil)
     }
     
+    func addCleanerLocationToMap(){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let requestString = "users/\(uid)/currentRequest"
+        let requestRef    = Database.database().reference().child(requestString)
+        requestRef.observe(.value) { (snapshot) in
+            let value             = snapshot.value  as? [String : AnyObject] ?? [:]
+            print("value = \(value)")
+            let cleanerLat        = value["driverLat"] as? Double ?? 0.0
+            let cleanerLong       = value["driverLong"] as? Double ?? 0.0
+            let cleanerPin        = MKPointAnnotation()
+            self.cleanerLocation  = CLLocationCoordinate2D(latitude: cleanerLat, longitude: cleanerLong)
+            cleanerPin.coordinate = self.cleanerLocation
+            cleanerPin.title      = "Maid's Location"
+            self.mapView.addAnnotation(cleanerPin)
+            self.mapView.showAnnotations(self.mapView.annotations, animated: true)
+            self.centerViewOnUserLocation()
+        }
+        
+        
+    }
+    
+    
  
+    @IBAction func phoneButtonTapped(_ sender: Any) {
+        if let url = NSURL(string: "tel://\(cleanerPhone)"), UIApplication.shared.canOpenURL(url as URL) {
+            UIApplication.shared.open(url as URL)
+        }
+    }
     
     
     

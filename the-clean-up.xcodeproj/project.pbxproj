@@ -23,6 +23,7 @@
 		EB1E6EBC2317851300B2BC31 /* user-main-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EBB2317851300B2BC31 /* user-main-ViewController.swift */; };
 		EB1E6EBE2317852B00B2BC31 /* cleaner-main-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1E6EBD2317852B00B2BC31 /* cleaner-main-ViewController.swift */; };
 		EB36FAED2335BA17006330CB /* user-progress-ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB36FAEC2335BA17006330CB /* user-progress-ViewController.swift */; };
+		EB3B4385237800C300516DEB /* cleanerAfterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3B4384237800C300516DEB /* cleanerAfterViewController.swift */; };
 		EB3E1F66234EB6B0002DEE68 /* button-image.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3E1F65234EB6B0002DEE68 /* button-image.swift */; };
 		EB3E1F682356D50B002DEE68 /* userRatings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3E1F672356D50B002DEE68 /* userRatings.swift */; };
 		EB3E1F6A2357D570002DEE68 /* userRatingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB3E1F692357D570002DEE68 /* userRatingsViewController.swift */; };
@@ -70,6 +71,7 @@
 		EB1E6EBB2317851300B2BC31 /* user-main-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "user-main-ViewController.swift"; sourceTree = "<group>"; };
 		EB1E6EBD2317852B00B2BC31 /* cleaner-main-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "cleaner-main-ViewController.swift"; sourceTree = "<group>"; };
 		EB36FAEC2335BA17006330CB /* user-progress-ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "user-progress-ViewController.swift"; sourceTree = "<group>"; };
+		EB3B4384237800C300516DEB /* cleanerAfterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cleanerAfterViewController.swift; sourceTree = "<group>"; };
 		EB3E1F65234EB6B0002DEE68 /* button-image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "button-image.swift"; sourceTree = "<group>"; };
 		EB3E1F672356D50B002DEE68 /* userRatings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userRatings.swift; sourceTree = "<group>"; };
 		EB3E1F692357D570002DEE68 /* userRatingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userRatingsViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				EB3E1F692357D570002DEE68 /* userRatingsViewController.swift */,
 				EB4FED82234D863D00FD8F70 /* includedViewController.swift */,
 				EBBE36BA2314898900442BD8 /* main-controller.swift */,
+				EB3B4384237800C300516DEB /* cleanerAfterViewController.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 				EB5B8AAD234BB9870043C988 /* cleanerBeforePicsViewController.swift in Sources */,
 				EBB187B7237502D800B3EA22 /* signIn.swift in Sources */,
 				EB76ED492370F48A00A0E024 /* uiview.swift in Sources */,
+				EB3B4385237800C300516DEB /* cleanerAfterViewController.swift in Sources */,
 				EB3E1F66234EB6B0002DEE68 /* button-image.swift in Sources */,
 				EB4FED81234D822300FD8F70 /* included-in-room.swift in Sources */,
 				EB1E6EA823176D5700B2BC31 /* user-login-ViewController.swift in Sources */,

@@ -259,7 +259,7 @@ class userViewController: UIViewController, UITextFieldDelegate, FUIAuthDelegate
     // MARK: - LoaduserData
     //this will get the users data from the auth and the data base
     func loadUserData() {
-//        print("user id = \(Auth.auth().currentUser?.uid.debugDescription)")
+        print("user id = \(Auth.auth().currentUser?.uid.debugDescription)")
         userID = Auth.auth().currentUser?.uid ?? ""
     }
     //end load user data

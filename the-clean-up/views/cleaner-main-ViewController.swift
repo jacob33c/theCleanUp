@@ -38,6 +38,7 @@
         @IBOutlet weak var arrivedButton: UIButton!
         @IBOutlet weak var onlineButton: UIButton!
         @IBOutlet weak var openInMapsButton: UIButton!
+        @IBOutlet weak var phoneButton: UIButton!
         
 //MARK:- LABELS
         @IBOutlet weak var addressLabel: UILabel!
@@ -92,6 +93,7 @@
                 getCleanerRequestFromDB(uid: DriverID) { (cleanRequest) in
                     if cleanRequest.address != "" {
                         self.request = cleanRequest
+                        print("cleanRequest.userPhone = \(cleanRequest.userPhone)")
                         self.arrayWithDistance.append(self.request)
                         self.driverLocation = self.request.driverLocation.coordinate
                         self.userLocation   = CLLocationCoordinate2D(latitude: self.request.userLat, longitude: self.request.userLong)
@@ -116,6 +118,12 @@
             }
         }
         
+        @IBAction func phoneButtonTapped(_ sender: Any) {
+            let phone = request.userPhone
+            if let url = NSURL(string: "tel://\(phone)"), UIApplication.shared.canOpenURL(url as URL) {
+                UIApplication.shared.open(url as URL)
+            }
+        }
         
         
         
@@ -164,25 +172,19 @@
             if currentRequests.count > 0 {
                 var index = 0
                 for snapshot in currentRequests{
-                    if let cleanRequestDictionary = snapshot.value as? [String: AnyObject]{
-                    if let lat = cleanRequestDictionary["lat"] as? Double{
-                    if let long = cleanRequestDictionary["long"] as? Double{
-                    if let uid = cleanRequestDictionary["uid"] as? String{
-                    if let address = cleanRequestDictionary["address"] as? String{
-                    if let amount = cleanRequestDictionary["amount"] as? Int{
-                    if let order  = cleanRequestDictionary["roomCount"] as? [String :Any] {
+                    let cleanRequestDictionary = snapshot.value as? [String: AnyObject] ?? [:]
+                    let lat = cleanRequestDictionary["lat"] as? Double ?? 0.0
+                    let long = cleanRequestDictionary["long"] as? Double ?? 0.0
+                    let uid = cleanRequestDictionary["uid"] as? String ?? ""
+                    let address = cleanRequestDictionary["address"] as? String ?? ""
+                    let amount = cleanRequestDictionary["amount"] as? Int ?? 0
+                    let order  = cleanRequestDictionary["roomCount"] as? [String :Any] ?? [:]
                     let note             = cleanRequestDictionary["note"] as? String ?? "No Note"
+                    let userPhone = cleanRequestDictionary["phoneNumber"] as? String ?? "No Phone"
                     let riderCLLocation  = CLLocation(latitude: lat, longitude: long)
                     let driverCLLocation = CLLocation(latitude: driverLocation.latitude, longitude: driverLocation.longitude)
-                    let request = addToArrayWithDistance(riderCLLocation: riderCLLocation, driverCLLocation: driverCLLocation, index: index, uid: uid, address: address, amount: amount, note: note, order: order)
+                    let request = addToArrayWithDistance(riderCLLocation: riderCLLocation, driverCLLocation: driverCLLocation, index: index, uid: uid, address: address, amount: amount, note: note, order: order, userPhone: userPhone)
                     arrayWithDistance.append(request)
-                    }
-                    }
-                    }
-                    }
-                    }
-                    }
-                    }
                     index += 1
                 }
             }
@@ -229,10 +231,6 @@
             print("arrayWithDistance.count = \(arrayWithDistance.count)")
             if arrayWithDistance.count > 0{
                 let closestRequest = arrayWithDistance[0]
-                
-                
-                
-               
                 let old = "currentRequests/\(closestRequest.uid)"
                 let new = "drivers/\(DriverID)/currentClean"
 
@@ -310,19 +308,19 @@
             }
             else{
                 request = arrayWithDistance[0]
+                print("number = \(request.userPhone)")
             }
             print("request order master = \(request.order.masterBedroomCount)")
             hideOnlineButtonShowArrivedButton()
             print("request accepted")
-            addressLabel.ay.startLoading()
+//            addressLabel.ay.startLoading()
             addressLabel.isHidden  = false
 //            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
-                self.addressLabel.ay.stopLoading()
+//                self.addressLabel.ay.stopLoading()
                 self.addressLabel.text = address
 //            }
             transactionID = cleanerAcceptBackend(uid: DriverID, driverLat: driverLocation.latitude, driverLong: driverLocation.longitude, userID: userID)
             inTheMiddleOfRequst = true
-//            getUserLocation(userId: userID)
             getDirections(userID: userID)
             startUpdatingTravelTime(uid: userID)
         }
@@ -393,10 +391,11 @@
         }
         
         func hideMapsButton(){
-   
+            phoneButton.isHidden      = true
             openInMapsButton.isHidden = true
         }
         func showMapsButton(){
+            phoneButton.isHidden      = false
             openInMapsButton.isHidden = false
         }
         @IBAction func openInMapsButtonTouched(_ sender: Any) {

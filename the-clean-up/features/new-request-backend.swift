@@ -20,13 +20,14 @@ func getCenterLocation(for mapView: MKMapView) -> CLLocation {
 //end get center location
 
 
-func addPendingRequestToDatabase(userLocation: CLLocationCoordinate2D, userID : String, orderCounter : cleaningOrderCount, userAddress: String, note: UITextField){
+func addPendingRequestToDatabase(userLocation: CLLocationCoordinate2D, userID : String, orderCounter : cleaningOrderCount, userAddress: String, note: UITextField, phoneNumber: String){
     let amount           = (Int(calcTotalWithFees(orderCount: orderCounter) * 100))
     let lat              = userLocation.latitude
     let long             = userLocation.longitude
     let noteText         = note.text ?? "No notes"
     let status           = "pending"
     let order            = orderCounterToDict(orderCount: orderCounter)
+    
     
     let requests = ["lat": lat ,
                     "long": long,
@@ -35,7 +36,7 @@ func addPendingRequestToDatabase(userLocation: CLLocationCoordinate2D, userID : 
                     "roomCount" : order,
                     "address" : userAddress,
                     "note" : noteText,
-                    "status" : "requestMode"] as [String : Any]
+                    "phoneNumber" : phoneNumber] as [String : Any]
     Database.database().reference().child("currentRequests").child(userID).updateChildValues(requests, withCompletionBlock: { (error, ref) in
         return
     })

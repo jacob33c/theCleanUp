@@ -10,6 +10,7 @@ import Foundation
 import MapKit
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 
 
 
@@ -26,6 +27,7 @@ struct Request{
     var amount                 = 0
     var order                  = cleaningOrderCount()
     var driverLocation         = CLLocation()
+    var userPhone              = String()
 }
 
 func getCleanerRequestFromDB(uid : String, completion: @escaping (Request) -> Void){
@@ -55,6 +57,7 @@ func getCleanerRequestFromDB(uid : String, completion: @escaping (Request) -> Vo
             request.address        = value?["address"] as? String ?? ""
             request.note           = value?["note"] as? String ?? ""
             request.amount         = value?["amount"] as? Int ?? 0
+            request.userPhone      = value?["phoneNumber"] as? String ?? ""
             request.driverLocation = cleanerLoc
             request.order          = dictToOrderCounter(orderDictionary: orderDict)
             driverAccepted         = true
@@ -70,7 +73,7 @@ func getCleanerRequestFromDB(uid : String, completion: @escaping (Request) -> Vo
 
 
 
-func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLocation, index: Int, uid: String,address: String, amount: Int, note: String, order: [String:Any]) -> Request {
+func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLocation, index: Int, uid: String,address: String, amount: Int, note: String, order: [String:Any], userPhone : String) -> Request {
         var request                   = Request()
         print("addToArrayWithDistance")
         let distance                  = driverCLLocation.distance(from: riderCLLocation) / 1000
@@ -84,6 +87,7 @@ func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLoc
         request.note                  = note
         request.amount                = amount
         request.order                 = dictToOrderCounter(orderDictionary: order)
+        request.userPhone             = userPhone
     
     return request
 }
@@ -114,12 +118,17 @@ func moveNode(oldString : String, newString : String){
 
 
 func cleanerAcceptBackend(uid: String, driverLat: Double, driverLong: Double, userID: String) -> String{
+    
     driverAccepted    = true
+    let cleanerPhone  = Auth.auth().currentUser?.phoneNumber
     let cleanerString = "drivers/\(uid)/currentClean"
     let currentRef    = Database.database().reference().child(cleanerString)
     let cleanerRef    = Database.database().reference().child(cleanerString).childByAutoId()
     let transactionID = cleanerRef.key ?? "notransactionID"
-    let cleanerLoc    = ["driverLat": driverLat, "driverLong": driverLong, "transactionID" : transactionID] as [String : Any]
+    let cleanerLoc    = ["driverLat": driverLat,
+                         "driverLong": driverLong,
+                         "transactionID" : transactionID,
+                         "cleanerPhone" : cleanerPhone ?? "noPhone"] as [String : Any]
     let userString    = "users/\(userID)/currentRequest"
     let userRef       = Database.database().reference().child(userString)
     print(transactionID)
@@ -129,6 +138,9 @@ func cleanerAcceptBackend(uid: String, driverLat: Double, driverLong: Double, us
         return
     }
     userRef.updateChildValues(status) { (error, ref) in
+        return
+    }
+    userRef.updateChildValues(cleanerLoc) { (error, ref) in
         return
     }
     return transactionID

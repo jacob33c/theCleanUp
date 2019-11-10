@@ -14,6 +14,7 @@ import JSSAlertView
 import AyLoading
 import MapKit
 import SCLAlertView
+import LinearProgressBarMaterial
 
 
 class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate, UITextFieldDelegate {
@@ -59,6 +60,13 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     @IBOutlet weak var laundryStepper: UIStepper!
     
     
+    //MARK:- LINEAR BAR
+    let linearBar = LinearProgressBar()
+    
+    //MARK:- CURRENT USER
+    let user = Auth.auth().currentUser
+    
+    
 //MARK:- VIEWS
     
     
@@ -100,7 +108,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     func loadUserData(){
         print("loading users data")
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        Database.database().reference().child("stripe_customers").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+        Database.database().reference().child("stripe_customers").child(uid).observe(.value) { (snapshot) in
             let value = snapshot.value as? NSDictionary
             let paymentMethod = value?["defaultPaymentMethod"] as? String ?? ""
             let cardBrand = value?["cardBrand"] as? String ?? ""
@@ -111,8 +119,8 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
             print("lastFour = \(lastFour)")
             if paymentMethod == "" {
                 self.makeButtonHidden()
-                self.loadUserData()
             }else {
+                self.linearBar.stopAnimation()
                 self.updateDefaultButton(imageName: cardBrand)
                 self.updateButtonLabel(lastFour: lastFour, cardBrand: cardBrand)
                 self.makeButtonVisible()
@@ -125,7 +133,14 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     
     
     
-    
+    func startProgressAnimation() {
+        linearBar.backgroundProgressBarColor = UIColor.white
+        linearBar.heightForLinearBar         =  20
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            print("start animation")
+            self.linearBar.startAnimation()
+        }
+    }
     
     
     
@@ -148,6 +163,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     
     //cancel add card view
     func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
+        startProgressAnimation()
         dismiss(animated: true)
     }
     
@@ -158,7 +174,10 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
         // Notify add card view controller that PaymentMethod creation was handled successfully
         completion(nil)
         // Dismiss add card view controller
-        dismiss(animated: true)
+        dismiss(animated: true){
+            self.startProgressAnimation()
+        }
+        
     }
     
     
@@ -185,9 +204,10 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     
     //MARK: - CREATE CHARGE IN DB
     func createCharge(){
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let uid   = Auth.auth().currentUser?.uid else { return }
+        let phoneNumber = user?.phoneNumber ?? "noPhoneNumber"
         setOrderCounter()
-        addPendingRequestToDatabase(userLocation: userLocation, userID: uid, orderCounter: orderCounter, userAddress: userAddress, note: notesTextfield)
+        addPendingRequestToDatabase(userLocation: userLocation, userID: uid, orderCounter: orderCounter, userAddress: userAddress, note: notesTextfield,phoneNumber: phoneNumber)
         if postChargeToDatabase(uid: uid, orderCounter: orderCounter) == false{
                 self.performSegue(withIdentifier: "paymentToProgressSegue", sender: nil)
             
