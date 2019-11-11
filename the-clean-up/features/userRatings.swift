@@ -69,19 +69,33 @@ struct Rating{
                return
            })
     }
-    func endTransaction(completion: @escaping ((Bool) -> Void)){
+    func endTransaction(completion: @escaping (Bool) -> Void){
         let old     = "users/\(uid)/currentRequest"
         let oldRef  = Database.database().reference().child(old)
         
         oldRef.observeSingleEvent(of: .value) { (snapshot) in
             let value         = snapshot.value as? [String : Any]
             let transactionID = value?["transactionID"] ?? "noTransactionID"
-            let new           = "users/\(self.uid)/pastRequests/\(transactionID)"
-            moveNode(oldString: old, newString: new)
-            completion(true)
+            let newString     = "users/\(self.uid)/pastRequests/\(transactionID)"
+            let newRef        = Database.database().reference().child(newString)
+            newRef.updateChildValues(value ?? ["ERROR": true]) { (error, reference) in
+                if error != nil{
+                    print(error?.localizedDescription)
+                    completion(false)
+                }
+                else {
+                    oldRef.removeValue()
+                    let ratingRef = reference.child("/userRating")
+                    ratingRef.updateChildValues(self.ratingToDictionary())
+                    completion(true)
+                }
+            }
+            
         }
     }
 }
+
+
 
 struct DotNum {
     private var fraction:String = ""

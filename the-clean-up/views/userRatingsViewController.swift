@@ -9,7 +9,8 @@
 import UIKit
 import AyLoading
 import CurrencyText
-
+import SCLAlertView
+import SAConfettiView
 
 class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
@@ -29,6 +30,8 @@ class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDe
 
     
     let numberToolbar: UIToolbar = UIToolbar()
+    
+
 
     
     override func viewDidLoad() {
@@ -39,12 +42,27 @@ class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         self.tipTextField.delegate  = self
         self.notesTextView.delegate = self
         setupTextFieldWithCurrencyDelegate()
+        makeItRain()
+        
+
+        
+
         
             
 
         // Do any additional setup after loading the view.
     }
     
+    
+    func makeItRain(){
+        let confettiView = SAConfettiView(frame: self.view.bounds)
+        confettiView.type = .Confetti
+        self.view.addSubview(confettiView)
+        self.view.sendSubviewToBack(confettiView)
+        confettiView.startConfetti()
+    }
+    
+  
     
     private func setupTextFieldWithCurrencyDelegate() {
         let currencyFormatter = CurrencyFormatter {
@@ -109,15 +127,17 @@ class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDe
 
     
     @IBAction func submitButtonTapped(_ sender: Any) {
-//        rating.setValues(titleInit: "UserRating", ratingInit: Int(ratingSlider.value), orderInit: order, notesInit: notesTextView.text,tipInit: tipTextField.text ?? "")
-        rating.submitToBackend()
-        rating.endTransaction() { _ in ()
-            self.submitRatingButton.ay.startLoading()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-               // Code you want to be delayed
+        submitRatingButton.ay.startLoading()
+        rating.endTransaction { (value) in
+            if value == true{
                 self.performSegue(withIdentifier: "ratingToMainSegue", sender: nil)
             }
+            else{
+                SCLAlertView().showError("Something went wrong", subTitle: "Please try again when connected to the internet")
+            }
         }
+        
+
     }
     
 }

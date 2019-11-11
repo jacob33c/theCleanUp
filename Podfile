@@ -21,4 +21,5 @@ target 'the-clean-up' do
 	pod "BSImagePicker", "~> 2.8"
 	pod 'LinearProgressBarMaterial'
 	pod 'CurrencyText'
+	pod "SAConfettiView"
 end

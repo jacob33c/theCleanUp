@@ -128,6 +128,7 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - SAConfettiView (0.1.8)
   - SCLAlertView (0.8)
   - Stripe (16.0.7)
 
@@ -146,6 +147,7 @@ DEPENDENCIES:
   - FirebaseUI/Phone
   - JSSAlertView
   - LinearProgressBarMaterial
+  - SAConfettiView
   - SCLAlertView
   - Stripe
 
@@ -182,6 +184,7 @@ SPEC REPOS:
     - GoogleSignIn
     - GTMAppAuth
     - LinearProgressBarMaterial
+    - SAConfettiView
     - SCLAlertView
 
 SPEC CHECKSUMS:
@@ -214,9 +217,10 @@ SPEC CHECKSUMS:
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   LinearProgressBarMaterial: 84df3135c27a0fc5e0219da10ee98304de159b06
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  SAConfettiView: c87031a2280659261b730fce3669fb10e73636ee
   SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
   Stripe: 67f64f64314503b396a71c55535d5307d7e5c9ff
 
-PODFILE CHECKSUM: 9c43443125f664d74b4352d8b25f650faebad67a
+PODFILE CHECKSUM: c7f4cf5788160afa65b86e3c13044edd493125b9
 
 COCOAPODS: 1.8.3
