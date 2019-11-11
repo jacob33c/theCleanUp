@@ -24,7 +24,7 @@
         
 //MARK:- BOOLEANS
         var isOnline = false
-        var inTheMiddleOfRequst = false
+        var inTheMiddleOfRequest = false
         
 //MARK:- MAPVIEW
         @IBOutlet weak var mapView: MKMapView!
@@ -70,7 +70,7 @@
             hideArrivedButtonShowOnlineButton()
             addressLabel.isHidden = true
             Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { (timer) in
-                if self.isOnline && self.inTheMiddleOfRequst != true {
+                if self.isOnline && self.inTheMiddleOfRequest != true {
                     print("timer func")
                     self.arrayWithDistance = []
                     self.checkArray()
@@ -92,18 +92,27 @@
                 DriverID = Auth.auth().currentUser?.uid ?? "no ID"
                 getCleanerRequestFromDB(uid: DriverID) { (cleanRequest) in
                     if cleanRequest.address != "" {
-                        self.request = cleanRequest
+                        self.request        = cleanRequest
+                        self.transactionID  = cleanRequest.transactionID
                         print("cleanRequest.userPhone = \(cleanRequest.userPhone)")
                         self.arrayWithDistance.append(self.request)
                         self.driverLocation = self.request.driverLocation.coordinate
                         self.userLocation   = CLLocationCoordinate2D(latitude: self.request.userLat, longitude: self.request.userLong)
-                        self.acceptRequest(userID: self.DriverID, address: self.request.address)
+                        self.loadRequestFromDB(userID: self.DriverID, address: self.request.address)
+                        self.checkStatus()
                     }
                 }
             }
         }
         
-
+        func checkStatus(){
+            if request.status != "" {
+                print("needs to move")
+            }
+            else{
+                print("status = nil")
+            }
+        }
         
         
         
@@ -114,6 +123,7 @@
                     destinationVC.requestNote   = request.note
                     destinationVC.clientUID     = request.uid
                     destinationVC.transactionID = transactionID
+                    destinationVC.status        = request.status
                 }
             }
         }
@@ -173,17 +183,19 @@
                 var index = 0
                 for snapshot in currentRequests{
                     let cleanRequestDictionary = snapshot.value as? [String: AnyObject] ?? [:]
-                    let lat = cleanRequestDictionary["lat"] as? Double ?? 0.0
-                    let long = cleanRequestDictionary["long"] as? Double ?? 0.0
-                    let uid = cleanRequestDictionary["uid"] as? String ?? ""
-                    let address = cleanRequestDictionary["address"] as? String ?? ""
-                    let amount = cleanRequestDictionary["amount"] as? Int ?? 0
-                    let order  = cleanRequestDictionary["roomCount"] as? [String :Any] ?? [:]
-                    let note             = cleanRequestDictionary["note"] as? String ?? "No Note"
-                    let userPhone = cleanRequestDictionary["phoneNumber"] as? String ?? "No Phone"
-                    let riderCLLocation  = CLLocation(latitude: lat, longitude: long)
-                    let driverCLLocation = CLLocation(latitude: driverLocation.latitude, longitude: driverLocation.longitude)
-                    let request = addToArrayWithDistance(riderCLLocation: riderCLLocation, driverCLLocation: driverCLLocation, index: index, uid: uid, address: address, amount: amount, note: note, order: order, userPhone: userPhone)
+                    let lat                    = cleanRequestDictionary["lat"] as? Double ?? 0.0
+                    let long                   = cleanRequestDictionary["long"] as? Double ?? 0.0
+                    let uid                    = cleanRequestDictionary["uid"] as? String ?? ""
+                    let address                = cleanRequestDictionary["address"] as? String ?? ""
+                    let amount                 = cleanRequestDictionary["amount"] as? Int ?? 0
+                    let order                  = cleanRequestDictionary["roomCount"] as? [String :Any] ?? [:]
+                    let note                   = cleanRequestDictionary["note"] as? String ?? "No Note"
+                    let userPhone              = cleanRequestDictionary["phoneNumber"] as? String ?? "No Phone"
+                    let transactID             = cleanRequestDictionary["transactionID"] as? String ?? "No Transaction ID"
+                    let status                 = cleanRequestDictionary["status"] as? String ?? ""
+                    let riderCLLocation        = CLLocation(latitude: lat, longitude: long)
+                    let driverCLLocation       = CLLocation(latitude: driverLocation.latitude, longitude: driverLocation.longitude)
+                    let request = addToArrayWithDistance(riderCLLocation: riderCLLocation, driverCLLocation: driverCLLocation, index: index, uid: uid, address: address, amount: amount, note: note, order: order, userPhone: userPhone, transactionID: transactID,status: status)
                     arrayWithDistance.append(request)
                     index += 1
                 }
@@ -241,7 +253,7 @@
                     getRequestDictionary(userID: closestRequest.uid)
                     moveNode(oldString: old , newString: new)
                     cleanerInRequest = true
-                    inTheMiddleOfRequst  = true
+                    inTheMiddleOfRequest  = true
                     print("request found")
                     
                     let pay       = costMinusServiceFee(amount: closestRequest.amount)
@@ -295,7 +307,7 @@
               moveNode(oldString: old , newString: new)
               print("start timer")
               Timer.scheduledTimer(withTimeInterval: 180, repeats: false) { (timer) in
-                  self.inTheMiddleOfRequst = false
+                  self.inTheMiddleOfRequest = false
                   print("timeout over")
                   return
               }
@@ -313,17 +325,25 @@
             print("request order master = \(request.order.masterBedroomCount)")
             hideOnlineButtonShowArrivedButton()
             print("request accepted")
-//            addressLabel.ay.startLoading()
             addressLabel.isHidden  = false
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
-//                self.addressLabel.ay.stopLoading()
-                self.addressLabel.text = address
-//            }
+            self.addressLabel.text = address
             transactionID = cleanerAcceptBackend(uid: DriverID, driverLat: driverLocation.latitude, driverLong: driverLocation.longitude, userID: userID)
-            inTheMiddleOfRequst = true
+            inTheMiddleOfRequest = true
             getDirections(userID: userID)
             startUpdatingTravelTime(uid: userID)
         }
+        
+        func loadRequestFromDB(userID: String, address : String){
+            request = arrayWithDistance[0]
+            hideOnlineButtonShowArrivedButton()
+            addressLabel.isHidden  = false
+            self.addressLabel.text = address
+            inTheMiddleOfRequest = true
+            getDirections(userID: userID)
+            startUpdatingTravelTime(uid: userID)
+        }
+        
+        
         
         func startUpdatingTravelTime(uid: String){
             DispatchQueue.main.asyncAfter(deadline: .now() + 10) {

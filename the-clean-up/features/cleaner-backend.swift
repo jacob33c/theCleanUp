@@ -28,6 +28,8 @@ struct Request{
     var order                  = cleaningOrderCount()
     var driverLocation         = CLLocation()
     var userPhone              = String()
+    var transactionID          = String()
+    var status                 = String()
 }
 
 func getCleanerRequestFromDB(uid : String, completion: @escaping (Request) -> Void){
@@ -60,6 +62,8 @@ func getCleanerRequestFromDB(uid : String, completion: @escaping (Request) -> Vo
             request.userPhone      = value?["phoneNumber"] as? String ?? ""
             request.driverLocation = cleanerLoc
             request.order          = dictToOrderCounter(orderDictionary: orderDict)
+            request.transactionID  = value?["transactionID"] as? String ?? ""
+            request.status         = value?["status"] as? String ?? ""
             driverAccepted         = true
             print("request1 = \(request)")
             completion(request)
@@ -73,7 +77,7 @@ func getCleanerRequestFromDB(uid : String, completion: @escaping (Request) -> Vo
 
 
 
-func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLocation, index: Int, uid: String,address: String, amount: Int, note: String, order: [String:Any], userPhone : String) -> Request {
+func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLocation, index: Int, uid: String,address: String, amount: Int, note: String, order: [String:Any], userPhone : String, transactionID : String, status : String) -> Request {
         var request                   = Request()
         print("addToArrayWithDistance")
         let distance                  = driverCLLocation.distance(from: riderCLLocation) / 1000
@@ -88,7 +92,8 @@ func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLoc
         request.amount                = amount
         request.order                 = dictToOrderCounter(orderDictionary: order)
         request.userPhone             = userPhone
-    
+        request.transactionID         = transactionID
+        request.status                = status
     return request
 }
 
@@ -170,8 +175,24 @@ func updateTravelTimeInDB(userLocation: CLLocationCoordinate2D, cleanerLocation:
 func cleanInProgressDB(userID : String){
     let userString    = "users/\(userID)/currentRequest"
     let userRef       = Database.database().reference().child(userString)
+    guard let uid     = Auth.auth().currentUser?.uid else {return}
+    let cleanerString = "drivers/\(uid)/currentClean"
+    let cleanerRef    = Database.database().reference().child(cleanerString)
     let progressDict  = ["status" : "inProgress"]
     userRef.updateChildValues(progressDict)
+    cleanerRef.updateChildValues(progressDict)
+}
+
+func cleanFinishedInDB(userID : String){
+    let userString    = "users/\(userID)/currentRequest"
+    let userRef       = Database.database().reference().child(userString)
+    guard let uid     = Auth.auth().currentUser?.uid else {return}
+    let cleanerString = "drivers/\(uid)/currentClean"
+    let cleanerRef    = Database.database().reference().child(cleanerString)
+    let progressDict  = ["status" : "cleanFinished"]
+    userRef.updateChildValues(progressDict)
+    cleanerRef.updateChildValues(progressDict)
+    
 }
 
 
@@ -184,3 +205,5 @@ func notRequired(roomCount : Int) -> Bool{
         return true
     }
 }
+
+

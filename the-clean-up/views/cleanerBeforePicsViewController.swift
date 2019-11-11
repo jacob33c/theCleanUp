@@ -53,6 +53,8 @@ class cleanerProgressViewController: UIViewController, UIImagePickerControllerDe
     var pathString = String()
     var path       = StorageReference()
     
+    var status     = String()
+    
     
 
     
@@ -67,8 +69,23 @@ class cleanerProgressViewController: UIViewController, UIImagePickerControllerDe
         super.viewDidLoad()
         hideImagesInArray(images: checkmarkImages)
         setLabels()
+        checkStatus()
         print(orderCount.orderCounterToString())
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        checkStatus()
+    }
+    
+    func checkStatus(){
+        if status != ""{
+            performSegue(withIdentifier: "beforeToAfterSegue", sender: nil)
+            print("beforeToAfter")
+        }
+        else{
+            print("status is null")
+        }
     }
     
     
@@ -266,11 +283,16 @@ class cleanerProgressViewController: UIViewController, UIImagePickerControllerDe
                 destinationVC.included = included
             }
         }
-        if segue.identifier == "cleanerToRatingSegue"{
-            if let destinationVC = segue.destination as? ratingsViewController{
-                destinationVC.order = orderCount
+        if segue.identifier == "beforeToAfterSegue"{
+            if let destinationVC = segue.destination as? cleanerAfterViewController{
+                destinationVC.orderCount    = orderCount
+                destinationVC.requestNote   = requestNote
+                destinationVC.included      = included
+                destinationVC.transactionID = transactionID
+                destinationVC.clientUID     = clientUID
             }
         }
+        
     }
     
     

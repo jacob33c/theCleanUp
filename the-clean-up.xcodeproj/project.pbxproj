@@ -139,6 +139,7 @@
 				EB1E6EA223174B9800B2BC31 /* cleaner-login-ViewController.swift */,
 				EB1E6EA523176B8C00B2BC31 /* cleaner-signup-ViewController.swift */,
 				EB1E6EBD2317852B00B2BC31 /* cleaner-main-ViewController.swift */,
+				EB3B4384237800C300516DEB /* cleanerAfterViewController.swift */,
 				EB5B8AAC234BB9870043C988 /* cleanerBeforePicsViewController.swift */,
 				EB1E6EA723176D5700B2BC31 /* user-login-ViewController.swift */,
 				EB1E6EA923176D6F00B2BC31 /* user-signup-ViewController.swift */,
@@ -149,7 +150,6 @@
 				EB3E1F692357D570002DEE68 /* userRatingsViewController.swift */,
 				EB4FED82234D863D00FD8F70 /* includedViewController.swift */,
 				EBBE36BA2314898900442BD8 /* main-controller.swift */,
-				EB3B4384237800C300516DEB /* cleanerAfterViewController.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
