@@ -20,6 +20,9 @@ class settingsViewController: UIViewController, FUIAuthDelegate {
     var ID = ""
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var phoneNumberLabel: UILabel!
+//
+    @IBOutlet weak var switchAppButton: UIButton!
+    var driver = Bool()
     
 //MARK:- buttons
     
@@ -29,9 +32,16 @@ class settingsViewController: UIViewController, FUIAuthDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUserData()
-       
+        updateLabels()
     }
     
+    
+    func updateLabels(){
+        print("updating labels")
+        if driver == true{
+            switchAppButton.setTitle("Switch to Client App", for: .normal)
+        }
+    }
     
     
 //MARK:- BUTTONS TAPPED
@@ -47,7 +57,12 @@ class settingsViewController: UIViewController, FUIAuthDelegate {
     }
     
     @IBAction func switchToCleanerButtonTapped(_ sender: Any) {
-        performSegue(withIdentifier: "userToCleanerSegue", sender: nil)
+        if driver {
+            performSegue(withIdentifier: "settingsToUserSegue", sender: nil)
+        }
+        else{
+            performSegue(withIdentifier: "userToCleanerSegue", sender: nil)
+        }
     }
     
     @IBAction func updatePasswordButtonTapped(_ sender: Any) {

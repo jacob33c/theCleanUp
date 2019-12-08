@@ -3,23 +3,51 @@ const functions = require('firebase-functions');
 const stripe = require('stripe')('sk_test_Xclw4Eqgu51hsT2KIx90g79a00uFgRvhPS');
 const admin = require('firebase-admin');
 const escapeHtml = require('escape-html');
+const express = require('express');
+const stripeAuthLink = "https://connect.stripe.com/express/oauth/authorize?&client_id=ca_Fkha46B1HuZb7PaGl66xh1tYRFzbtYKU#/";
 admin.initializeApp();
 var db = admin.database();
 
 
-
-
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
 exports.helloWorld = functions.https.onRequest((request, response) => {
+  console.log(request);
+  console.log("request.query.code =",request.query.code);
+  code =  request.query.code;
+  console.log("hello world!");
+  stripe.oauth.token({
+    grant_type: 'authorization_code',
+    code: code,
+  }).then(function(response) {
+    // asynchronously called
+    var connected_account_id = response.stripe_user_id;
+    console.log("connected_account_id =", connected_account_id);
+  });
   response.send("Hello from Firebase!");
 });
 
 
 
+
+exports.createExpressAccount = functions.https.onRequest((req, res) => {
+  state = Math.random().toString(36).slice(2);
+  console.log("state = ", state);
+  // Define the mandatory Stripe parameters: make sure to include our platform's client ID
+  res.redirect(
+    stripeAuthLink + "&state=" + state
+  );
+});
+
+
+
+
 // When a user is created, register them with Stripe
 exports.createStripeCustomer = functions.auth.user().onCreate(async (user) => {
+  var accountRef = db.ref("/cleaner/" + user.uid);
+  accountRef.set({
+    email: user.email,
+    connected_account_id: false
+  });
+
   // const customer = await stripe.customers.create({email: user.email});
   const customer = await stripe.customers.create({
     description: 'Customer for ' + user.email,
@@ -135,26 +163,3 @@ exports.newPaymentMethod = functions.database.ref('/stripe_customers/{userId}/ne
   });
   return 0;
 });
-
-
-
-
-
-// // Express
-// exports.ephemeralKeys = functions.https.onRequest((req, res) => {
-//   const stripe_version = req.query.api_version;
-//   if (!stripe_version) {
-//     res.status(400).end();
-//     return;
-//   }
-//   // This function assumes that some previous middleware has determined the
-//   // correct customerId for the session and saved it on the request object.
-//   stripe.ephemeralKeys.create(
-//     {customer: req.customerId},
-//     {stripe_version: stripe_version}
-//   ).then((key) => {
-//     res.status(200).json(key);
-//   }).catch((err) => {
-//     res.status(500).end();
-//   });
-// });

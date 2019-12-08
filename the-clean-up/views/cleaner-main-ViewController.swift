@@ -126,6 +126,11 @@
                     destinationVC.status        = request.status
                 }
             }
+            if segue.identifier == "cleanerToSettingsSegue"{
+                if let destinationVC = segue.destination as? settingsViewController{
+                    destinationVC.driver = true
+                }
+            }
         }
         
         @IBAction func phoneButtonTapped(_ sender: Any) {
@@ -135,6 +140,11 @@
             }
         }
         
+        
+        
+        @IBAction func settingsButtonTapped(_ sender: Any) {
+            performSegue(withIdentifier: "cleanerToSettingsSegue", sender: nil)
+        }
         
         
         

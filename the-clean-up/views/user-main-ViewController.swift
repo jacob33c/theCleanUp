@@ -32,9 +32,10 @@ class userViewController: UIViewController, UITextFieldDelegate, FUIAuthDelegate
     
     @IBOutlet weak var requestButton: UIButton!
     
-    @IBOutlet weak var apartmentNumberText: UITextField!
     
     var orderCounter = cleaningOrderCount()
+    
+    var apartmentText = String()
 
     
     
@@ -46,7 +47,6 @@ class userViewController: UIViewController, UITextFieldDelegate, FUIAuthDelegate
         updateMapOnce()
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
-        self.apartmentNumberText.delegate = self
         centerViewOnUserLocation()
     }
     
@@ -378,9 +378,14 @@ class userViewController: UIViewController, UITextFieldDelegate, FUIAuthDelegate
         }
         else if stNum != "" {
             let alertView = SCLAlertView()
+            let apartmentTextfield = alertView.addTextField()
             alertView.addButton("Confirm") {
+                self.apartmentText = apartmentTextfield.text ?? "No room #"
                 self.confirmLocation()
             }
+            apartmentTextfield.addDoneCancelToolbar()
+            apartmentTextfield.textAlignment = .center
+            apartmentTextfield.placeholder = "Apt, room, or suite #"
             alertView.showInfo("\(stNum) \(stName)", subTitle: "Please confirm the the address of the cleaning", closeButtonTitle: "Cancel")
 
         }
@@ -409,7 +414,8 @@ class userViewController: UIViewController, UITextFieldDelegate, FUIAuthDelegate
         if segue.identifier == "requestSegue"{
             if let destinationVC = segue.destination as? paymentViewController {
                 destinationVC.userLocation = getCenterLocation(for: mapView).coordinate
-                let addressString          = (addressLabel.text ??  "no address recorded, please contact client") + " Room: " + (apartmentNumberText.text ?? "no room #")
+                let addressString          = (addressLabel.text ??  "no address recorded, please contact client") + " Room: " + (apartmentText)
+                
                 destinationVC.userAddress  = addressString
             }
         }

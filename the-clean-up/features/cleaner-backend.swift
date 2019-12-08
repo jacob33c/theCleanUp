@@ -73,7 +73,11 @@ func getCleanerRequestFromDB(uid : String, completion: @escaping (Request) -> Vo
 }
 
 
-
+func checkIfCleanerIsVerified()-> Bool{
+    
+    
+    return true
+}
 
 
 

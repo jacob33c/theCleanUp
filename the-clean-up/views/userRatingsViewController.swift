@@ -121,6 +121,7 @@ class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDe
             }
             index += 1
         }
+        rating.stars = Int(sender.value)
     }
     
 

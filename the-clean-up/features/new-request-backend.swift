@@ -40,10 +40,20 @@ func addPendingRequestToDatabase(userLocation: CLLocationCoordinate2D, userID : 
     Database.database().reference().child("currentRequests").child(userID).updateChildValues(requests, withCompletionBlock: { (error, ref) in
         return
     })
-//  
-
+    
+    let year   = dateTimeComponents.year ?? 0
+    let month  = dateTimeComponents.month ?? 0
+    let day    = dateTimeComponents.day ?? 0
+    let hour   = dateTimeComponents.hour ?? 0
+    let minute = dateTimeComponents.minute ?? 0
+    let date   = "\(month)/\(day)/\(year), \(hour):\(minute)"
+ 
     let tracker = ["status" : status,
-                   "order"  : order] as [String : Any]
+                   "order"  : order,
+                   "lat": lat ,
+                   "long": long,
+                   "amount" : amount,
+                    "date" : date ?? "no date"] as [String : Any]
     Database.database().reference().child("users/\(userID)/currentRequest").updateChildValues(tracker, withCompletionBlock: { (error, ref) in
         return
     })

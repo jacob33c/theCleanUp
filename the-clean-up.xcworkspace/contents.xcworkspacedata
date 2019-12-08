@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/JacobFraizer/Desktop/ios-dev/the-clean-up/the-clean-up/views/CleanReceiptTableViewController.swift">
+   </FileRef>
+   <FileRef
       location = "group:/Users/JacobFraizer/Desktop/ios-dev/the-clean-up/the-clean-up.xcodeproj">
    </FileRef>
    <FileRef
