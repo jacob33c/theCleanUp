@@ -73,10 +73,19 @@ func getCleanerRequestFromDB(uid : String, completion: @escaping (Request) -> Vo
 }
 
 
-func checkIfCleanerIsVerified()-> Bool{
-    
-    
-    return true
+func checkIfCleanerIsVerified(user : User, completion: @escaping (Bool) -> Void){
+    let uid         = user.uid
+    let cleanerRef  = Database.database().reference().child("cleaner/\(uid)")
+    print("cleanerRef = \(cleanerRef)")
+    cleanerRef.observeSingleEvent(of: .value) { (snapshot) in
+        let value = snapshot.value as? [String : Any]
+        if  value?["connected_account_id"] as? Bool == false || value?["connected_account_id"] == nil{
+            completion(false)
+        }
+        else{
+            completion(true)
+        }
+    }
 }
 
 

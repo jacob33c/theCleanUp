@@ -9,7 +9,6 @@
     import UIKit
     import MapKit
     import CoreLocation
-    import JSSAlertView
     import FirebaseDatabase
     import AyLoading
     import FirebaseAuth
@@ -50,6 +49,7 @@
         var transactionID  = String()
 
 
+        
 
 
 
@@ -69,7 +69,7 @@
             checkCurrentRequests()
             hideArrivedButtonShowOnlineButton()
             addressLabel.isHidden = true
-            Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { (timer) in
+            Timer.scheduledTimer(withTimeInterval: 6, repeats: true) { (timer) in
                 if self.isOnline && self.inTheMiddleOfRequest != true {
                     print("timer func")
                     self.arrayWithDistance = []
@@ -152,10 +152,28 @@
         
         @IBAction func goOnlineButtonTapped(_ sender: Any) {
             if isOnline == false {
-                self.onlineButton.setTitle("Go Offline", for: .normal)
-                self.onlineButton.backgroundColor = UIColor.systemOrange
-                isOnline = true
-                print("online is now true")
+                if Auth.auth().currentUser == nil {
+                    return
+                }
+                checkIfCleanerIsVerified(user: Auth.auth().currentUser!) { (isVerified) in
+                    if isVerified == true{
+                        print("cleaner is verified")
+                        self.onlineButton.setTitle("Go Offline", for: .normal)
+                        self.onlineButton.backgroundColor = UIColor.systemOrange
+                        self.isOnline = true
+                        print("online is now true")
+                    }
+                    else{
+                        let alertView  = SCLAlertView()
+                        alertView.addButton("Create Cleaner Profile"){
+                            guard let url = URL(string: "http://instamaid.us") else { return }
+                            UIApplication.shared.open(url)
+                        }
+                        alertView.showError("Cleaner profile error", subTitle: "Visit our website  to sign up to be a cleaner.") // Error
+                        print("cleaner is not verified")
+                    }
+                }
+                
             }
             else {
                 self.onlineButton.setTitle("Go Online", for: .normal)
