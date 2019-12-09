@@ -14,6 +14,8 @@ class CleanReceiptTableViewController: UITableViewController {
     
     
     var cleanReceipts = [CleanReceipt]()
+    var tappedReceipt = CleanReceipt()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +46,18 @@ class CleanReceiptTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return cleanReceipts.count
     }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tappedReceipt = cleanReceipts[indexPath.row]
+        performSegue(withIdentifier: "requestDetailsSegue", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "requestDetailsSegue"{
+            if let destinationVC = segue.destination as? receiptDetailViewController{
+                destinationVC.receipt = tappedReceipt
+            }
+        }
+    }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell    = tableView.dequeueReusableCell(withIdentifier: "CleanReceiptCell") as! CleanReceiptCell
@@ -71,11 +85,14 @@ struct CleanReceipt{
     var amountPaid     = Int()
     var date           = String()
     var numStars       = Int()
+    var order          = cleaningOrderCount()
     
     mutating func setCleanReceiptFromDictionary(dictionary : [String : Any]){
-        let lat  = dictionary["lat"] as? Double ?? 0.0
-        let long = dictionary["long"] as? Double ?? 0.0
+        let lat        = dictionary["lat"] as? Double ?? 0.0
+        let long       = dictionary["long"] as? Double ?? 0.0
         let userRating = dictionary["userRating"] as? [String: Any]  ?? [:]
+        let orderDB    = dictionary["order"] as? [String : Any] ?? [:]
+        order          = dictToOrderCounter(orderDictionary: orderDB)
         numStars       = userRating["stars"] as? Int ?? 0
         amountPaid     = dictionary["amount"] as? Int ?? 0
         date           = dictionary["date"] as? String ?? ""
@@ -100,7 +117,6 @@ class CleanReceiptCell : UITableViewCell {
         amountPaid(amount: receipt.amountPaid)
         setMap(location: receipt.clientLocation)
         
-         
     }
     
     

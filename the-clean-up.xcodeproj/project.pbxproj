@@ -52,6 +52,7 @@
 		EBBE36BE2314898900442BD8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBBE36BC2314898900442BD8 /* Main.storyboard */; };
 		EBBE36C02314898900442BD8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBBE36BF2314898900442BD8 /* Assets.xcassets */; };
 		EBBE36C32314898900442BD8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBBE36C12314898900442BD8 /* LaunchScreen.storyboard */; };
+		EBF96805239DBBAF0011521F /* receiptDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF96804239DBBAF0011521F /* receiptDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,6 +106,7 @@
 		EBBE36BF2314898900442BD8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EBBE36C22314898900442BD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EBBE36C42314898900442BD8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EBF96804239DBBAF0011521F /* receiptDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = receiptDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +141,7 @@
 		EB1E6EA423176B4D00B2BC31 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				EBF96804239DBBAF0011521F /* receiptDetailViewController.swift */,
 				EB49F20A237B889B0063F5E9 /* CleanReceiptTableViewController.swift */,
 				EB49F20C23808F850063F5E9 /* CleanReceiptTableViewController.swift */,
 				EB49C7BE2373ACCC00211EBB /* authenticationViewController.swift */,
@@ -409,6 +412,7 @@
 				EBBE36B92314898900442BD8 /* AppDelegate.swift in Sources */,
 				EB49F20B237B889B0063F5E9 /* CleanReceiptTableViewController.swift in Sources */,
 				EB3E1F6A2357D570002DEE68 /* userRatingsViewController.swift in Sources */,
+				EBF96805239DBBAF0011521F /* receiptDetailViewController.swift in Sources */,
 				EB1E6EA123174B0800B2BC31 /* one-line-text-field.swift in Sources */,
 				EB4FED83234D863D00FD8F70 /* includedViewController.swift in Sources */,
 				EB36FAED2335BA17006330CB /* user-progress-ViewController.swift in Sources */,
