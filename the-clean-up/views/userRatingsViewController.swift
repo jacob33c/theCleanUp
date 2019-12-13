@@ -15,34 +15,40 @@ import SAConfettiView
 class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
     
-    @IBOutlet var starsImages: [UIImageView]!
     var rating = Rating()
+    var cleanerRating = CleanerRating()
     var order  = cleaningOrderCount()
-    @IBOutlet weak var ratingSlider: UISlider!
+    
+    var clientUID = String()
     @IBOutlet weak var submitRatingButton: UIButton!
     
     @IBOutlet weak var notesTextView: UITextView!
     
+    @IBOutlet var starButtons: [UIButton]!
     
     @IBOutlet weak var tipTextField: UITextField!
     
     private var textFieldDelegate: CurrencyUITextFieldDelegate!
 
-    
     let numberToolbar: UIToolbar = UIToolbar()
     
-
+    var numberOfStars = 5
+    
+    var isDriver = Bool()
+    @IBOutlet weak var tipLabel: UILabel!
+    @IBOutlet weak var costTextfield: UITextField!
+    
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sliderValueChanged(ratingSlider)
         submitRatingButton.ay.stopLoading()
         setNotesPlaceholder()
         self.tipTextField.delegate  = self
         self.notesTextView.delegate = self
         setupTextFieldWithCurrencyDelegate()
         makeItRain()
+        checkDriver()
         
 
         
@@ -53,6 +59,13 @@ class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         // Do any additional setup after loading the view.
     }
     
+    
+    func checkDriver(){
+        if isDriver{
+            costTextfield.isHidden = true
+            tipLabel.isHidden      = true
+        }
+    }
     
     func makeItRain(){
         let confettiView = SAConfettiView(frame: self.view.bounds)
@@ -76,7 +89,6 @@ class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         
         textFieldDelegate = CurrencyUITextFieldDelegate(formatter: currencyFormatter)
         textFieldDelegate.clearsWhenValueIsZero = true
-        
         tipTextField.delegate = textFieldDelegate
         tipTextField.keyboardType = .numbersAndPunctuation
     }
@@ -109,34 +121,55 @@ class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDe
     }
     
     
-    @IBAction func sliderValueChanged(_ sender: UISlider) {
-        var index = 0
-        print("sender value = \(sender.value)")
-        for star in starsImages {
-            if index < Int(sender.value) {
-                star.image = UIImage(named: "starFilled")
+
+    @IBAction func starButtonTapped(_ sender: UIButton) {
+        let maxStars         = 5
+        let numStars        = sender.tag
+        rating.stars        = numStars + 1
+        cleanerRating.stars = numStars + 1
+        numberOfStars       = numStars + 1
+        for index in 0..<maxStars{
+            if index <= numStars{
+                starButtons[index].setImage(UIImage(named: "starFilled"), for: .normal)
             }
-            if index >= Int(sender.value){
-                star.image = UIImage(named: "starEmpty")
+            else{
+                starButtons[index].setImage(UIImage(named: "starEmpty"), for: .normal)
+                
             }
-            index += 1
         }
-        rating.stars = Int(sender.value)
     }
     
-
 
     
     @IBAction func submitButtonTapped(_ sender: Any) {
         submitRatingButton.ay.startLoading()
-        rating.endTransaction { (value) in
-            if value == true{
-                self.performSegue(withIdentifier: "ratingToMainSegue", sender: nil)
-            }
-            else{
-                SCLAlertView().showError("Something went wrong", subTitle: "Please try again when connected to the internet")
+        print("isDriver =  \(isDriver)")
+        if isDriver{
+            cleanerRating.setValues(ratingInit: numberOfStars, orderInit: order, notesInit: notesTextView.text)
+            cleanerRating.endClean { (value) in
+                if value == true{
+                    //all is good
+                    cleanFinishedInDB(userID: self.clientUID)
+                    self.performSegue(withIdentifier: "cleanerRatingToMainSegue", sender: nil)
+                }
+                else{
+                    //something went wrong
+                    SCLAlertView().showError("Something went wrong", subTitle: "Please try again when connected to the internet")
+                }
             }
         }
+        else{
+            rating.setValues(ratingInit: numberOfStars, orderInit: order, notesInit: notesTextView.text, tipInit: tipTextField.text ?? "")
+            rating.endTransaction { (value) in
+                if value == true{
+                    self.performSegue(withIdentifier: "ratingToMainSegue", sender: nil)
+                }
+                else{
+                    SCLAlertView().showError("Something went wrong", subTitle: "Please try again when connected to the internet")
+                }
+            }
+        }
+        
         
 
     }

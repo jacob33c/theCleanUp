@@ -210,6 +210,8 @@ func cleanFinishedInDB(userID : String){
 
 
 
+
+
 func notRequired(roomCount : Int) -> Bool{
     if roomCount > 0 {
         return false
@@ -219,4 +221,81 @@ func notRequired(roomCount : Int) -> Bool{
     }
 }
 
+
+struct CleanerRating{
+    var stars   = Int()
+    var notes   = String()
+    var order   = cleaningOrderCount()
+    var uid     = String()
+    var tip     = Double()
+    var transactionID = String()
+
+    
+    mutating func setValues(ratingInit: Int, orderInit: cleaningOrderCount, notesInit : String) {
+        stars   = ratingInit
+        order   = orderInit
+        notes   = notesInit
+        checkUid()
+    }
+    mutating func checkUid(){
+        uid = Auth.auth().currentUser?.uid ?? "user not signed in"
+    }
+
+    
+    
+   
+    
+    func tipTextToDouble( tipString: String) -> Double{
+          if tipString == "" {
+              return 0.00
+          }
+          else{
+              return 1.0
+          }
+      }
+    
+    
+    
+    func submitToBackend(){
+        let cleaner    = "drivers/\(uid)/pastRequests/\(transactionID)"
+        let cleanerRef = Database.database().reference().child(cleaner)
+        cleanerRef.updateChildValues(ratingToDictionary())
+    }
+    
+    func endClean(completion: @escaping (Bool) -> Void){
+        let oldString = "drivers/\(uid)/currentClean"
+        let oldRef    = Database.database().reference().child(oldString)
+        var closureSelf = self
+        oldRef.observeSingleEvent(of: .value) { (snapshot) in
+            var value         = snapshot.value as? [String : Any]
+            let transaction   = value?["transactionID"] ?? "noTransactionID"
+            closureSelf.transactionID = transaction as! String
+            let newString = "drivers/\(self.uid)/pastRequests/\(transaction)"
+            let newRef    = Database.database().reference().child(newString)
+            value?["rating"] = self.ratingToDictionary()
+            newRef.updateChildValues(value ?? ["ERROR": true]) { (error, reference) in
+                if error != nil{
+                    print(error?.localizedDescription ?? "something went wrong")
+                    completion(false)
+                }
+                else{
+                    oldRef.removeValue()
+                    completion(true)
+                }
+            }
+        }
+        
+    }
+    
+    func ratingToDictionary() -> [String: Any]{
+        let ratingDictionary = ["order"  : orderCounterToDict(orderCount: order),
+                                "stars"  : stars,
+                                "notes"  : notes,
+                                "tip"    : tip,
+                                "uid"    : uid] as [String : Any]
+        return ratingDictionary
+    }
+    
+    
+}
 

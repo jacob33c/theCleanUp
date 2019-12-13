@@ -128,10 +128,28 @@ class cleanerAfterViewController: UIViewController {
     
     @IBAction func completeButtonTapped(_ sender: Any) {
         if isCompleted(){
-            SCLAlertView().showSuccess("Clean Completed", subTitle: "Would you like to submit a rating?")
+            cleanFinishedInDB(userID: self.clientUID)
+            performSegue(withIdentifier: "cleanerToRatingSegue", sender: nil)
         }
         else{
             SCLAlertView().showError("Upload a photo for each room", subTitle: "Please finish uploading the before photographs") // Error
+        }
+        
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "infoSegue1"{
+            if let destinationVC = segue.destination as? userIncludedViewController {
+                destinationVC.included = included
+            }
+        }
+        if segue.identifier == "cleanerToRatingSegue"{
+           if let destinationVC = segue.destination as? ratingsViewController {
+            destinationVC.isDriver  = true
+            destinationVC.order     = orderCount
+            destinationVC.clientUID = clientUID
+           }
         }
         
         
@@ -262,12 +280,6 @@ class cleanerAfterViewController: UIViewController {
     
     
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "infoSegue1"{
-            if let destinationVC = segue.destination as? userIncludedViewController {
-                destinationVC.included = included
-            }
-        }
-    }
+    
     
 }

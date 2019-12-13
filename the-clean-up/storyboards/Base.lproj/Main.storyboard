@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starFilled" translatesAutoresizingMaskIntoConstraints="NO" id="u4r-MC-7us">
-                                <rect key="frame" x="57" y="596" width="54" height="54"/>
+                                <rect key="frame" x="21" y="596" width="54" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QNG-4D-5nG">
@@ -57,19 +57,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starFilled" translatesAutoresizingMaskIntoConstraints="NO" id="Bv3-dg-GXm">
-                                <rect key="frame" x="119" y="596" width="54" height="54"/>
+                                <rect key="frame" x="100" y="596" width="54" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starFilled" translatesAutoresizingMaskIntoConstraints="NO" id="WbT-q1-NbI">
-                                <rect key="frame" x="177" y="596" width="54" height="54"/>
+                                <rect key="frame" x="180" y="596" width="54" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starFilled" translatesAutoresizingMaskIntoConstraints="NO" id="cXG-MD-EgF">
-                                <rect key="frame" x="239" y="596" width="54" height="54"/>
+                                <rect key="frame" x="259" y="596" width="54" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starFilled" translatesAutoresizingMaskIntoConstraints="NO" id="LeR-uN-MUn">
-                                <rect key="frame" x="303" y="596" width="54" height="54"/>
+                                <rect key="frame" x="340" y="596" width="54" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W34-XS-Wrh">
@@ -118,7 +118,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="anO-6k-9KK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7657" y="-25"/>
+            <point key="canvasLocation" x="5170" y="-2276"/>
         </scene>
         <!--Past Requests-->
         <scene sceneID="F0g-6E-UlU">
@@ -218,7 +218,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a1Y-YQ-Mk2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4171" y="-906"/>
+            <point key="canvasLocation" x="5170" y="-1600"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="FQT-Bg-Gcg">
@@ -669,7 +669,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X9b-SA-bog" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6396" y="-25"/>
+            <point key="canvasLocation" x="6309" y="-185"/>
         </scene>
         <!--Payment View Controller-->
         <scene sceneID="45A-p3-yn4">
@@ -1121,7 +1121,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lwm-ct-FXi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6396" y="-773"/>
+            <point key="canvasLocation" x="6310" y="-906"/>
         </scene>
         <!--Progress View Controller-->
         <scene sceneID="LQO-u0-ZEa">
@@ -1211,7 +1211,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JB3-NQ-MBv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7702.898550724638" y="-773.4375"/>
+            <point key="canvasLocation" x="7641" y="-906"/>
         </scene>
         <!--Ratings View Controller-->
         <scene sceneID="DNy-kV-tHR">
@@ -1249,26 +1249,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starEmpty" translatesAutoresizingMaskIntoConstraints="NO" id="apC-2a-vjj">
-                                <rect key="frame" x="297" y="285" width="51" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starFilled" translatesAutoresizingMaskIntoConstraints="NO" id="0fr-XW-YOh">
-                                <rect key="frame" x="62" y="285" width="51" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starEmpty" translatesAutoresizingMaskIntoConstraints="NO" id="3YT-mP-M1D">
-                                <rect key="frame" x="120" y="285" width="51" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starEmpty" translatesAutoresizingMaskIntoConstraints="NO" id="ttL-lH-2CP">
-                                <rect key="frame" x="179" y="285" width="51" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starEmpty" translatesAutoresizingMaskIntoConstraints="NO" id="YP1-RL-lxQ">
-                                <rect key="frame" x="238" y="285" width="51" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rate your experience." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8RQ-de-iox">
                                 <rect key="frame" x="65" y="236" width="295" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1311,13 +1291,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textView>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="1" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="heb-qy-Hwl">
-                                <rect key="frame" x="61" y="341" width="291" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="sliderValueChanged:" destination="hFy-dS-LLA" eventType="valueChanged" id="ELc-hT-6aR"/>
-                                </connections>
-                            </slider>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="$1.00" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pbw-pC-zoX">
                                 <rect key="frame" x="238" y="520" width="103" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1338,6 +1311,46 @@
                                 <color key="textColor" red="0.33333333329999998" green="0.4823529412" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s7Y-tu-jzi">
+                                <rect key="frame" x="66" y="293" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="starFilled"/>
+                                <connections>
+                                    <action selector="starButtonTapped:" destination="hFy-dS-LLA" eventType="touchUpInside" id="oLH-hh-qtB"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FMG-Re-pIi">
+                                <rect key="frame" x="124" y="293" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="starFilled"/>
+                                <connections>
+                                    <action selector="starButtonTapped:" destination="hFy-dS-LLA" eventType="touchUpInside" id="clM-Bd-t1x"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YIx-oi-IG3">
+                                <rect key="frame" x="182" y="293" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="starFilled"/>
+                                <connections>
+                                    <action selector="starButtonTapped:" destination="hFy-dS-LLA" eventType="touchUpInside" id="npg-kn-mtk"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tnN-pl-jx1">
+                                <rect key="frame" x="240" y="293" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="starFilled"/>
+                                <connections>
+                                    <action selector="starButtonTapped:" destination="hFy-dS-LLA" eventType="touchUpInside" id="lQ9-mJ-Ndy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOC-AR-xNo">
+                                <rect key="frame" x="298" y="293" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="starFilled"/>
+                                <connections>
+                                    <action selector="starButtonTapped:" destination="hFy-dS-LLA" eventType="touchUpInside" id="Izo-oT-d6Q"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Ank-hr-3jB"/>
@@ -1360,21 +1373,23 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <connections>
+                        <outlet property="costTextfield" destination="Pbw-pC-zoX" id="3jg-rK-kbn"/>
                         <outlet property="notesTextView" destination="vHh-5h-9Ka" id="C4I-Iq-Do3"/>
-                        <outlet property="ratingSlider" destination="heb-qy-Hwl" id="dkY-3j-MOQ"/>
                         <outlet property="submitRatingButton" destination="8Yy-XR-CMk" id="Lhc-S0-Srb"/>
+                        <outlet property="tipLabel" destination="b0S-L6-k7M" id="jcE-2n-7u8"/>
                         <outlet property="tipTextField" destination="Pbw-pC-zoX" id="gsv-af-Mww"/>
-                        <outletCollection property="starsImages" destination="0fr-XW-YOh" collectionClass="NSMutableArray" id="PLU-yI-Mwt"/>
-                        <outletCollection property="starsImages" destination="3YT-mP-M1D" collectionClass="NSMutableArray" id="IIb-Sd-WcY"/>
-                        <outletCollection property="starsImages" destination="ttL-lH-2CP" collectionClass="NSMutableArray" id="AfY-Lw-g6J"/>
-                        <outletCollection property="starsImages" destination="YP1-RL-lxQ" collectionClass="NSMutableArray" id="vN3-Ga-CN6"/>
-                        <outletCollection property="starsImages" destination="apC-2a-vjj" collectionClass="NSMutableArray" id="Ym3-EA-T7a"/>
+                        <outletCollection property="starButtons" destination="s7Y-tu-jzi" collectionClass="NSMutableArray" id="dgp-Cm-kN3"/>
+                        <outletCollection property="starButtons" destination="FMG-Re-pIi" collectionClass="NSMutableArray" id="wjz-Y6-T8v"/>
+                        <outletCollection property="starButtons" destination="YIx-oi-IG3" collectionClass="NSMutableArray" id="v7I-2j-Xkw"/>
+                        <outletCollection property="starButtons" destination="tnN-pl-jx1" collectionClass="NSMutableArray" id="ayh-kQ-rYW"/>
+                        <outletCollection property="starButtons" destination="SOC-AR-xNo" collectionClass="NSMutableArray" id="s1b-eE-Wgl"/>
                         <segue destination="ncM-xm-JOi" kind="presentation" identifier="ratingToMainSegue" modalPresentationStyle="fullScreen" id="npN-eC-eo3"/>
+                        <segue destination="VyL-kg-YvW" kind="presentation" identifier="cleanerRatingToMainSegue" modalPresentationStyle="fullScreen" id="Ik2-hK-JeV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t71-9H-0er" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8928.9855072463779" y="-773.4375"/>
+            <point key="canvasLocation" x="7641" y="-185"/>
         </scene>
         <!--Cleaner View Controller-->
         <scene sceneID="5Qy-fZ-7pL">
@@ -1499,7 +1514,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5KB-5P-SbR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5169.5652173913049" y="543.75"/>
+            <point key="canvasLocation" x="5170" y="643"/>
         </scene>
         <!--Cleaner Progress View Controller-->
         <scene sceneID="8xG-Tb-nvG">
@@ -1898,7 +1913,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nzc-Yw-BvG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6395.652173913044" y="823.66071428571422"/>
+            <point key="canvasLocation" x="6309" y="643"/>
         </scene>
         <!--Cleaner After View Controller-->
         <scene sceneID="UIf-gV-b6P">
@@ -2274,11 +2289,13 @@
                         <outletCollection property="checkButtons" destination="N38-A9-2O4" collectionClass="NSMutableArray" id="IJC-HM-X3f"/>
                         <outletCollection property="checkButtons" destination="Fld-LA-OYo" collectionClass="NSMutableArray" id="j1s-al-hS5"/>
                         <segue destination="yM8-RG-9o8" kind="presentation" identifier="infoSegue1" id="EEb-aR-U9X"/>
+                        <segue destination="VyL-kg-YvW" kind="presentation" identifier="cleanerAfterToMainSegue" modalPresentationStyle="fullScreen" id="QOC-VG-7El"/>
+                        <segue destination="hFy-dS-LLA" kind="presentation" identifier="cleanerToRatingSegue" modalPresentationStyle="fullScreen" id="e2f-ON-pkn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fUC-0B-y2Y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7422" y="844"/>
+            <point key="canvasLocation" x="7641" y="643"/>
         </scene>
     </scenes>
     <resources>
@@ -2293,15 +2310,14 @@
         <image name="receipt" width="300" height="300"/>
         <image name="refresh" width="300" height="300"/>
         <image name="settings" width="300" height="300"/>
-        <image name="starEmpty" width="100" height="100"/>
         <image name="starFilled" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="302-zI-mEb"/>
-        <segue reference="iXa-Tm-bXA"/>
-        <segue reference="vk4-HS-Qm5"/>
-        <segue reference="SjO-xW-xN9"/>
-        <segue reference="mLD-yN-T9m"/>
+        <segue reference="QOC-VG-7El"/>
+        <segue reference="e2f-ON-pkn"/>
+        <segue reference="Tpx-mL-UBi"/>
+        <segue reference="EEb-aR-U9X"/>
+        <segue reference="npN-eC-eo3"/>
         <segue reference="XZo-Sh-k5O"/>
     </inferredMetricsTieBreakers>
 </document>

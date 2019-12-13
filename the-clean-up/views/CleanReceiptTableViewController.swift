@@ -98,8 +98,6 @@ struct CleanReceipt{
         date           = dictionary["date"] as? String ?? ""
         clientLocation = CLLocationCoordinate2D(latitude: lat, longitude: long)
     }
-    
-    
 }
 
 

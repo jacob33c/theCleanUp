@@ -12,29 +12,38 @@ import FirebaseDatabase
 
 
 struct Rating{
-    var title   = String()
     var stars   = Int()
     var notes   = String()
     var order   = cleaningOrderCount()
     var uid     = String()
-    var tip     = Double()
+    var tip     = Int()
     
-    mutating func setValues(titleInit: String, ratingInit: Int, orderInit: cleaningOrderCount, notesInit : String, tipInit : String) {
-        title   = titleInit
+    mutating func setValues(ratingInit: Int, orderInit: cleaningOrderCount, notesInit : String, tipInit : String) {
         stars   = ratingInit
         order   = orderInit
         notes   = notesInit
-        
+        tip     = tipStringToInt(tipString: tipInit)
         checkUid()
     }
     
     init(){
-        title = ""
         stars = 0
         notes = ""
         order = cleaningOrderCount()
         checkUid()
     }
+    
+   func tipStringToInt(tipString : String) -> Int {
+        var answer : Int = 0
+        for char in tipString{
+            if char.isNumber{
+                answer *= 10
+                answer = answer + (Int(String(char)) ?? 0)
+            }
+        }
+        return answer
+    }
+        
     
     
     func tipTextToDouble( tipString: String) -> Double{
@@ -48,7 +57,6 @@ struct Rating{
     
     func ratingToDictionary() -> [String: Any]{
         let ratingDictionary = ["order"  : orderCounterToDict(orderCount: order),
-                                "title"  : title,
                                 "stars"  : stars,
                                 "notes"  : notes,
                                 "tip"    : tip,
@@ -78,9 +86,10 @@ struct Rating{
             let transactionID = value?["transactionID"] ?? "noTransactionID"
             let newString     = "users/\(self.uid)/pastRequests/\(transactionID)"
             let newRef        = Database.database().reference().child(newString)
+            print("newString = \(newString)")
             newRef.updateChildValues(value ?? ["ERROR": true]) { (error, reference) in
                 if error != nil{
-                    print(error?.localizedDescription)
+                    print(error?.localizedDescription ?? "something went wrong")
                     completion(false)
                 }
                 else {
