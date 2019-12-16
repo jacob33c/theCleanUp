@@ -24,13 +24,11 @@ class cleanerAfterViewController: UIViewController {
     var orderCount  = cleaningOrderCount()
     var requestNote = String()
     var included    = RoomIncluded()
-    
-    
+    var request     = Request()
     
     //MARK:-VIEW CONTROLLERS
     let picker = UIImagePickerController()
     let vc     = BSImagePickerViewController()
-    
     
     //MARK:-STRINGS
     var transactionID = String()
@@ -41,14 +39,12 @@ class cleanerAfterViewController: UIViewController {
     var path = StorageReference()
     
     //MARK:- LABELS
-
     @IBOutlet weak var masterCountLabel: UILabel!
     @IBOutlet weak var kitchenDishCountLabel: UILabel!
     @IBOutlet weak var kitchenCountLabel: UILabel!
     @IBOutlet weak var regularCountLabel: UILabel!
     @IBOutlet weak var garageCountLabel: UILabel!
     @IBOutlet weak var laundryCountLabel: UILabel!
-    
     @IBOutlet weak var notesLabel: UILabel!
     
     
@@ -146,13 +142,13 @@ class cleanerAfterViewController: UIViewController {
         }
         if segue.identifier == "cleanerToRatingSegue"{
            if let destinationVC = segue.destination as? ratingsViewController {
-            destinationVC.isDriver  = true
-            destinationVC.order     = orderCount
-            destinationVC.clientUID = clientUID
+            destinationVC.isDriver      = true
+            destinationVC.order         = orderCount
+            destinationVC.clientUID     = clientUID
+            destinationVC.request       = request
+            destinationVC.transactionID = transactionID
            }
         }
-        
-        
     }
     
     

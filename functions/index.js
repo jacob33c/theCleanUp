@@ -95,8 +95,13 @@ exports.createCharge = functions.database.ref('/stripe_customers/{userId}/charge
     console.log(charge);
     var userString = "users/" + uid + "/currentRequest";
     var userRef    = db.ref(userString);
+    var request    = "currentRequests/" + uid;
+    var requestRef = db.ref(request);
     if (charge.status == "succeeded"){
       snapshot.ref.remove();
+      requestRef.update({
+        stripe_transaction : charge.id
+      });
       userRef.update({
         charge_status : charge.status
       });

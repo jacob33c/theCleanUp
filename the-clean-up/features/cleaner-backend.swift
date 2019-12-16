@@ -13,6 +13,8 @@ import FirebaseDatabase
 import FirebaseAuth
 
 
+let db = Database.database().reference()
+
 
 
 
@@ -30,13 +32,29 @@ struct Request{
     var userPhone              = String()
     var transactionID          = String()
     var status                 = String()
+    var stripeTransaction      = String()
+}
+
+
+
+func cleanerSubmitTransfer(request : Request, uid: String){
+    let transferString = "transfers/\(request.transactionID)"
+    let transferRef    = db.child(transferString)
+    let cleanerString  = "cleaner/\(uid)/connected_account_id"
+    let cleanerRef     = Database.database().reference().child(cleanerString)
+    let amount         = Int(costMinusServiceFee(amount: request.amount) * 100)
+    cleanerRef.observeSingleEvent(of: .value) { (snapshot) in
+        let accountID    =  snapshot.value as? String
+        let transferDict = ["connected_account_id" : accountID ?? "accountErr",
+                            "transferAmount" : amount,
+                            "stripe_transaction" : request.stripeTransaction] as [String: Any]
+        transferRef.updateChildValues(transferDict)
+    }
 }
 
 func getCleanerRequestFromDB(uid : String, completion: @escaping (Request) -> Void){
-    
     var request   = Request()
     let driverRef = Database.database().reference().child("drivers/\(uid)/currentClean")
-    
     driverRef.observeSingleEvent(of: .value) { (snapshot) in
         let value = snapshot.value as? [String : Any]
         if value?["roomCount"] == nil{
@@ -44,26 +62,27 @@ func getCleanerRequestFromDB(uid : String, completion: @escaping (Request) -> Vo
             return
         }
         else{
-            let orderDict          = value?["roomCount"] as! [String : Any]
-            request.userLat        = value?["lat"]   as? Double ?? 0
-            request.userLong       = value?["long"]  as? Double ?? 0
-            let cleanerLat         = value?["driverLat"] as? Double ?? 0
-            let cleanerLong        = value?["driverLong"] as? Double ?? 0
-            let userLocation       = CLLocation(latitude: request.userLat, longitude: request.userLong)
-            let cleanerLoc         = CLLocation(latitude: cleanerLat, longitude: cleanerLong)
-            let distance           = cleanerLoc.distance(from: userLocation) / 1000
-            let roundedDist        = round(distance * 100) / 100
-            request.distance       = roundedDist
-            request.paidOrNot      = false
-            request.uid            = value?["uid"] as? String ?? ""
-            request.address        = value?["address"] as? String ?? ""
-            request.note           = value?["note"] as? String ?? ""
-            request.amount         = value?["amount"] as? Int ?? 0
-            request.userPhone      = value?["phoneNumber"] as? String ?? ""
-            request.driverLocation = cleanerLoc
-            request.order          = dictToOrderCounter(orderDictionary: orderDict)
-            request.transactionID  = value?["transactionID"] as? String ?? ""
-            request.status         = value?["status"] as? String ?? ""
+            let orderDict             = value?["roomCount"] as! [String : Any]
+            request.userLat           = value?["lat"]   as? Double ?? 0
+            request.userLong          = value?["long"]  as? Double ?? 0
+            let cleanerLat            = value?["driverLat"] as? Double ?? 0
+            let cleanerLong           = value?["driverLong"] as? Double ?? 0
+            let userLocation          = CLLocation(latitude: request.userLat, longitude: request.userLong)
+            let cleanerLoc            = CLLocation(latitude: cleanerLat, longitude: cleanerLong)
+            let distance              = cleanerLoc.distance(from: userLocation) / 1000
+            let roundedDist           = round(distance * 100) / 100
+            request.distance          = roundedDist
+            request.paidOrNot         = false
+            request.uid               = value?["uid"] as? String ?? ""
+            request.address           = value?["address"] as? String ?? ""
+            request.note              = value?["note"] as? String ?? ""
+            request.amount            = value?["amount"] as? Int ?? 0
+            request.userPhone         = value?["phoneNumber"] as? String ?? ""
+            request.driverLocation    = cleanerLoc
+            request.order             = dictToOrderCounter(orderDictionary: orderDict)
+            request.transactionID     = value?["transactionID"] as? String ?? ""
+            request.status            = value?["status"] as? String ?? ""
+            request.stripeTransaction = value?["stripe_transaction"] as? String ?? ""
             driverAccepted         = true
             print("request1 = \(request)")
             completion(request)
@@ -90,7 +109,12 @@ func checkIfCleanerIsVerified(user : User, completion: @escaping (Bool) -> Void)
 
 
 
-func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLocation, index: Int, uid: String,address: String, amount: Int, note: String, order: [String:Any], userPhone : String, transactionID : String, status : String) -> Request {
+func addToArrayWithDistance(riderCLLocation: CLLocation,
+                            driverCLLocation: CLLocation,
+                            index: Int, uid: String,address: String,
+                            amount: Int, note: String, order: [String:Any],
+                            userPhone : String, transactionID : String,
+                            status : String, stripeTransaction : String) -> Request {
         var request                   = Request()
         print("addToArrayWithDistance")
         let distance                  = driverCLLocation.distance(from: riderCLLocation) / 1000
@@ -107,6 +131,7 @@ func addToArrayWithDistance(riderCLLocation: CLLocation, driverCLLocation: CLLoc
         request.userPhone             = userPhone
         request.transactionID         = transactionID
         request.status                = status
+        request.stripeTransaction     = stripeTransaction
     return request
 }
 
@@ -136,7 +161,6 @@ func moveNode(oldString : String, newString : String){
 
 
 func cleanerAcceptBackend(uid: String, driverLat: Double, driverLong: Double, userID: String) -> String{
-    
     driverAccepted    = true
     let cleanerPhone  = Auth.auth().currentUser?.phoneNumber
     let cleanerString = "drivers/\(uid)/currentClean"
@@ -185,6 +209,20 @@ func updateTravelTimeInDB(userLocation: CLLocationCoordinate2D, cleanerLocation:
 }
 
 
+func submitConnectedAccountID(userID : String){
+    let userString    = "users/\(userID)/currentRequest"
+    let userRef       = Database.database().reference().child(userString)
+    guard let uid     = Auth.auth().currentUser?.uid else {return}
+    let cleanerString = "cleaner/\(uid)/connected_account_id"
+    let cleanerRef    = Database.database().reference().child(cleanerString)
+    cleanerRef.observeSingleEvent(of: .value) { (snapshot) in
+        let value       =  snapshot.value as? String
+        let accountDict = ["connected_account_id" : value ?? "accountErr"]
+        userRef.updateChildValues(accountDict)
+    }
+}
+
+
 func cleanInProgressDB(userID : String){
     let userString    = "users/\(userID)/currentRequest"
     let userRef       = Database.database().reference().child(userString)
@@ -194,6 +232,7 @@ func cleanInProgressDB(userID : String){
     let progressDict  = ["status" : "inProgress"]
     userRef.updateChildValues(progressDict)
     cleanerRef.updateChildValues(progressDict)
+    submitConnectedAccountID(userID: userID)
 }
 
 func cleanFinishedInDB(userID : String){
@@ -205,7 +244,6 @@ func cleanFinishedInDB(userID : String){
     let progressDict  = ["status" : "cleanFinished"]
     userRef.updateChildValues(progressDict)
     cleanerRef.updateChildValues(progressDict)
-    
 }
 
 

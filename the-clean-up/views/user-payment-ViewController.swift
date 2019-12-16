@@ -234,7 +234,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
         guard let uid   = Auth.auth().currentUser?.uid else { return }
         let phoneNumber = user?.phoneNumber ?? "noPhoneNumber"
         setOrderCounter()
-        addPendingRequestToDatabase(userLocation: userLocation, userID: uid, orderCounter: orderCounter, userAddress: userAddress, note: notesTextfield,phoneNumber: phoneNumber)
+//        addPendingRequestToDatabase(userLocation: userLocation, userID: uid, orderCounter: orderCounter, userAddress: userAddress, note: notesTextfield,phoneNumber: phoneNumber)
         postChargeToDatabase(uid: uid, orderCounter: orderCounter)
         RappleActivityIndicatorView.startAnimatingWithLabel("Processing...", attributes: RappleModernAttributes)
         observeChargeStatus()
@@ -251,12 +251,17 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
                 print("value = \(String(describing: value))")
                 if value == "succeeded" {
                     RappleActivityIndicatorView.stopAnimation(completionIndicator: .success, completionLabel: "Completed.",completionTimeout: 2)
+                    let phoneNumber = self.user?.phoneNumber ?? "noPhoneNumber"
+                    self.setOrderCounter()
+                    addPendingRequestToDatabase(userLocation: self.userLocation,
+                                                userID: uid, orderCounter: self.orderCounter,
+                                                userAddress: self.userAddress,
+                                                note: self.notesTextfield,
+                                                phoneNumber: phoneNumber)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         self.performSegue(withIdentifier: "paymentToProgressSegue", sender: nil)
 
                     }
-                    
-                    return
                 }
                 else{
                     SCLAlertView().showError("Something went wrong", subTitle: value)

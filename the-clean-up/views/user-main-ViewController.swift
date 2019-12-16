@@ -373,7 +373,7 @@ class userViewController: UIViewController, UITextFieldDelegate, FUIAuthDelegate
     //this function will handle what happens when the request button is tapped.
     @IBAction func requestButtonTapped(_ sender: Any) {
         
-        if areWeOpen() == true {
+        if areWeOpen() != true {
             weAreClosed()
         }
         else if stNum != "" {

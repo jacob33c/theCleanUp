@@ -11,32 +11,42 @@ import AyLoading
 import CurrencyText
 import SCLAlertView
 import SAConfettiView
+import FirebaseAuth
 
 class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
-    
+    //MARK:- RATING INFORMATION
     var rating = Rating()
     var cleanerRating = CleanerRating()
+    var numberOfStars = 5
+
+    //MARK:- ORDER
     var order  = cleaningOrderCount()
     
-    var clientUID = String()
+    //MARK:- REQUEST INFORMATION
+    var clientUID     = String()
+    var request       = Request()
+    var transactionID = String()
+    
+    //MARK:- BUTTONS
     @IBOutlet weak var submitRatingButton: UIButton!
-    
-    @IBOutlet weak var notesTextView: UITextView!
-    
     @IBOutlet var starButtons: [UIButton]!
     
+    //MARK:- TEXT VIEWS / TEXT FIELDS
+    @IBOutlet weak var notesTextView: UITextView!
     @IBOutlet weak var tipTextField: UITextField!
-    
     private var textFieldDelegate: CurrencyUITextFieldDelegate!
-
     let numberToolbar: UIToolbar = UIToolbar()
-    
-    var numberOfStars = 5
-    
-    var isDriver = Bool()
-    @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet weak var costTextfield: UITextField!
+
+    //MARK:-BOOLEANS
+    var isDriver = Bool()
+    
+    //MARK:- LABELS
+    @IBOutlet weak var tipLabel: UILabel!
+    
+    //MARK:- USER
+    let user =  Auth.auth().currentUser
     
 
     
@@ -50,13 +60,6 @@ class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDe
         makeItRain()
         checkDriver()
         
-
-        
-
-        
-            
-
-        // Do any additional setup after loading the view.
     }
     
     
@@ -149,7 +152,8 @@ class ratingsViewController: UIViewController, UITextFieldDelegate, UITextViewDe
             cleanerRating.endClean { (value) in
                 if value == true{
                     //all is good
-                    cleanFinishedInDB(userID: self.clientUID)
+                    self.request.transactionID = self.transactionID
+                    cleanerSubmitTransfer(request: self.request, uid: self.user?.uid ?? "uidErr")
                     self.performSegue(withIdentifier: "cleanerRatingToMainSegue", sender: nil)
                 }
                 else{

@@ -17,17 +17,12 @@ import SCLAlertView
 class cleanerProgressViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     //MARK:- BUTTONS
-    
     @IBOutlet var checkMarkButtons: [UIButton]!
+    
     //MARK:- IMAGES
     @IBOutlet var checkmarkImages: [UIImageView]!
-    
-    
-    
-    
-    
+
     //MARK:- LABELS
-    
     @IBOutlet weak var masterCountLabel: UILabel!
     @IBOutlet weak var kitchenDishCountLabel: UILabel!
     @IBOutlet weak var kitchenCountLabel: UILabel!
@@ -36,24 +31,24 @@ class cleanerProgressViewController: UIViewController, UIImagePickerControllerDe
     @IBOutlet weak var laundryCountLabel: UILabel!
     @IBOutlet weak var notesLabel: UILabel!
     
-    //MARK:- Request
-    var orderCount  = cleaningOrderCount()
-    var requestNote = String()
-    var included    = RoomIncluded()
-    
-    //    var imagePickerController = UIImagePickerController()
-    let picker                = UIImagePickerController()
-    let vc = BSImagePickerViewController()
+    //MARK:- REQUEST
+    var request    = Request()
 
+    //MARK:- IMAGE PICKER
+    let picker = UIImagePickerController()
+    let vc = BSImagePickerViewController()
     
+    //MARK:- ORDER COUNT
+    var orderCount  = cleaningOrderCount()
+    
+    //MARK:- REQUEST INFORMATION
     var transactionID = String()
-    
+    var requestNote = String()
     var clientUID  = String()
-    
+    var status = String()
+    var included    = RoomIncluded()
     var pathString = String()
     var path       = StorageReference()
-    
-    var status     = String()
     
     
 
@@ -71,7 +66,6 @@ class cleanerProgressViewController: UIViewController, UIImagePickerControllerDe
         setLabels()
         checkStatus()
         print(orderCount.orderCounterToString())
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -290,6 +284,7 @@ class cleanerProgressViewController: UIViewController, UIImagePickerControllerDe
                 destinationVC.included      = included
                 destinationVC.transactionID = transactionID
                 destinationVC.clientUID     = clientUID
+                destinationVC.request       = request
             }
         }
         

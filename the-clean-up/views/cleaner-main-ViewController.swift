@@ -44,7 +44,6 @@
 
 //MARK:- Request
         var request = Request()
-        
         var DriverID = String()
         var transactionID  = String()
 
@@ -94,7 +93,6 @@
                     if cleanRequest.address != "" {
                         self.request        = cleanRequest
                         self.transactionID  = cleanRequest.transactionID
-                        print("cleanRequest.userPhone = \(cleanRequest.userPhone)")
                         self.arrayWithDistance.append(self.request)
                         self.driverLocation = self.request.driverLocation.coordinate
                         self.userLocation   = CLLocationCoordinate2D(latitude: self.request.userLat, longitude: self.request.userLong)
@@ -124,6 +122,7 @@
                     destinationVC.clientUID     = request.uid
                     destinationVC.transactionID = transactionID
                     destinationVC.status        = request.status
+                    destinationVC.request       = request
                 }
             }
             if segue.identifier == "cleanerToSettingsSegue"{
@@ -223,7 +222,8 @@
                     let status                 = cleanRequestDictionary["status"] as? String ?? ""
                     let riderCLLocation        = CLLocation(latitude: lat, longitude: long)
                     let driverCLLocation       = CLLocation(latitude: driverLocation.latitude, longitude: driverLocation.longitude)
-                    let request = addToArrayWithDistance(riderCLLocation: riderCLLocation, driverCLLocation: driverCLLocation, index: index, uid: uid, address: address, amount: amount, note: note, order: order, userPhone: userPhone, transactionID: transactID,status: status)
+                    let stripeTransaction      = cleanRequestDictionary["stripe_transaction"] as? String ?? "stripeTransactionErr"
+                    let request = addToArrayWithDistance(riderCLLocation: riderCLLocation, driverCLLocation: driverCLLocation, index: index, uid: uid, address: address, amount: amount, note: note, order: order, userPhone: userPhone, transactionID: transactID,status: status, stripeTransaction: stripeTransaction)
                     arrayWithDistance.append(request)
                     index += 1
                 }
