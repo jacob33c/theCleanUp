@@ -14,6 +14,7 @@ import JSSAlertView
 import AyLoading
 import MapKit
 import SCLAlertView
+import RappleProgressHUD
 import LinearProgressBarMaterial
 
 
@@ -89,6 +90,7 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
         loadUserData()
         updatePriceLabels()
         setUpUserInterface()
+        observeForErrors()
     }
     
     
@@ -113,13 +115,13 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
             let paymentMethod = value?["defaultPaymentMethod"] as? String ?? ""
             let cardBrand = value?["cardBrand"] as? String ?? ""
             let lastFour = value?["lastFour"] as? String ?? ""
-            
             print("paymentMethod= \(paymentMethod)")
             print("cardBrand = \(cardBrand)")
             print("lastFour = \(lastFour)")
             if paymentMethod == "" {
                 self.makeButtonHidden()
-            }else {
+            }
+            else {
                 self.linearBar.stopAnimation()
                 self.updateDefaultButton(imageName: cardBrand)
                 self.updateButtonLabel(lastFour: lastFour, cardBrand: cardBrand)
@@ -130,6 +132,25 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     }
     //end getting data from data base
     
+    
+    func observeForErrors(){
+        let uid         = user?.uid ?? ""
+        let errorString = "stripe_customers/\(uid)/errorChecker"
+        let errorRef    = Database.database().reference().child(errorString)
+        errorRef.observe(.value) { (snapshot) in
+            print(snapshot)
+            if let value = snapshot.value as? String {
+                print("value = \(String(describing: value))")
+                if value == "" {
+                    return
+                }
+                else if value != "successfulUpdate" {
+                    SCLAlertView().showError("Something went wrong", subTitle: value)
+                    snapshot.ref.removeValue()
+                }
+            }
+        }
+    }
     
     
     
@@ -169,13 +190,19 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
     
     //add card view
     func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreatePaymentMethod paymentMethod: STPPaymentMethod, completion: @escaping STPErrorBlock) {
-        submitPaymentMethodToBackend(paymentMethod: paymentMethod)
-        loadUserData()
         // Notify add card view controller that PaymentMethod creation was handled successfully
         completion(nil)
         // Dismiss add card view controller
         dismiss(animated: true){
             self.startProgressAnimation()
+            submitPaymentMethodToBackend(paymentMethod: paymentMethod) { (successString) in
+                if successString == "success"{
+                    self.loadUserData()
+                }
+                else{
+                    SCLAlertView().showError("Something went wrong", subTitle: successString)
+                }
+            }
         }
         
     }
@@ -208,12 +235,38 @@ class paymentViewController: UIViewController ,STPAddCardViewControllerDelegate,
         let phoneNumber = user?.phoneNumber ?? "noPhoneNumber"
         setOrderCounter()
         addPendingRequestToDatabase(userLocation: userLocation, userID: uid, orderCounter: orderCounter, userAddress: userAddress, note: notesTextfield,phoneNumber: phoneNumber)
-        if postChargeToDatabase(uid: uid, orderCounter: orderCounter) == false{
-                self.performSegue(withIdentifier: "paymentToProgressSegue", sender: nil)
-            
-        }
-        
+        postChargeToDatabase(uid: uid, orderCounter: orderCounter)
+        RappleActivityIndicatorView.startAnimatingWithLabel("Processing...", attributes: RappleModernAttributes)
+        observeChargeStatus()
     }
+    
+    
+    func observeChargeStatus(){
+        let uid         = user?.uid ?? ""
+        let errorString = "users/\(uid)/currentRequest/charge_status"
+        let errorRef    = Database.database().reference().child(errorString)
+        errorRef.observe(.value) { (snapshot) in
+            print(snapshot)
+            if let value = snapshot.value as? String {
+                print("value = \(String(describing: value))")
+                if value == "succeeded" {
+                    RappleActivityIndicatorView.stopAnimation(completionIndicator: .success, completionLabel: "Completed.",completionTimeout: 2)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        self.performSegue(withIdentifier: "paymentToProgressSegue", sender: nil)
+
+                    }
+                    
+                    return
+                }
+                else{
+                    SCLAlertView().showError("Something went wrong", subTitle: value)
+                }
+            }
+           
+        }
+    }
+
+    
     
 
     

@@ -169,6 +169,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>RappleProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SAConfettiView-SAConfettiView.xcscheme</key>
 		<dict>
 			<key>isShown</key>

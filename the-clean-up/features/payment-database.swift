@@ -12,45 +12,48 @@ import FirebaseDatabase
 import Stripe
 
 
-func postChargeToDatabase(uid : String, orderCounter: cleaningOrderCount) -> Bool{
-    var errorIsPresent : Bool = false
-    
-    Database.database().reference().child("stripe_customers").child(uid).observeSingleEvent(of: .value) { (snapshot) in
+func postChargeToDatabase(uid : String, orderCounter: cleaningOrderCount){    Database.database().reference().child("stripe_customers").child(uid).observeSingleEvent(of: .value) { (snapshot) in
         let value           = snapshot.value as? NSDictionary
         let paymentMethod   = value?["defaultPaymentMethod"] as? String ?? ""
         let customerId      = value?["customer_id"] as? String ?? ""
         let amount          = ((calcTotalWithFees(orderCount: orderCounter) * 100))
         
+        
         print("amount submitted = \(amount)")
         
-        let stripeCharge = ["amount": amount , "currency": "USD" , "paymentMethod" : paymentMethod, "customerId" : customerId] as [String : Any]
+        let stripeCharge = ["amount": amount , "currency": "USD" , "uid" : uid, "paymentMethod" : paymentMethod, "customerId" : customerId] as [String : Any]
         Database.database().reference().child("stripe_customers").child(uid).child("charges").updateChildValues(stripeCharge, withCompletionBlock: { (error, ref) in
             if (error != nil){
                 print(error ?? "")
-                errorIsPresent = true
             }
             else{
                 print("no error present")
-                errorIsPresent = false
             }
         })
     }
-    return errorIsPresent
 }
 
 
 //submit to backend
-func submitPaymentMethodToBackend (paymentMethod: STPPaymentMethod){
-    guard let uid = Auth.auth().currentUser?.uid else { return }
+func submitPaymentMethodToBackend (paymentMethod: STPPaymentMethod, completion: @escaping (String) -> Void){
+    guard let uid = Auth.auth().currentUser?.uid else {
+        completion("user not logged in")
+        return
+    }
     let newPaymentMethod = ["newPaymentMethod": paymentMethod.stripeId,
                             "cardBrand": STPCard.string(from: paymentMethod.card!.brand),
                             "lastFour" : paymentMethod.card?.last4 ?? ""] as [String : Any]
     Database.database().reference().child("stripe_customers").child(uid).updateChildValues(newPaymentMethod, withCompletionBlock: { (error, ref) in
-        return
+        if error != nil{
+            let errorString = error.debugDescription
+            completion(errorString)
+        }
+        else{
+            completion("success")
+        }
     })
     
     
 }
-//end adding a card
 
 

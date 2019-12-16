@@ -11,12 +11,14 @@ import MapKit
 
 class receiptDetailViewController: UIViewController {
     
+//MARK:-LABELS
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var costLabel: UILabel!
     @IBOutlet weak var orderLabel: UILabel!
+//MARK:- RECIEPT
     var receipt = CleanReceipt()
     @IBOutlet weak var mapView: MKMapView!
-    
+//MARK:-IMAGES
     @IBOutlet var starImages: [UIImageView]!
     
     

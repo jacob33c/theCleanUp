@@ -12,20 +12,18 @@ import FirebaseDatabase
 
 class CleanReceiptTableViewController: UITableViewController {
     
-    
+//MARK:-ARRAYS
     var cleanReceipts = [CleanReceipt]()
+//MARK:-RECEIPTS
     var tappedReceipt = CleanReceipt()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         tableView.delegate = self
         startObserving()
     }
 
-    // MARK: - Table view data source
-    
     
     func startObserving(){
         let uid           = Auth.auth().currentUser?.uid ?? ""
@@ -79,7 +77,7 @@ class CleanReceiptTableViewController: UITableViewController {
     
 }
 
-
+//MARK:-CLEAN RECEIPT CLASS
 struct CleanReceipt{
     var clientLocation = CLLocationCoordinate2D()
     var amountPaid     = Int()
@@ -100,7 +98,7 @@ struct CleanReceipt{
     }
 }
 
-
+//MARK:-CLEAN RECEIPT CELL
 class CleanReceiptCell : UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var amountPaidLabel: UILabel!

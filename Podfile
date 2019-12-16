@@ -22,4 +22,5 @@ target 'the-clean-up' do
 	pod 'LinearProgressBarMaterial'
 	pod 'CurrencyText'
 	pod "SAConfettiView"
+	pod "RappleProgressHUD" 
 end

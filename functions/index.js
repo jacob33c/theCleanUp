@@ -74,24 +74,39 @@ exports.createStripeCustomer = functions.auth.user().onCreate(async (user) => {
 exports.createCharge = functions.database.ref('/stripe_customers/{userId}/charges').onCreate((snapshot, context) => {
   console.log("new charge was created");
   var paymentMethod = snapshot.child("paymentMethod").val();
-  var amount = snapshot.child("amount").val();
-  var currency = snapshot.child("currency").val();
-  var customerId = snapshot.child("customerId").val();
+  var amount        = snapshot.child("amount").val();
+  var currency      = snapshot.child("currency").val();
+  var customerId    = snapshot.child("customerId").val();
+  var uid           = snapshot.child("uid").val();
   console.log("paymentMethod = " + paymentMethod);
   console.log(currency);
   console.log(amount);
   console.log(customerId);
-  (async () => {
-    const paymentIntent = await stripe.paymentIntents.create({
+  console.log("snapshot = " + snapshot);
+    const paymentIntent = stripe.paymentIntents.create({
       amount: amount,
       currency: 'usd',
       payment_method_types: ['card'],
       payment_method: paymentMethod,
       customer: customerId,
       confirm: true,
-    });
-  })();
-  return snapshot.ref.remove();
+    }).then(function(charge) {
+    // asynchronously called'
+    console.log(charge);
+    var userString = "users/" + uid + "/currentRequest";
+    var userRef    = db.ref(userString);
+    if (charge.status == "succeeded"){
+      snapshot.ref.remove();
+      userRef.update({
+        charge_status : charge.status
+      });
+    }
+    else {
+      userRef.update({
+        charge_status : charge.status
+      });
+    }
+  });
 });
 
 
@@ -151,7 +166,13 @@ exports.newPaymentMethod = functions.database.ref('/stripe_customers/{userId}/ne
         if (err) {
           console.log(err);
           console.log("error");
+          change.after.ref.parent.update({
+            errorChecker: err
+          });
         } else {
+          change.after.ref.parent.update({
+            errorChecker: "successfulUpdate"
+          });
           console.log(paymentMethods);
           console.log("going to set data");
           change.after.ref.parent.update({

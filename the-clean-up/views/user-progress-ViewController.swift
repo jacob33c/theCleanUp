@@ -12,6 +12,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import AyLoading
 import LinearProgressBarMaterial
+import RappleProgressHUD
 
 class progressViewController: UIViewController, CLLocationManagerDelegate{
 
@@ -48,10 +49,7 @@ class progressViewController: UIViewController, CLLocationManagerDelegate{
         loadUserData()
         updateLabels()
         addCleanerLocationToMap()
-    
-        
     }
-    
     
     //set up the location manager
     func setupLocationManager() {
